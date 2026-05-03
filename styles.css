@@ -5,48 +5,40 @@
    ========================================================= */
 
 :root {
-  /* PEACH-CANVAS palette — peach is the dominant color (the middle band
-     in the reference image, the largest area), near-black is the ink,
-     yellow-olive is the accent. Light-mode site with dark island
-     moments for rhythm.
+  /* VINTAGE FIELD GUIDE × DARK MODE
+     One canvas (warm charcoal), warm cream text, sage-olive depth,
+     peach punch used sparingly, gold lightning bolts. The deck is
+     cohesive — moments differ via gradients, patterns, and motifs,
+     not by flipping bg colors. */
 
-     Variable names (--cream, --bg-base, --olive-*, --green-*) are kept
-     as aliases so existing rules cascade. The semantic shift:
-       --bg-base now = peach canvas
-       --cream now   = dark ink (renamed conceptually to "primary text")
-       --olive-* deepens (the medium olive looked muddy on dark; on
-         peach we want the deeper olives carrying weight)
-  */
+  /* Canvas — warm near-black, like a forest at dusk */
+  --bg-base:     #15110b;
+  --bg-soft:     #1a1610;
+  --bg-card:     #211c14;
+  --bg-elevated: #2a241a;
+  --bg-island:   #0e0a06;   /* deepest dark for highest contrast */
 
-  /* Peach canvas — the dominant surface color */
-  --bg-base:     #ecbb84;
-  --bg-soft:     #f0c595;
-  --bg-card:     #f6dab2;
-  --bg-elevated: #faecd0;
-  --bg-island:   #14100a;   /* the "dark island" billboard moments */
-  --bg-island-2: #1d1810;
+  /* Legacy --green-* aliases collapse onto canvas tones */
+  --green-900: #0e0a06;
+  --green-800: #15110b;
+  --green-700: #1a1610;
+  --green-600: #211c14;
+  --green-500: #2a241a;
+  --green-200: #3a342a;
+  --green-100: #524a3c;
+  --green-50:  #6a604f;
 
-  /* Greens collapse to peach/cream tones — legacy rule support */
-  --green-900: #ecbb84;
-  --green-800: #f0c595;
-  --green-700: #f6dab2;
-  --green-600: #faecd0;
-  --green-500: #fdf5e7;
-  --green-200: #1a1408;
-  --green-100: #2a2014;
-  --green-50:  #3a2f1f;
-
-  /* Olive accent ramp — deepened so the dark olives carry weight on
-     peach. Buttons and headlines now sit in olive-700/800 territory. */
-  --olive-900: #1a1808;
-  --olive-800: #2a2810;
-  --olive-700: #44411e;
-  --olive-600: #5a5828;
-  --olive-500: #6e6c33;
-  --olive-400: #888747;
-  --olive-300: #a4a35a;
-  --olive-200: #b9b870;
-  --olive-100: #d4d28e;
+  /* SAGE OLIVE — green-leaning, not muddy yellow. Used for headlines,
+     accents, eyebrow text, the bigfoot brand body. */
+  --olive-900: #2a3018;
+  --olive-800: #3a4225;
+  --olive-700: #4a5330;
+  --olive-600: #5e6a3e;
+  --olive-500: #75814d;
+  --olive-400: #8b9461;
+  --olive-300: #a3ac7c;
+  --olive-200: #bcc497;
+  --olive-100: #d6dcb6;
 
   --ember-800: var(--olive-800);
   --ember-700: var(--olive-700);
@@ -56,22 +48,29 @@
   --ember-300: var(--olive-300);
   --ember-100: var(--olive-100);
 
-  /* Warm gold — lightning bolts in the bigfoot sunglasses, kept golden
-     so they read as lightning, not as bg-color leakage. */
-  --gold-500: #d4a040;
-  --gold-300: #e8b850;
+  /* PEACH PUNCH — single accent color used sparingly: bubble lockup
+     fill, primary CTAs, hero highlights. Hits hard because it's rare. */
+  --peach-700: #b07530;
+  --peach-600: #c78840;
+  --peach-500: #e8a25a;
+  --peach-400: #f0b878;
+  --peach-300: #f6cb98;
+  --peach-200: #fbdbb5;
 
-  /* Primary "ink" — dark text on peach. --cream variable is kept as
-     the alias, semantically reversed from "light text" to "ink text". */
-  --cream:       #14100a;
-  --cream-deep:  #2a2014;
-  --cream-soft:  rgba(20, 16, 10, .82);
-  --cream-mute:  rgba(20, 16, 10, .55);
+  /* GOLD — actually lightning. Inside the sunglass lenses. */
+  --gold-500: #d4a232;
+  --gold-300: #eab947;
 
-  /* Ink for use ON DARK ISLANDS only (the few peach-text-on-dark moments) */
-  --ink-on-dark:        #f0c595;
-  --ink-on-dark-soft:   rgba(240, 197, 149, .85);
-  --ink-on-dark-mute:   rgba(240, 197, 149, .55);
+  /* Cream — primary text on the dark canvas */
+  --cream:       #f1e8d4;
+  --cream-deep:  #d9cdb1;
+  --cream-soft:  rgba(241, 232, 212, .78);
+  --cream-mute:  rgba(241, 232, 212, .5);
+
+  /* Backwards-compat aliases (some rules still reference these) */
+  --ink-on-dark:        #f1e8d4;
+  --ink-on-dark-soft:   rgba(241, 232, 212, .78);
+  --ink-on-dark-mute:   rgba(241, 232, 212, .5);
 
   /* "Ink" tokens preserved for dark text on light surfaces (the booking
      form is the only cream-on-dark-section element that still needs
@@ -83,7 +82,8 @@
   --ink-100: #d9ddd8;
 
   --white: #ffffff;
-  --border: rgba(20, 16, 10, .14);
+  --border: rgba(241, 232, 212, .12);
+  --border-strong: rgba(241, 232, 212, .25);
   --border-light: #c9b48e;
 
   --radius: 14px;
@@ -121,8 +121,8 @@ body {
 }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
-a { color: var(--olive-700); text-decoration: none; }
-a:hover { color: var(--olive-800); }
+a { color: var(--peach-400); text-decoration: none; }
+a:hover { color: var(--peach-300); }
 ul, ol { padding-left: 0; list-style: none; margin: 0; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1; letter-spacing: -.02em; }
 p { margin: 0; }
@@ -140,27 +140,24 @@ p { margin: 0; }
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-display);
   font-size: .8rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase;
-  color: var(--olive-700);
+  color: var(--peach-500);
   margin: 0 0 clamp(20px, 3vw, 40px);
 }
-.moment-eyebrow.on-dark { color: var(--olive-300); }
-.moment--dark .moment-eyebrow { color: var(--olive-300); }
+.moment-eyebrow.on-dark { color: var(--peach-500); }
 .moment-eyebrow .dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--olive-700);
-  box-shadow: 0 0 0 0 rgba(110, 108, 51, .55);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--peach-500);
+  box-shadow: 0 0 0 0 rgba(232, 162, 90, .6);
   animation: pulse 2.2s infinite;
 }
 @keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(110, 108, 51, .55); }
-  70%  { box-shadow: 0 0 0 12px rgba(110, 108, 51, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(110, 108, 51, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(232, 162, 90, .6); }
+  70%  { box-shadow: 0 0 0 12px rgba(232, 162, 90, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 162, 90, 0); }
 }
 
-.accent { color: var(--olive-700); font-style: italic; }
-.accent-orange { color: var(--olive-600); font-style: italic; }
-.moment--dark .accent { color: var(--olive-300); }
-.moment--dark .accent-orange { color: var(--olive-400); }
-.on-dark { color: var(--ink-on-dark); }
+.accent { color: var(--peach-400); font-style: italic; }
+.accent-orange { color: var(--peach-500); font-style: italic; }
+.on-dark { color: var(--cream); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -175,35 +172,27 @@ p { margin: 0; }
 .btn-lg { padding: 16px 30px; font-size: 1rem; }
 .btn-block { width: 100%; }
 .btn-primary {
-  background: var(--olive-800); color: var(--bg-base);
-  box-shadow: 0 4px 16px rgba(42, 40, 16, .35);
+  background: var(--peach-500); color: var(--bg-island);
+  box-shadow: 0 4px 18px rgba(232, 162, 90, .3);
   font-weight: 700;
   letter-spacing: .03em;
 }
-.btn-primary:hover { background: var(--olive-900); color: var(--bg-base); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(42, 40, 16, .5); }
+.btn-primary:hover { background: var(--peach-400); color: var(--bg-island); transform: translateY(-1px); box-shadow: 0 8px 26px rgba(232, 162, 90, .4); }
 .btn-ghost {
-  background: transparent; color: var(--cream); border-color: var(--olive-800);
+  background: transparent; color: var(--cream); border-color: var(--olive-400);
 }
-.btn-ghost:hover { background: var(--olive-800); color: var(--bg-base); border-color: var(--olive-800); }
-.moment--dark .btn-primary,
-.moment--invert .btn-primary { background: var(--olive-300); color: var(--bg-island); box-shadow: 0 4px 16px rgba(0, 0, 0, .4); }
-.moment--dark .btn-primary:hover,
-.moment--invert .btn-primary:hover { background: var(--olive-200); }
-.moment--dark .btn-ghost,
-.moment--invert .btn-ghost { color: var(--ink-on-dark); border-color: var(--olive-300); }
-.moment--dark .btn-ghost:hover,
-.moment--invert .btn-ghost:hover { background: var(--olive-300); color: var(--bg-island); border-color: var(--olive-300); }
+.btn-ghost:hover { background: var(--olive-400); color: var(--bg-island); border-color: var(--olive-400); }
 
 /* ---------- Header ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(236, 187, 132, .75);
-  backdrop-filter: saturate(140%) blur(16px);
-  -webkit-backdrop-filter: saturate(140%) blur(16px);
+  background: rgba(21, 17, 11, .72);
+  backdrop-filter: saturate(140%) blur(18px);
+  -webkit-backdrop-filter: saturate(140%) blur(18px);
   border-bottom: 1px solid transparent;
   transition: border-color .2s ease, background .2s ease;
 }
-.site-header.is-scrolled { border-bottom-color: var(--border); background: rgba(236, 187, 132, .94); }
+.site-header.is-scrolled { border-bottom-color: var(--border); background: rgba(21, 17, 11, .94); }
 /* Mobile header: tight 56px, logo + phone icon + Book.
    Desktop header: 76px, logo + nav + phone text + Book. */
 .header-row {
@@ -216,22 +205,22 @@ p { margin: 0; }
   color: var(--cream);
   flex-shrink: 0;
 }
-.brand:hover { color: var(--olive-700); }
-.brand-mark { color: var(--olive-800); display: inline-flex; }
+.brand:hover { color: var(--peach-400); }
+.brand-mark { color: var(--olive-400); display: inline-flex; }
 .brand-mark svg { width: 36px; height: 36px; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1; gap: 2px; }
 .brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; letter-spacing: .02em; text-transform: uppercase; }
-.brand-line-2 { display: none; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--olive-700); }
+.brand-line-2 { display: none; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--olive-300); }
 
 .nav { display: none; gap: 28px; margin-left: auto; }
 .nav a {
-  color: var(--cream-soft); font-weight: 600; font-size: .95rem;
+  color: var(--cream-soft); font-weight: 500; font-size: .95rem;
   position: relative;
 }
-.nav a:hover { color: var(--olive-800); }
+.nav a:hover { color: var(--peach-400); }
 .nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
-  background: var(--olive-800); transform: scaleX(0); transform-origin: left;
+  background: var(--peach-500); transform: scaleX(0); transform-origin: left;
   transition: transform .25s ease;
 }
 .nav a:hover::after { transform: scaleX(1); }
@@ -245,10 +234,10 @@ p { margin: 0; }
   font-weight: 700; color: var(--cream); font-size: .9rem;
   width: 40px; height: 40px;
   justify-content: center;
-  border: 1.5px solid var(--olive-800);
+  border: 1.5px solid var(--olive-500);
   border-radius: 999px;
 }
-.btn-phone:hover { color: var(--olive-800); border-color: var(--olive-700); background: rgba(20, 16, 10, .06); }
+.btn-phone:hover { color: var(--peach-400); border-color: var(--peach-500); background: rgba(232, 162, 90, .06); }
 .btn-phone-text { display: none; }
 .btn-book-header { padding: 9px 16px; font-size: .88rem; }
 
@@ -294,63 +283,60 @@ p { margin: 0; }
   text-align: center;
 }
 
-/* Background variants. Most moments are peach canvas; a few are
-   "dark islands" for rhythm punctuation. */
+/* All moments share the warm-charcoal canvas — variation comes from
+   gradients, patterns, and motifs, not from flipping bg colors.
+   Each variant has a subtly different gradient signature. */
 .moment--cream {
   background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .12), transparent 60%);
+    radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .15), transparent 60%);
 }
 .moment--dark {
   background: var(--bg-island);
-  color: var(--ink-on-dark);
+  color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(184, 138, 88, .14), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .25), transparent 60%);
-}
-.moment--dark .moment-display,
-.moment--dark .moment-display-md,
-.moment--dark .moment-sub,
-.moment--dark .moment-eyebrow {
-  color: var(--ink-on-dark);
+    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .12), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(74, 83, 48, .25), transparent 60%);
 }
 
-/* INVERT moment — kept for backwards-compat but now reverses to dark
-   on peach (so the Same-day moment becomes a dark billboard interrupt) */
+/* INVERT — flips to peach-as-bg for ONE billboard moment if needed.
+   Kept available but unused by default; the Same-day moment is now
+   dark like everything else. */
 .moment--invert {
-  background: var(--bg-island);
-  color: var(--ink-on-dark);
+  background: var(--peach-500);
+  color: var(--bg-island);
 }
 .moment-display--invert {
-  color: var(--ink-on-dark);
-  text-shadow: 0 2px 0 rgba(0, 0, 0, .35), 0 12px 30px rgba(0, 0, 0, .5);
+  color: var(--bg-island);
+  text-shadow: 0 1px 0 rgba(255,255,255,.2);
 }
 .moment-sub--invert {
-  color: var(--ink-on-dark-soft);
+  color: rgba(14, 10, 6, .82);
 }
-.moment--invert .hyphen { color: var(--olive-300); }
-/* Big lightning bolt floating in the corner of the inverted moment */
+.moment--invert .hyphen { color: var(--olive-800); }
+/* Big peach lightning bolt floating in the corner of the Same-day
+   moment — a single punch of accent color anchors the section */
 .bolt-deco {
   position: absolute;
   top: clamp(40px, 6vw, 80px);
   right: clamp(20px, 5vw, 80px);
-  width: clamp(40px, 7vw, 90px);
+  width: clamp(50px, 8vw, 110px);
   height: auto;
-  opacity: .9;
+  color: var(--peach-500);
+  opacity: .92;
   transform: rotate(14deg);
-  filter: drop-shadow(2px 4px 0 rgba(110, 108, 51, .35));
+  filter: drop-shadow(0 6px 24px rgba(232, 162, 90, .35));
   pointer-events: none;
   z-index: 0;
 }
 @media (max-width: 760px) {
-  .bolt-deco { top: 16px; right: 16px; opacity: .8; }
+  .bolt-deco { top: 24px; right: 16px; opacity: .8; }
 }
 .moment--cream + .moment--cream { padding-top: 0; }
 .moment--dark + .moment--dark { padding-top: 0; }
 
-/* Display typography — Cinzel inscription style. Heavy ink on peach
-   reads like a vintage poster. */
+/* Display typography — Cinzel inscription, cream on warm charcoal */
 .moment-display {
   font-family: var(--font-display);
   font-size: clamp(4.4rem, 16vw, 10rem);
@@ -359,9 +345,9 @@ p { margin: 0; }
   letter-spacing: .005em;
   color: var(--cream);
   text-wrap: balance;
-  text-shadow: 0 2px 0 rgba(255, 255, 255, .15);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .35), 0 12px 30px rgba(0, 0, 0, .55);
 }
-.moment-display.on-dark { color: var(--ink-on-dark); text-shadow: 0 2px 0 rgba(0,0,0,.3), 0 12px 30px rgba(0,0,0,.5); }
+.moment-display.on-dark { color: var(--cream); text-shadow: 0 2px 0 rgba(0,0,0,.4), 0 12px 30px rgba(0,0,0,.6); }
 .moment-display .accent,
 .moment-display .accent-orange {
   display: inline-block;
@@ -377,8 +363,9 @@ p { margin: 0; }
   letter-spacing: .005em;
   color: var(--cream);
   text-wrap: balance;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .45);
 }
-.moment-display-md.on-dark { color: var(--ink-on-dark); text-shadow: 0 2px 0 rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.4); }
+.moment-display-md.on-dark { color: var(--cream); }
 
 .moment-sub {
   font-size: clamp(1.05rem, 1.5vw, 1.4rem);
@@ -388,9 +375,8 @@ p { margin: 0; }
   max-width: 36ch;
   text-wrap: balance;
 }
-.moment-sub.on-dark { color: var(--ink-on-dark-soft); }
-.moment-sub strong { color: var(--olive-700); font-weight: 700; }
-.moment--dark .moment-sub strong { color: var(--olive-300); }
+.moment-sub.on-dark { color: var(--cream-soft); }
+.moment-sub strong { color: var(--peach-400); font-weight: 700; }
 
 /* Subtle hyphen styling so "Same-day" reads cleanly at huge size */
 .hyphen { color: var(--ember-500); display: inline-block; transform: translateY(-.08em); margin: 0 -.02em; }
@@ -398,23 +384,24 @@ p { margin: 0; }
 /* Stylized 40 with the small "years." label */
 .big-num { display: inline-block; }
 
-/* Bubble variant — Modak callback to the brand mark, used ONLY on the
-   "40" so the moment has its own visual identity. */
+/* Bubble variant — Modak callback, used ONLY on the "40" so the moment
+   has its own visual identity. Peach fill on dark canvas with olive
+   shadow, mirroring the hero lockup's treatment. */
 .big-num--bubble {
   font-family: "Modak", "Cinzel", Georgia, serif;
   font-weight: 400;
-  color: var(--bg-base);
-  -webkit-text-stroke: 4px var(--olive-900);
-  text-stroke: 4px var(--olive-900);
+  color: var(--peach-500);
+  -webkit-text-stroke: 4px var(--bg-island);
+  text-stroke: 4px var(--bg-island);
   paint-order: stroke fill;
   letter-spacing: 0;
-  text-shadow: 8px 8px 0 var(--olive-800);
+  text-shadow: 8px 8px 0 var(--olive-700);
 }
 @media (min-width: 760px) {
   .big-num--bubble {
     -webkit-text-stroke-width: 6px;
     text-stroke-width: 6px;
-    text-shadow: 12px 12px 0 var(--olive-800);
+    text-shadow: 12px 12px 0 var(--olive-700);
   }
 }
 
@@ -424,7 +411,7 @@ p { margin: 0; }
   font-weight: 700;
   font-style: italic;
   letter-spacing: 0;
-  color: var(--olive-700);
+  color: var(--olive-400);
   margin-left: .15em;
   vertical-align: .3em;
 }
@@ -487,8 +474,8 @@ p { margin: 0; }
   top: -6%;
   right: -10px;
   font-size: clamp(.65rem, 1vw, .8rem);
-  color: var(--olive-800);
-  background: rgba(20, 16, 10, .06);
+  color: var(--peach-400);
+  background: rgba(232, 162, 90, .06);
 }
 @media (min-width: 760px) {
   .stamp--ages {
@@ -535,7 +522,7 @@ p { margin: 0; }
 /* Section-level footprint motifs — sprinkled through moments
    like Bigfoot tracked through the page */
 .moment--dark .footprint { fill: var(--olive-300); opacity: .3; }
-.moment--cream .footprint { fill: var(--olive-800); opacity: .35; }
+.moment--cream .footprint { fill: var(--olive-400); opacity: .3; }
 
 /* Footprint TRAIL — diagonal walk across a moment. Used in the 40
    years section so it feels like Bigfoot strolled through it. */
@@ -543,8 +530,8 @@ p { margin: 0; }
   position: absolute;
   width: clamp(22px, 2.4vw, 36px);
   height: auto;
-  fill: var(--olive-800);
-  opacity: .25;
+  fill: var(--olive-400);
+  opacity: .22;
   pointer-events: none;
   z-index: 0;
 }
@@ -564,14 +551,14 @@ p { margin: 0; }
   .trail--5 { top: 8%;     left: 50%; }
 }
 
-/* MAP moment — topographic contour rings as bg pattern. Hints at a
-   service-area map without being literal. Olive-800 lines on peach. */
+/* MAP moment — topographic contour rings on the dark canvas. Olive
+   lines glow softly at low opacity for the field-guide map feel. */
 .moment--map {
   background-image:
-    radial-gradient(circle at 18% 32%, transparent 36px, rgba(42, 40, 16, .25) 37px, transparent 38px, transparent 73px, rgba(42, 40, 16, .2) 74px, transparent 75px, transparent 110px, rgba(42, 40, 16, .15) 111px, transparent 112px, transparent 147px, rgba(42, 40, 16, .1) 148px, transparent 149px),
-    radial-gradient(circle at 78% 68%, transparent 48px, rgba(42, 40, 16, .22) 49px, transparent 50px, transparent 95px, rgba(42, 40, 16, .17) 96px, transparent 97px, transparent 142px, rgba(42, 40, 16, .12) 143px, transparent 144px),
-    radial-gradient(circle at 60% 18%, transparent 24px, rgba(42, 40, 16, .18) 25px, transparent 26px, transparent 51px, rgba(42, 40, 16, .12) 52px, transparent 53px),
-    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .08), transparent 60%);
+    radial-gradient(circle at 18% 32%, transparent 36px, rgba(139, 148, 97, .14) 37px, transparent 38px, transparent 73px, rgba(139, 148, 97, .12) 74px, transparent 75px, transparent 110px, rgba(139, 148, 97, .09) 111px, transparent 112px, transparent 147px, rgba(139, 148, 97, .07) 148px, transparent 149px),
+    radial-gradient(circle at 78% 68%, transparent 48px, rgba(139, 148, 97, .12) 49px, transparent 50px, transparent 95px, rgba(139, 148, 97, .1) 96px, transparent 97px, transparent 142px, rgba(139, 148, 97, .07) 143px, transparent 144px),
+    radial-gradient(circle at 60% 18%, transparent 24px, rgba(139, 148, 97, .1) 25px, transparent 26px, transparent 51px, rgba(139, 148, 97, .07) 52px, transparent 53px),
+    radial-gradient(60% 50% at 0% 100%, rgba(232, 162, 90, .08), transparent 60%);
 }
 .moment--map .moment-inner { position: relative; z-index: 1; }
 
@@ -588,16 +575,16 @@ p { margin: 0; }
 /* ---------- HERO moment ---------- */
 .moment--hero {
   background:
-    radial-gradient(60% 50% at 50% 0%, rgba(255, 255, 255, .25), transparent 60%),
-    radial-gradient(70% 60% at 50% 100%, rgba(110, 108, 51, .25), transparent 65%),
+    radial-gradient(70% 50% at 50% 100%, rgba(232, 162, 90, .14), transparent 65%),
+    radial-gradient(60% 50% at 50% 0%, rgba(74, 83, 48, .25), transparent 60%),
     var(--bg-base);
 }
 .moment--hero::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(20, 16, 10, .04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 16, 10, .04) 1px, transparent 1px);
+    linear-gradient(rgba(241, 232, 212, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(241, 232, 212, .025) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
@@ -681,12 +668,12 @@ p { margin: 0; }
   font-family: "Modak", "Fraunces", Georgia, serif;
   font-weight: 400;
   letter-spacing: .005em;
-  color: var(--bg-base);
-  -webkit-text-stroke: 3.5px var(--olive-900);
-  text-stroke: 3.5px var(--olive-900);
+  color: var(--peach-500);
+  -webkit-text-stroke: 3.5px var(--bg-island);
+  text-stroke: 3.5px var(--bg-island);
   paint-order: stroke fill;
   display: block;
-  text-shadow: 6px 6px 0 var(--olive-800);
+  text-shadow: 6px 6px 0 var(--olive-700);
 }
 .lockup-l1 {
   font-size: clamp(2.6rem, 9vw, 5rem);
@@ -708,10 +695,8 @@ p { margin: 0; }
   100% { opacity: 1; transform: translateX(0) rotate(.5deg); }
 }
 @media (min-width: 760px) {
-  .lockup-line { -webkit-text-stroke-width: 5px; text-stroke-width: 5px; text-shadow: 8px 8px 0 var(--olive-800); }
+  .lockup-line { -webkit-text-stroke-width: 5px; text-stroke-width: 5px; text-shadow: 8px 8px 0 var(--olive-700); }
 }
-
-.lockup-tag { color: var(--olive-800); }
 
 .lockup-tag {
   margin-top: 18px;
@@ -719,7 +704,7 @@ p { margin: 0; }
   font-style: normal;
   font-weight: 500;
   font-size: clamp(.85rem, 1.2vw, 1.05rem);
-  color: var(--olive-800);
+  color: var(--olive-300);
   letter-spacing: .14em;
   text-transform: uppercase;
   animation: hero-fade-up .7s ease-out .85s both;
@@ -737,7 +722,7 @@ p { margin: 0; }
   animation: hero-fade-up .7s ease-out 1.05s both;
 }
 .hero-tagline em {
-  color: var(--olive-700);
+  color: var(--peach-400);
   font-style: italic;
   font-weight: 700;
 }
@@ -752,7 +737,7 @@ p { margin: 0; }
   color: var(--cream-mute);
   animation: hero-fade-up .7s ease-out 1.45s both;
 }
-.hero-credit strong { color: var(--olive-800); font-weight: 700; }
+.hero-credit strong { color: var(--cream); font-weight: 700; }
 
 @keyframes hero-fade-up {
   0%   { opacity: 0; transform: translateY(14px); }
@@ -815,7 +800,7 @@ p { margin: 0; }
 .price-tile {
   position: relative;
   background: var(--bg-card);
-  border: 2px solid var(--olive-800);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: clamp(24px, 3vw, 36px);
   text-align: left;
@@ -823,12 +808,12 @@ p { margin: 0; }
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   color: var(--cream);
 }
-.price-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.price-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--olive-500); }
 .price-tile--feature {
-  background: var(--olive-800);
-  color: var(--ink-on-dark);
-  border-color: var(--olive-900);
-  box-shadow: var(--shadow-lg);
+  background: var(--bg-elevated);
+  color: var(--cream);
+  border: 2px solid var(--peach-500);
+  box-shadow: 0 0 0 1px rgba(232, 162, 90, .2), var(--shadow-lg);
 }
 @media (min-width: 760px) {
   /* Scale the featured tile only on desktop — full-width column on
@@ -840,9 +825,9 @@ p { margin: 0; }
   font-family: var(--font-display);
   font-size: .8rem; font-weight: 500;
   letter-spacing: .14em; text-transform: uppercase;
-  color: var(--olive-700);
+  color: var(--olive-400);
 }
-.price-tile--feature .price-tile-label { color: var(--olive-200); }
+.price-tile--feature .price-tile-label { color: var(--peach-400); }
 .price-tile-num {
   font-family: var(--font-display);
   font-weight: 900;
@@ -852,39 +837,39 @@ p { margin: 0; }
   color: var(--cream);
   margin: 4px 0 6px;
 }
-.price-tile--feature .price-tile-num { color: var(--ink-on-dark); }
+.price-tile--feature .price-tile-num { color: var(--peach-400); }
 .price-tile-incl {
   font-size: .85rem;
-  color: var(--olive-700);
+  color: var(--cream-soft);
   border-top: 1px solid var(--border);
   padding-top: 14px;
   margin-top: 8px;
 }
 .price-tile--feature .price-tile-incl {
-  color: var(--ink-on-dark-soft);
-  border-top-color: rgba(240, 197, 149, .2);
+  color: var(--cream-soft);
+  border-top-color: var(--border-strong);
 }
 .price-tile-tag {
   position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-  background: var(--bg-island); color: var(--bg-base);
+  background: var(--peach-500); color: var(--bg-island);
   font-family: var(--font-display);
   font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   padding: 7px 16px; border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+  box-shadow: 0 4px 14px rgba(232, 162, 90, .35);
   white-space: nowrap;
 }
 
-/* ---------- BAR moment (dark island for the rap performance) ---------- */
+/* ---------- BAR moment ---------- */
 .moment--bar {
   background: var(--bg-island);
-  color: var(--ink-on-dark);
+  color: var(--cream);
   background-image:
-    radial-gradient(40% 50% at 100% 100%, rgba(184, 138, 88, .14), transparent 60%),
-    radial-gradient(50% 60% at 0% 0%, rgba(110, 108, 51, .3), transparent 60%);
+    radial-gradient(40% 50% at 100% 100%, rgba(232, 162, 90, .14), transparent 60%),
+    radial-gradient(50% 60% at 0% 0%, rgba(74, 83, 48, .3), transparent 60%);
 }
-.moment--bar .moment-eyebrow { color: var(--olive-300); }
-.moment--bar .bar-verse { color: var(--bg-base); }
-.moment--bar .bar-verse em { color: var(--olive-300); }
+.moment--bar .moment-eyebrow { color: var(--peach-500); }
+.moment--bar .bar-verse { color: var(--cream); }
+.moment--bar .bar-verse em { color: var(--peach-400); }
 .bar-inner {
   max-width: 1000px;
 }
@@ -913,7 +898,7 @@ p { margin: 0; }
 .bar-verse span:nth-child(2) { transform: rotate(.8deg) translateX(8px); }
 .bar-verse span:nth-child(3) { transform: rotate(-.6deg); }
 .bar-verse span:nth-child(4) { transform: rotate(1deg) translateX(-12px); }
-.bar-verse em { font-style: normal; color: var(--ember-300); }
+.bar-verse em { font-style: normal; color: var(--peach-400); }
 .bar-attrib {
   margin-top: clamp(28px, 4vw, 44px);
   font-family: var(--font-display);
@@ -921,7 +906,7 @@ p { margin: 0; }
   font-weight: 500;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--olive-300);
+  color: var(--olive-400);
 }
 
 /* ---------- AREAS tags ---------- */
@@ -931,29 +916,29 @@ p { margin: 0; }
   max-width: 800px;
 }
 .areas-tags span {
-  background: var(--bg-elevated);
-  border: 1.5px solid var(--olive-800);
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
   padding: 10px 18px;
   border-radius: 999px;
-  font-weight: 600;
-  color: var(--cream);
+  font-weight: 500;
+  color: var(--cream-soft);
   font-size: .95rem;
   transition: border-color .2s ease, color .2s ease, background .2s ease;
 }
-.areas-tags span:hover { background: var(--olive-800); color: var(--bg-base); }
+.areas-tags span:hover { border-color: var(--peach-500); color: var(--peach-400); }
 
-/* ---------- BOOK moment (dark island for the close) ---------- */
+/* ---------- BOOK moment ---------- */
 .moment--book {
   background: var(--bg-island);
-  color: var(--ink-on-dark);
+  color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(184, 138, 88, .14), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .28), transparent 60%);
+    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .14), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(74, 83, 48, .28), transparent 60%);
 }
 .moment--book .moment-eyebrow,
-.moment--book .moment-eyebrow.on-dark { color: var(--olive-300); }
-.moment--book .book-h2 { color: var(--ink-on-dark); }
-.moment--book .book-sub { color: var(--ink-on-dark-soft); }
+.moment--book .moment-eyebrow.on-dark { color: var(--peach-500); }
+.moment--book .book-h2 { color: var(--cream); }
+.moment--book .book-sub { color: var(--cream-soft); }
 .book-inner {
   display: grid;
   grid-template-columns: 1fr;
@@ -982,12 +967,12 @@ p { margin: 0; }
 }
 .book-phone-large {
   display: inline-flex; align-items: center; gap: 10px;
-  font-weight: 700; color: var(--olive-300); font-size: 1.1rem;
+  font-weight: 700; color: var(--peach-400); font-size: 1.1rem;
   margin-top: 24px;
   font-family: var(--font-display);
   letter-spacing: .04em;
 }
-.book-phone-large:hover { color: var(--olive-400); }
+.book-phone-large:hover { color: var(--peach-300); }
 
 .book-form {
   background: var(--cream);
@@ -1064,16 +1049,16 @@ p { margin: 0; }
   display: flex; flex-direction: column; align-items: center; gap: 12px;
   box-shadow: var(--shadow-lg);
 }
-.success-icon { color: var(--olive-600); }
-.book-success h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--olive-700); }
+.success-icon { color: var(--olive-700); }
+.book-success h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--olive-800); }
 .book-success p { color: var(--ink-700); }
-.book-success a { color: var(--olive-700); font-weight: 700; }
+.book-success a { color: var(--peach-700); font-weight: 700; }
 
-/* ---------- Footer (compressed, dark island close) ---------- */
+/* ---------- Footer (compressed) ---------- */
 .site-footer {
   background: var(--bg-island);
-  border-top: 1px solid var(--olive-800);
-  color: var(--ink-on-dark-soft);
+  border-top: 1px solid var(--border);
+  color: var(--cream-soft);
   padding: 44px 0 28px;
   font-size: .9rem;
 }
@@ -1089,45 +1074,45 @@ p { margin: 0; }
   color: var(--cream);
 }
 .footer-brand .brand-mark { color: var(--olive-300); }
-.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: var(--ink-on-dark); letter-spacing: .02em; text-transform: uppercase; }
-.footer-tag { font-size: .82rem; color: var(--ink-on-dark-mute); font-style: italic; }
+.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: var(--cream); letter-spacing: .02em; text-transform: uppercase; }
+.footer-tag { font-size: .82rem; color: var(--cream-mute); font-style: italic; }
 .footer-info {
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
-  color: var(--ink-on-dark-soft);
+  color: var(--cream-soft);
 }
-.footer-info a { color: var(--olive-300); font-weight: 700; }
-.footer-info a:hover { color: var(--olive-200); }
-.footer-meta { font-size: .78rem; color: var(--ink-on-dark-mute); }
-.footer-brand { color: var(--ink-on-dark); }
-.footer-brand .brand-mark { color: var(--olive-300); }
+.footer-info a { color: var(--peach-400); font-weight: 700; }
+.footer-info a:hover { color: var(--peach-300); }
+.footer-meta { font-size: .78rem; color: var(--cream-mute); }
+.footer-brand { color: var(--cream); }
+.footer-brand .brand-mark { color: var(--peach-400); }
 
 /* ---------- Mobile sticky bar ---------- */
 .mobile-bar {
   position: fixed; left: 0; right: 0; bottom: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: rgba(236, 187, 132, .94);
-  backdrop-filter: saturate(140%) blur(16px);
-  -webkit-backdrop-filter: saturate(140%) blur(16px);
+  background: rgba(14, 10, 6, .94);
+  backdrop-filter: saturate(140%) blur(18px);
+  -webkit-backdrop-filter: saturate(140%) blur(18px);
   border-top: 1px solid var(--border);
   padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
   gap: 4px;
   z-index: 60;
-  box-shadow: 0 -6px 18px rgba(0, 0, 0, .15);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, .5);
 }
 .mobile-bar-btn {
   display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
   padding: 11px 6px;
   border-radius: 12px;
-  font-size: .82rem; font-weight: 700;
+  font-size: .82rem; font-weight: 600;
   color: var(--cream);
   min-height: 44px;
 }
-.mobile-bar-btn:hover { background: rgba(20, 16, 10, .06); color: var(--olive-800); }
-.mobile-bar-btn svg { color: var(--olive-800); flex-shrink: 0; }
-.mobile-bar-book { background: var(--olive-800); color: var(--bg-base); }
-.mobile-bar-book:hover { background: var(--olive-900); color: var(--bg-base); }
-.mobile-bar-book svg { color: var(--bg-base); }
+.mobile-bar-btn:hover { background: rgba(232, 162, 90, .08); color: var(--peach-400); }
+.mobile-bar-btn svg { color: var(--olive-400); flex-shrink: 0; }
+.mobile-bar-book { background: var(--peach-500); color: var(--bg-island); }
+.mobile-bar-book:hover { background: var(--peach-400); color: var(--bg-island); }
+.mobile-bar-book svg { color: var(--bg-island); }
 
 @media (min-width: 900px) { .mobile-bar { display: none; } }
 @media (max-width: 899px) { body { padding-bottom: 60px; } }
