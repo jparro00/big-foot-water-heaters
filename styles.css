@@ -5,32 +5,39 @@
    ========================================================= */
 
 :root {
-  /* Dark forest base */
-  --bg-base:     #0a1610;
-  --bg-soft:     #102017;
-  --bg-card:     #182a20;
-  --bg-elevated: #213627;
+  /* Three-color palette per client direction:
+     near-black bg, warm peach for text/brand, yellow-olive for accents.
+     Variable names kept (--cream / --olive / --green / --ember) so
+     existing rules cascade — only the values change. */
 
-  /* Forest greens (deep → bright) — used for surfaces, mascot, gradients */
-  --green-900: #0a1610;
-  --green-800: #102017;
-  --green-700: #1a2b21;
-  --green-600: #2a4332;
-  --green-500: #3a5d44;
-  --green-200: #5a8b6e;
-  --green-100: #7da890;
-  --green-50:  #9fc4af;
+  /* Near-black base, warmed slightly */
+  --bg-base:     #0a0805;
+  --bg-soft:     #14110b;
+  --bg-card:     #1d1810;
+  --bg-elevated: #2a2217;
 
-  /* Olive accent — replaces ember orange. Aliased to --ember-* below
-     so existing rules cascade without selector rewrites. */
-  --olive-800: #3a4527;
-  --olive-700: #5d7234;
-  --olive-600: #6f8a3f;
-  --olive-500: #88a553;
-  --olive-400: #a3c069;
-  --olive-300: #c0d989;
-  --olive-200: #d4e6a8;
-  --olive-100: #e8f0c9;
+  /* Greens collapse to dark/elevated layers — kept aliased so legacy
+     rules that pulled "green" still resolve into the new palette. */
+  --green-900: #0a0805;
+  --green-800: #14110b;
+  --green-700: #1d1810;
+  --green-600: #2a2217;
+  --green-500: #3a2f1f;
+  --green-200: #5a4a32;
+  --green-100: #806848;
+  --green-50:  #a18860;
+
+  /* Yellow-olive accent ramp — pulled from the curve color in the
+     reference image (#888747-ish) and extended both ways. */
+  --olive-900: #2a2810;
+  --olive-800: #3a371a;
+  --olive-700: #5a5828;
+  --olive-600: #6e6c33;
+  --olive-500: #888747;
+  --olive-400: #a4a35a;
+  --olive-300: #b9b870;
+  --olive-200: #cfce8e;
+  --olive-100: #e3e1b1;
 
   --ember-800: var(--olive-800);
   --ember-700: var(--olive-700);
@@ -40,15 +47,15 @@
   --ember-300: var(--olive-300);
   --ember-100: var(--olive-100);
 
-  /* Warm gold — used sparingly: lightning bolts, the BF chain */
-  --gold-500: #f0c060;
-  --gold-300: #f5d96b;
+  /* Warm peach — primary text + brand color, sampled from the
+     middle band of the reference image. */
+  --gold-500: #e8a563;
+  --gold-300: #f3b878;
 
-  /* Cream text on dark surfaces (primary text color) */
-  --cream:       #f5efe1;
-  --cream-deep:  #ddd6c4;
-  --cream-soft:  rgba(245, 239, 225, .8);
-  --cream-mute:  rgba(245, 239, 225, .55);
+  --cream:       #f3b878;
+  --cream-deep:  #e0a466;
+  --cream-soft:  rgba(243, 184, 120, .85);
+  --cream-mute:  rgba(243, 184, 120, .55);
 
   /* "Ink" tokens preserved for dark text on light surfaces (the booking
      form is the only cream-on-dark-section element that still needs
@@ -60,16 +67,16 @@
   --ink-100: #d9ddd8;
 
   --white: #ffffff;
-  --border: rgba(245, 239, 225, .14);
-  --border-light: #d9d4c2;
+  --border: rgba(243, 184, 120, .15);
+  --border-light: #e0c9a5;
 
   --radius: 14px;
   --radius-lg: 22px;
   --radius-sm: 8px;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3), 0 2px 6px rgba(0, 0, 0, .25);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, .4), 0 12px 32px rgba(0, 0, 0, .3);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, .55), 0 30px 80px rgba(0, 0, 0, .4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .35);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, .55), 0 12px 32px rgba(0, 0, 0, .4);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, .7), 0 30px 80px rgba(0, 0, 0, .5);
 
   --max: 1200px;
   --gutter: clamp(20px, 4vw, 48px);
@@ -123,13 +130,13 @@ p { margin: 0; }
 .moment-eyebrow.on-dark { color: var(--olive-300); }
 .moment-eyebrow .dot {
   width: 8px; height: 8px; border-radius: 50%; background: var(--olive-400);
-  box-shadow: 0 0 0 0 rgba(163, 192, 105, .55);
+  box-shadow: 0 0 0 0 rgba(185, 184, 112, .55);
   animation: pulse 2.2s infinite;
 }
 @keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(163, 192, 105, .55); }
-  70%  { box-shadow: 0 0 0 12px rgba(163, 192, 105, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(163, 192, 105, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(185, 184, 112, .55); }
+  70%  { box-shadow: 0 0 0 12px rgba(185, 184, 112, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(185, 184, 112, 0); }
 }
 
 .accent { color: var(--olive-300); font-style: italic; }
@@ -150,11 +157,11 @@ p { margin: 0; }
 .btn-block { width: 100%; }
 .btn-primary {
   background: var(--olive-500); color: var(--bg-base);
-  box-shadow: 0 4px 16px rgba(136, 165, 83, .35);
+  box-shadow: 0 4px 16px rgba(136, 135, 71, .35);
   font-weight: 700;
   letter-spacing: .03em;
 }
-.btn-primary:hover { background: var(--olive-400); color: var(--bg-base); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(168, 192, 105, .45); }
+.btn-primary:hover { background: var(--olive-400); color: var(--bg-base); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(164, 163, 90, .45); }
 .btn-ghost {
   background: transparent; color: var(--cream); border-color: var(--olive-500);
 }
@@ -266,14 +273,14 @@ p { margin: 0; }
   background: var(--bg-soft);
   color: var(--cream);
   background-image:
-    radial-gradient(60% 50% at 0% 100%, rgba(136, 165, 83, .07), transparent 60%);
+    radial-gradient(60% 50% at 0% 100%, rgba(136, 135, 71, .07), transparent 60%);
 }
 .moment--dark {
   background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(163, 192, 105, .08), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(58, 93, 68, .28), transparent 60%);
+    radial-gradient(50% 60% at 100% 0%, rgba(185, 184, 112, .08), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .28), transparent 60%);
 }
 .moment--cream + .moment--cream { padding-top: 0; }
 .moment--dark + .moment--dark { padding-top: 0; }
@@ -458,16 +465,16 @@ p { margin: 0; }
 /* ---------- HERO moment ---------- */
 .moment--hero {
   background:
-    radial-gradient(60% 50% at 50% 0%, rgba(163, 192, 105, .08), transparent 60%),
-    radial-gradient(70% 60% at 50% 100%, rgba(58, 93, 68, .35), transparent 65%),
+    radial-gradient(60% 50% at 50% 0%, rgba(185, 184, 112, .08), transparent 60%),
+    radial-gradient(70% 60% at 50% 100%, rgba(110, 108, 51, .35), transparent 65%),
     var(--bg-base);
 }
 .moment--hero::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(245, 239, 225, .025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245, 239, 225, .025) 1px, transparent 1px);
+    linear-gradient(rgba(243, 184, 120, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 184, 120, .025) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
@@ -736,7 +743,7 @@ p { margin: 0; }
   background: var(--olive-500); color: var(--bg-base);
   font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
   padding: 6px 14px; border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(136, 165, 83, .35);
+  box-shadow: 0 4px 14px rgba(136, 135, 71, .35);
   white-space: nowrap;
 }
 
@@ -745,8 +752,8 @@ p { margin: 0; }
   background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(40% 50% at 100% 100%, rgba(163, 192, 105, .14), transparent 60%),
-    radial-gradient(50% 60% at 0% 0%, rgba(58, 93, 68, .35), transparent 60%);
+    radial-gradient(40% 50% at 100% 100%, rgba(185, 184, 112, .14), transparent 60%),
+    radial-gradient(50% 60% at 0% 0%, rgba(110, 108, 51, .35), transparent 60%);
 }
 .bar-inner {
   max-width: 1000px;
@@ -810,8 +817,8 @@ p { margin: 0; }
   background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(163, 192, 105, .15), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(58, 93, 68, .32), transparent 60%);
+    radial-gradient(50% 60% at 100% 0%, rgba(185, 184, 112, .15), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .32), transparent 60%);
 }
 .book-inner {
   display: grid;
@@ -878,7 +885,7 @@ p { margin: 0; }
 .field input:focus {
   outline: none;
   border-color: var(--olive-500);
-  box-shadow: 0 0 0 3px rgba(136, 165, 83, .2);
+  box-shadow: 0 0 0 3px rgba(136, 135, 71, .2);
 }
 .field-radio { border: 0; padding: 0; margin: 0; }
 .field-radio legend { padding: 0; }
@@ -980,7 +987,7 @@ p { margin: 0; }
   color: var(--cream);
   min-height: 44px;
 }
-.mobile-bar-btn:hover { background: rgba(245, 239, 225, .06); color: var(--olive-300); }
+.mobile-bar-btn:hover { background: rgba(243, 184, 120, .06); color: var(--olive-300); }
 .mobile-bar-btn svg { color: var(--olive-400); flex-shrink: 0; }
 .mobile-bar-book { background: var(--olive-500); color: var(--bg-base); }
 .mobile-bar-book:hover { background: var(--olive-400); color: var(--bg-base); }
