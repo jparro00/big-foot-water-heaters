@@ -48,21 +48,6 @@
   --font-hand: "Caveat", "Marker Felt", "Bradley Hand", cursive;
 }
 
-/* Paper-grain overlay — risograph / zine atmosphere across the whole page.
-   SVG turbulence rasterized inline so we don't fetch an asset.
-   Multiply blend keeps it subtle on cream and dark sections alike. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: .07;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  mix-blend-mode: multiply;
-}
-/* Make sure interactive content sits above the grain */
-.site-header, main, .site-footer, .mobile-bar { position: relative; z-index: 2; }
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -304,6 +289,124 @@ p { margin: 0; }
   color: var(--ember-600);
   margin-left: .1em;
   vertical-align: .3em;
+}
+
+/* =========================================================
+   POSTER-ZINE DECORATIONS — stamps, footprints, asymmetry
+   ========================================================= */
+
+/* Asymmetric "40 years" composition — display anchored, stamp + footprint
+   floating off the edges to break the centered grid. */
+.years-stack {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* Rubber-stamp annotation. Used for "Est. not yesterday" and
+   "Bigfoot approved." Designed to look slapped-on, slightly off-kilter,
+   weathered but legible. */
+.stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  text-align: center;
+  line-height: .95;
+  padding: 10px 16px;
+  border: 3px double currentColor;
+  border-radius: 50% / 30%;
+  transform: rotate(-9deg);
+  filter: contrast(1.08) saturate(1.1);
+  opacity: .92;
+  user-select: none;
+}
+.stamp::before, .stamp::after {
+  content: "";
+  position: absolute;
+  border: 1.5px solid currentColor;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .35;
+}
+.stamp { position: relative; }
+.stamp::before { inset: -5px; }
+.stamp-line { display: block; }
+.stamp-line--big {
+  font-size: 1.45em;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+/* Variant: "Est. not yesterday" — stuck to the right of the 40 */
+.stamp--ages {
+  position: absolute;
+  top: -6%;
+  right: -10px;
+  font-size: clamp(.65rem, 1vw, .8rem);
+  color: var(--ember-700);
+  background: rgba(255, 241, 227, .55);
+}
+@media (min-width: 760px) {
+  .stamp--ages {
+    top: 4%;
+    right: -90px;
+    font-size: .95rem;
+  }
+}
+
+/* Variant: "Bigfoot approved" — sits in the bottom-right of the bar */
+.stamp--approved {
+  position: absolute;
+  bottom: 8%;
+  right: clamp(16px, 4vw, 60px);
+  color: var(--ember-300);
+  background: rgba(12, 36, 24, .6);
+  font-size: clamp(.7rem, 1.1vw, .9rem);
+  transform: rotate(8deg);
+}
+@media (min-width: 760px) {
+  .stamp--approved { font-size: 1rem; }
+}
+
+/* Footprint mark — used as a "Bigfoot was here" annotation. */
+.footprint {
+  position: absolute;
+  width: 36px;
+  height: 45px;
+  fill: var(--green-700);
+  opacity: .35;
+  transform: rotate(-22deg);
+  pointer-events: none;
+}
+.footprint--floor {
+  bottom: -28px;
+  left: -10px;
+  width: 30px;
+  height: 38px;
+}
+@media (min-width: 760px) {
+  .footprint--floor { bottom: -36px; left: -56px; width: 44px; height: 56px; }
+}
+
+/* Section-level footprint motifs — sprinkled through cream/dark moments
+   like Bigfoot tracked through the page */
+.moment--dark .footprint { fill: var(--ember-300); opacity: .25; }
+.moment--cream .footprint { fill: var(--green-700); opacity: .28; }
+
+/* Pricing tiles slightly rotated — like a stack of taped-up receipts. */
+@media (min-width: 760px) {
+  .price-tile { transform: rotate(-1.2deg); }
+  .price-tile:nth-child(2) { transform: scale(1.04) rotate(.6deg); }
+  .price-tile:nth-child(3) { transform: rotate(1.4deg); }
+  .price-tile:hover { transform: rotate(-1.2deg) translateY(-4px); }
+  .price-tile:nth-child(2):hover { transform: scale(1.04) rotate(.6deg) translateY(-4px); }
+  .price-tile:nth-child(3):hover { transform: rotate(1.4deg) translateY(-4px); }
 }
 
 /* ---------- HERO moment ---------- */
