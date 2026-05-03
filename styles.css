@@ -428,6 +428,151 @@ p { margin: 0; }
   isolation: isolate;
 }
 
+/* PORTRAIT moment layout — mobile-first stacked, desktop side-by-side.
+   The portrait card is the visual anchor on desktop (left), with the
+   "40 years." stat + sub copy reading on the right. */
+.portrait-grid {
+  display: grid;
+  gap: clamp(36px, 5vw, 72px);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+.portrait-grid .portrait { justify-self: center; }
+.portrait-grid .years-block { text-align: center; }
+@media (min-width: 820px) {
+  .portrait-grid {
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.25fr);
+    text-align: left;
+  }
+  .portrait-grid .portrait { justify-self: start; }
+  .portrait-grid .years-block { text-align: left; }
+  .portrait-grid .moment-sub { margin-left: 0; }
+  .portrait-grid .years-stack { text-align: left; }
+}
+
+/* Polaroid-style portrait card */
+.portrait {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  z-index: 1;
+}
+.portrait-frame {
+  position: relative;
+  background: var(--cream);
+  padding: 14px 14px 56px;
+  width: clamp(240px, 70vw, 360px);
+  aspect-ratio: 4 / 5;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, .15),
+    0 14px 30px rgba(0, 0, 0, .45),
+    0 28px 60px rgba(0, 0, 0, .35);
+  transform: rotate(-2deg);
+  border-radius: 2px;
+  overflow: visible;
+}
+@media (min-width: 820px) {
+  .portrait-frame {
+    width: clamp(280px, 32vw, 400px);
+    transform: rotate(-3deg);
+  }
+}
+/* Tape strip pinning the polaroid */
+.portrait-frame::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 92px; height: 22px;
+  background: rgba(232, 162, 90, .55);
+  border: 1px solid rgba(176, 117, 48, .35);
+  transform: translateX(-50%) rotate(-4deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  z-index: 3;
+}
+.portrait-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) saturate(.92) brightness(.98);
+  background: var(--bg-elevated);
+}
+.portrait-img.is-missing { display: none; }
+
+/* Placeholder shown when ingels.jpg isn't in the project yet —
+   stays designed-looking instead of broken. Once the image loads
+   successfully this stays hidden behind it. */
+.portrait-placeholder {
+  position: absolute;
+  inset: 14px 14px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    linear-gradient(160deg, var(--olive-700), var(--olive-900));
+  color: var(--cream);
+  font-family: var(--font-display);
+  gap: 8px;
+  padding: 20px;
+}
+.portrait-img:not(.is-missing) + .portrait-placeholder { display: none; }
+.portrait-placeholder-eyebrow {
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--olive-200);
+}
+.portrait-placeholder strong {
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: .01em;
+}
+.portrait-placeholder-note {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: .72rem;
+  color: rgba(214, 220, 182, .55);
+  letter-spacing: .04em;
+  text-transform: none;
+}
+
+.portrait-caption {
+  font-family: var(--font-hand);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  color: var(--cream);
+  transform: rotate(-1.5deg);
+  letter-spacing: 0;
+}
+
+/* "Est. not yesterday" postmark stamp — sits on the corner of the
+   polaroid like a vintage rubber stamp on a photograph. Replaces
+   the prior placement next to the 40 stat. */
+.stamp--postmark {
+  position: absolute;
+  bottom: 8px;
+  right: -18px;
+  font-size: clamp(.6rem, .9vw, .78rem);
+  color: var(--peach-600);
+  background: rgba(232, 162, 90, .08);
+  z-index: 4;
+  transform: rotate(-12deg);
+}
+@media (min-width: 820px) {
+  .stamp--postmark {
+    right: -28px;
+    bottom: 28px;
+  }
+}
+
 /* Rubber-stamp annotation. Used for "Est. not yesterday" and
    "Bigfoot approved." Designed to look slapped-on, slightly off-kilter,
    weathered but legible. */

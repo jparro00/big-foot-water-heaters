@@ -165,17 +165,39 @@
   </svg>
 </section>
 
-<!-- 3 · 40 YEARS (asymmetric + bubble "40" + footprint trail) -->
-<section class="moment moment--cream moment--asymmetric moment--trail">
-  <div class="moment-inner">
-    <div class="years-stack">
-      <h2 class="moment-display"><span class="big-num big-num--bubble">40</span><span class="big-sub">years.</span></h2>
-      <span class="stamp stamp--ages" aria-hidden="true">
-        <span class="stamp-line">Est. not</span>
-        <span class="stamp-line stamp-line--big">yesterday</span>
-      </span>
+<!-- 3 · 40 YEARS — portrait + bubble "40" + footprint trail.
+     Mobile: stacks vertically (portrait, then 40, then sub).
+     Desktop: portrait left, 40 + sub right. -->
+<section class="moment moment--cream moment--asymmetric moment--trail moment--portrait">
+  <div class="moment-inner portrait-grid">
+
+    <figure class="portrait">
+      <div class="portrait-frame">
+        <img class="portrait-img"
+             src="ingels.jpg"
+             alt="John and Jonathan Ingels"
+             loading="lazy"
+             onerror="this.onerror=null; this.classList.add('is-missing');" />
+        <div class="portrait-placeholder" aria-hidden="true">
+          <span class="portrait-placeholder-eyebrow">Photo</span>
+          <strong>John &amp;<br/>Jonathan</strong>
+          <span class="portrait-placeholder-note">drop ingels.jpg in project root</span>
+        </div>
+        <span class="stamp stamp--postmark" aria-hidden="true">
+          <span class="stamp-line">Est. not</span>
+          <span class="stamp-line stamp-line--big">yesterday</span>
+        </span>
+      </div>
+      <figcaption class="portrait-caption">John &amp; Jonathan · plumbers since '85</figcaption>
+    </figure>
+
+    <div class="years-block">
+      <div class="years-stack">
+        <h2 class="moment-display"><span class="big-num big-num--bubble">40</span><span class="big-sub">years.</span></h2>
+      </div>
+      <p class="moment-sub"><strong>John &amp; Jonathan Ingels.</strong> Two generations of plumbers.</p>
     </div>
-    <p class="moment-sub"><strong>John &amp; Jonathan Ingels.</strong> Two generations of plumbers.</p>
+
   </div>
 
   <!-- Footprint trail walking diagonally across the moment -->
