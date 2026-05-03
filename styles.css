@@ -5,83 +5,185 @@
    ========================================================= */
 
 :root {
-  /* VINTAGE FIELD GUIDE × DARK MODE
-     One canvas (warm charcoal), warm cream text, sage-olive depth,
-     peach punch used sparingly, gold lightning bolts. The deck is
-     cohesive — moments differ via gradients, patterns, and motifs,
-     not by flipping bg colors. */
+  /* =========================================================
+     COLOR SYSTEM — Material Design 3 inspired
 
-  /* Canvas — warm near-black, like a forest at dusk */
-  --bg-base:     #15110b;
-  --bg-soft:     #1a1610;
-  --bg-card:     #211c14;
-  --bg-elevated: #2a241a;
-  --bg-island:   #0e0a06;   /* deepest dark for highest contrast */
+     Two layers, in order of authority:
 
-  /* SAGE OLIVE — green-leaning, not muddy yellow. Used for headlines,
-     accents, eyebrow text, the bigfoot brand body. */
-  --olive-900: #2a3018;
-  --olive-800: #3a4225;
-  --olive-700: #4a5330;
-  --olive-600: #5e6a3e;
-  --olive-500: #75814d;
-  --olive-400: #8b9461;
-  --olive-300: #a3ac7c;
-  --olive-200: #bcc497;
-  --olive-100: #d6dcb6;
+     1. TONAL PALETTES (--olive-*, --peach-*, --gold-*, --neutral-*)
+        Raw hue scales. Components do NOT reference these directly.
 
-  /* PEACH PUNCH — single accent color used sparingly: bubble lockup
-     fill, primary CTAs, hero highlights. Hits hard because it's rare. */
-  --peach-700: #b07530;
-  --peach-600: #c78840;
-  --peach-500: #e8a25a;
-  --peach-400: #f0b878;
-  --peach-300: #f6cb98;
-  --peach-200: #fbdbb5;
+     2. ROLE TOKENS (--primary, --on-primary, --surface, --outline, …)
+        Semantic roles mapped to palette tones. Components reference
+        roles only. Re-skinning = swap a role's mapping in one place,
+        not a hundred selectors.
 
-  /* GOLD — actually lightning. Inside the sunglass lenses. */
-  --gold-500: #d4a232;
-  --gold-300: #eab947;
+     The MD3 contract: every fillable role has a paired "on-*" token
+     that's guaranteed to read against it. Always pair them — never
+     write "dark text on the orange button", write "on-primary on
+     primary". Contrast is by construction.
+     ========================================================= */
 
-  /* Cream — primary text on the dark canvas */
-  --cream:       #f1e8d4;
-  --cream-deep:  #d9cdb1;
-  --cream-soft:  rgba(241, 232, 212, .78);
-  --cream-mute:  rgba(241, 232, 212, .5);
+  /* ---------- TONAL PALETTES ---------- */
 
-  /* Backwards-compat aliases (some rules still reference these) */
-  --ink-on-dark:        #f1e8d4;
-  --ink-on-dark-soft:   rgba(241, 232, 212, .78);
-  --ink-on-dark-mute:   rgba(241, 232, 212, .5);
+  /* Olive — secondary key color. Deep, earthy, plumber-grade green. */
+  --olive-900: #1a1d10;
+  --olive-800: #2a3018;
+  --olive-700: #3a4225;
+  --olive-600: #4a5330;
+  --olive-500: #5e6a3e;
+  --olive-400: #75814d;
+  --olive-300: #8b9461;
+  --olive-200: #a3ac7c;
+  --olive-100: #bcc497;
+  --olive-50:  #d6dcb6;
 
-  /* "Ink" tokens preserved for dark text on light surfaces (the booking
-     form is the only cream-on-dark-section element that still needs
-     dark text inside it). */
+  /* Peach — primary key color. Warm action accent. Used scarcely. */
+  --peach-900: #3a230a;
+  --peach-800: #5a3711;
+  --peach-700: #9c5e1f;
+  --peach-600: #b07530;
+  --peach-500: #c78840;
+  --peach-400: #e09254;
+  --peach-300: #ecb079;
+  --peach-200: #f6cb98;
+  --peach-100: #fde4c8;
+
+  /* Gold — tertiary microaccent (lightning bolts in lenses). */
+  --gold-500: #c89020;
+  --gold-300: #d4a232;
+
+  /* Neutral — warm cream paper canvas + ink. Chroma ≈ 4 (near-gray
+     with a hint of brand hue). The surface family lives here.
+     Tones approximated to MD3 spec for predictable elevation steps. */
+  --neutral-100: #ffffff;   /* tone 100 — pure white */
+  --neutral-99:  #faf6ea;   /* tone ~96 — canvas */
+  --neutral-96:  #f5efdc;   /* tone ~94 — container-low */
+  --neutral-94:  #efe9d2;   /* tone ~92 — container */
+  --neutral-92:  #ebe4c8;   /* tone ~90 — container-high */
+  --neutral-90:  #ede2c5;   /* tone ~88 — container-highest */
+  --neutral-87:  #e6dab3;   /* tone ~85 — surface-dim */
+  --neutral-80:  #ddd0a3;   /* tone ~82 */
+  --neutral-30:  #45402e;   /* tone ~28 */
+  --neutral-20:  #2a261a;   /* tone ~18 */
+  --neutral-10:  #1a160d;   /* tone ~8 */
+
+  /* Neutral Variant — chroma ≈ 8, slightly warmer than neutral.
+     Specifically used for outlines and surface-variant per MD3 spec.
+     Outlines as real colors — not alpha overlays — so they actually
+     define edges instead of haunting them. */
+  --nv-90:  #e3d9be;
+  --nv-80:  #cdbfa0;   /* outline-variant — soft warm taupe */
+  --nv-70:  #b3a786;
+  --nv-50:  #786b4e;   /* outline — substantive border */
+  --nv-30:  #463e2a;   /* on-surface-variant — secondary text */
+  --nv-10:  #1a1408;
+
+  /* ---------- ROLE TOKENS ---------- */
+
+  /* PRIMARY — peach. Tone ~40 per MD3 baseline. Vivid mid-dark.
+     Reads as a confident CTA, never washy. Pairs with WHITE on-primary
+     (50+ tone difference → contrast ≥ 4.5:1 by HCT math). */
+  --primary:                   var(--peach-700);   /* tone ~42 */
+  --on-primary:                var(--neutral-100); /* pure white */
+  --primary-container:         var(--peach-100);   /* tone ~90 */
+  --on-primary-container:      var(--peach-900);   /* tone ~18 */
+
+  /* SECONDARY — olive. Tone ~40. Brand identity: wordmarks, supporting
+     accents. Less chroma than primary — quieter on its own, anchoring. */
+  --secondary:                 var(--olive-500);   /* tone ~40 */
+  --on-secondary:              var(--neutral-100);
+  --secondary-container:       var(--olive-50);    /* tone ~85 */
+  --on-secondary-container:    var(--olive-900);   /* tone ~10 */
+
+  /* TERTIARY — gold. Microaccent only (lightning bolts). */
+  --tertiary:                  var(--gold-500);
+  --on-tertiary:               var(--neutral-100);
+
+  /* SURFACE — cream-paper canvas with elevation tiers. Light-mode
+     elevation in MD3 spans only ~tone 90→98 — subtle steps, not
+     jumps. Differentiation comes from outline + shadow, not from
+     painting chrome a different color. Chrome uses container-high
+     or container-highest, never primary/secondary. */
+  --surface:                   var(--neutral-99);  /* canvas */
+  --surface-bright:            var(--neutral-99);
+  --surface-dim:               var(--neutral-87);  /* deepest surface */
+  --on-surface:                var(--neutral-10);  /* primary text */
+  --on-surface-variant:        var(--nv-30);       /* less prominent — warm dark */
+
+  --surface-container-lowest:  var(--neutral-100); /* white — popping cards */
+  --surface-container-low:     var(--neutral-96);  /* one step from canvas */
+  --surface-container:         var(--neutral-94);  /* card baseline */
+  --surface-container-high:    var(--neutral-92);  /* lifted card / chrome */
+  --surface-container-highest: var(--neutral-90);  /* maximum elevation */
+
+  /* OUTLINE — real colors, not alpha. nv-50 for substantive borders,
+     nv-80 for soft dividers. Use these instead of rgba haze. */
+  --outline:                   var(--nv-50);
+  --outline-variant:           var(--nv-80);
+
+  /* INVERSE — dark moment on light pages. Inverse-primary is a
+     LIGHTER peach (tone ~80) so it reads on dark surface. */
+  --inverse-surface:           var(--olive-800);
+  --on-inverse-surface:        var(--neutral-99);
+  --inverse-primary:           var(--peach-300);
+
+  /* ---------- BRAND IDENTITY ----------
+     Tokens for one-off brand artwork (the hero wordmark, future
+     stamps/labels). Distinct from role tokens — these aren't UI roles
+     and shouldn't be reused for components. They map to palette tones
+     because brand identity is allowed to specify hue + tone directly,
+     unlike system colors which must go through roles. */
+
+  --brand-wordmark:        var(--peach-800);   /* deep chocolate brown */
+  --brand-wordmark-shadow: var(--peach-500);   /* bright peach offset */
+
+  /* ---------- LEGACY ALIASES (back-compat) ----------
+     Roles above are the source of truth. Aliases keep older selectors
+     working until they're migrated. Removing them later is a
+     mechanical sweep — no visual change, since each alias points at
+     the role it would have been written as. */
+
+  --bg-base:     var(--surface);
+  --bg-soft:     var(--surface-container);
+  --bg-card:     var(--surface-container-high);
+  --bg-elevated: var(--surface-container-lowest);
+  --bg-island:   var(--inverse-surface);
+
+  --cream:       var(--on-surface);
+  --cream-deep:  var(--olive-900);
+  --cream-soft:  rgba(26, 29, 16, .78);
+  --cream-mute:  rgba(26, 29, 16, .55);
+
+  --ink-on-dark:        var(--on-surface);
+  --ink-on-dark-soft:   rgba(26, 29, 16, .78);
+  --ink-on-dark-mute:   rgba(26, 29, 16, .55);
+
   --ink-900: #0d1410;
   --ink-700: #2a322d;
   --ink-500: #5a635c;
   --ink-300: #97a098;
   --ink-100: #d9ddd8;
 
-  --white: #ffffff;
-  --border: rgba(241, 232, 212, .12);
-  --border-strong: rgba(241, 232, 212, .25);
-  --border-light: #c9b48e;
+  --white:         var(--neutral-100);
+  --border:        var(--outline-variant);
+  --border-strong: rgba(26, 29, 16, .32);
+  --border-light:  var(--neutral-80);
+
+  /* ---------- LAYOUT & TYPE ---------- */
 
   --radius: 14px;
   --radius-lg: 22px;
   --radius-sm: 8px;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .35);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, .55), 0 12px 32px rgba(0, 0, 0, .4);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, .7), 0 30px 80px rgba(0, 0, 0, .5);
+  /* Soft, warm drop shadows — paper catches a touch of brown light. */
+  --shadow-sm: 0 1px 2px rgba(74, 53, 30, .10), 0 2px 6px rgba(74, 53, 30, .07);
+  --shadow-md: 0 4px 14px rgba(74, 53, 30, .14), 0 12px 32px rgba(74, 53, 30, .10);
+  --shadow-lg: 0 10px 30px rgba(74, 53, 30, .22), 0 30px 80px rgba(74, 53, 30, .15);
 
   --max: 1200px;
   --gutter: clamp(20px, 4vw, 48px);
 
-  /* Cinzel = mediaeval Roman inscription, used for all big display.
-     Kept Modak for the bubble lockup logo, Bricolage for body,
-     Caveat for the rap verse. */
   --font-display: "Cinzel", "Trajan Pro", "Iowan Old Style", Georgia, serif;
   --font-sans: "Bricolage Grotesque", "Söhne", "Helvetica Neue", system-ui, sans-serif;
   --font-hand: "Caveat", "Marker Felt", "Bradley Hand", cursive;
@@ -103,8 +205,8 @@ body {
 }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
-a { color: var(--peach-400); text-decoration: none; }
-a:hover { color: var(--peach-300); }
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--peach-600); }
 ul, ol { padding-left: 0; list-style: none; margin: 0; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1; letter-spacing: -.02em; }
 p { margin: 0; }
@@ -118,11 +220,14 @@ p { margin: 0; }
 .skip-link:focus { left: 12px; top: 12px; }
 
 /* ---------- Type primitives ---------- */
+/* Eyebrow — small uppercase label leading into a headline. Uses
+   primary (tone 40) so it has real contrast on cream (~5:1) instead
+   of the old peach-500 mid-tone (~3:1, borderline for small text). */
 .moment-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-display);
   font-size: .8rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase;
-  color: var(--peach-500);
+  color: var(--primary);
   margin: 0 0 clamp(20px, 3vw, 40px);
   max-width: 100%;
 }
@@ -132,23 +237,25 @@ p { margin: 0; }
   flex: 1 1 auto;
   min-width: 0;
 }
-.moment-eyebrow.on-dark { color: var(--peach-500); }
+.moment-eyebrow.on-dark { color: var(--primary); }
 .moment-eyebrow .dot {
   flex: 0 0 auto;
   align-self: center;
-  width: 8px; height: 8px; border-radius: 50%; background: var(--peach-500);
-  box-shadow: 0 0 0 0 rgba(232, 162, 90, .6);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--primary);
+  box-shadow: 0 0 0 0 rgba(156, 94, 31, .55);
   animation: pulse 2.2s infinite;
 }
 @keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(232, 162, 90, .6); }
-  70%  { box-shadow: 0 0 0 12px rgba(232, 162, 90, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(232, 162, 90, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(156, 94, 31, .55); }
+  70%  { box-shadow: 0 0 0 12px rgba(156, 94, 31, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(156, 94, 31, 0); }
 }
 
-.accent { color: var(--peach-400); font-style: italic; }
-.accent-orange { color: var(--peach-500); font-style: italic; }
-.on-dark { color: var(--cream); }
+/* Inline accents inside display headlines. Both map to primary now —
+   peach-400 was failing contrast (~2.5:1) even as inline accent text. */
+.accent { color: var(--primary); font-style: italic; }
+.accent-orange { color: var(--primary); font-style: italic; }
+.on-dark { color: var(--on-surface); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -162,28 +269,53 @@ p { margin: 0; }
 }
 .btn-lg { padding: 16px 30px; font-size: 1rem; }
 .btn-block { width: 100%; }
+/* Primary CTA — MD3 pairing: primary (tone ~40) + on-primary (white).
+   The deeper tone gives weight; the white text keeps contrast >4.5:1.
+   Hover lifts to a brighter sibling tone, classic state-layer feel. */
 .btn-primary {
-  background: var(--peach-500); color: var(--bg-island);
-  box-shadow: 0 4px 18px rgba(232, 162, 90, .3);
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: 0 4px 18px rgba(156, 94, 31, .35);
   font-weight: 700;
   letter-spacing: .03em;
 }
-.btn-primary:hover { background: var(--peach-400); color: var(--bg-island); transform: translateY(-1px); box-shadow: 0 8px 26px rgba(232, 162, 90, .4); }
-.btn-ghost {
-  background: transparent; color: var(--cream); border-color: var(--olive-400);
+.btn-primary:hover {
+  background: var(--peach-600);
+  color: var(--on-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 26px rgba(156, 94, 31, .45);
 }
-.btn-ghost:hover { background: var(--olive-400); color: var(--bg-island); border-color: var(--olive-400); }
+/* Ghost — MD3 outlined-button equivalent. Uses outline + on-surface,
+   fills with secondary-container on hover (soft tinted state layer). */
+.btn-ghost {
+  background: transparent;
+  color: var(--on-surface);
+  border-color: var(--outline);
+}
+.btn-ghost:hover {
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  border-color: var(--outline);
+}
 
 /* ---------- Header ---------- */
+/* Header sits in the surface family — calm, never primary/secondary.
+   Differentiated from canvas by elevation (container-high) + outline,
+   not by chroma. The brand color shows up in the logo and CTAs, not
+   by painting the chrome. */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(21, 17, 11, .72);
-  backdrop-filter: saturate(140%) blur(18px);
-  -webkit-backdrop-filter: saturate(140%) blur(18px);
-  border-bottom: 1px solid transparent;
-  transition: border-color .2s ease, background .2s ease;
+  background: rgba(237, 226, 197, .85);   /* surface-container-high @ blur */
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom: 1px solid var(--outline-variant);
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
 }
-.site-header.is-scrolled { border-bottom-color: var(--border); background: rgba(21, 17, 11, .94); }
+.site-header.is-scrolled {
+  background: rgba(230, 218, 179, .96);   /* surface-container-highest */
+  border-bottom-color: rgba(26, 29, 16, .22);
+  box-shadow: 0 2px 12px rgba(74, 53, 30, .12);
+}
 /* Mobile header: tight 56px, logo + phone icon + Book.
    Desktop header: 76px, logo + nav + phone text + Book. */
 .header-row {
@@ -196,25 +328,25 @@ p { margin: 0; }
   color: var(--cream);
   flex-shrink: 0;
 }
-.brand:hover { color: var(--peach-400); }
-.brand-mark { color: var(--olive-400); display: inline-flex; }
+.brand:hover { color: var(--primary); }
+.brand-mark { color: var(--secondary); display: inline-flex; }
 .brand-mark svg { width: 36px; height: 36px; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1.05; gap: 2px; min-width: 0; }
 .brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .02em; text-transform: uppercase; }
 /* Always visible — on mobile we hide the right-side header CTAs (the
    sticky bottom bar carries Call/Text/Book), so the title has room
    for the subtitle. */
-.brand-line-2 { display: inline; font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--olive-300); white-space: nowrap; }
+.brand-line-2 { display: inline; font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--on-surface-variant); white-space: nowrap; }
 
 .nav { display: none; gap: 28px; margin-left: auto; }
 .nav a {
-  color: var(--cream-soft); font-weight: 500; font-size: .95rem;
+  color: var(--on-surface); font-weight: 500; font-size: .95rem;
   position: relative;
 }
-.nav a:hover { color: var(--peach-400); }
+.nav a:hover { color: var(--primary); }
 .nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
-  background: var(--peach-500); transform: scaleX(0); transform-origin: left;
+  background: var(--primary); transform: scaleX(0); transform-origin: left;
   transition: transform .25s ease;
 }
 .nav a:hover::after { transform: scaleX(1); }
@@ -229,14 +361,16 @@ p { margin: 0; }
 }
 .btn-phone {
   display: inline-flex; align-items: center; gap: 6px;
-  font-weight: 700; color: var(--cream); font-size: .9rem;
+  font-weight: 700; color: var(--on-surface); font-size: .9rem;
   width: 40px; height: 40px;
   justify-content: center;
-  border: 1.5px solid var(--olive-500);
+  border: 1.5px solid var(--outline);
   border-radius: 999px;
 }
-.btn-phone:hover { color: var(--peach-400); border-color: var(--peach-500); background: rgba(232, 162, 90, .06); }
+.btn-phone:hover { color: var(--primary); border-color: var(--primary); background: rgba(199, 136, 64, .08); }
 .btn-phone-text { display: none; }
+/* Sizing only — color/background inherit from .btn-primary (peach
+   on dark text). The header chrome is calm so the CTA can pop. */
 .btn-book-header { padding: 9px 16px; font-size: .88rem; }
 
 @media (min-width: 900px) {
@@ -281,34 +415,34 @@ p { margin: 0; }
   text-align: center;
 }
 
-/* All moments share the warm-charcoal canvas — variation comes from
+/* All moments share the cream-paper canvas — variation comes from
    gradients, patterns, and motifs, not from flipping bg colors.
    Each variant has a subtly different gradient signature. */
 .moment--cream {
   background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .15), transparent 60%);
+    radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .18), transparent 60%);
 }
 .moment--dark {
-  background: var(--bg-island);
+  background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .12), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(74, 83, 48, .25), transparent 60%);
+    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .14), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .22), transparent 60%);
 }
 
 /* SAME-DAY moment — bigfoot silhouette anchors the section as a giant
-   atmospheric backdrop. Olive-tinted at low opacity so the "Same-day."
-   headline still reads cleanly on top. Pinned full-width so the figure
-   spans the whole moment regardless of viewport. */
+   atmospheric backdrop. Olive-tinted at moderate opacity so the
+   "Same-day." headline still reads cleanly on top. The cream canvas
+   means we need more silhouette presence than on dark to hold weight. */
 .moment-bg-silhouette {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  fill: var(--olive-700);
-  opacity: .22;
+  fill: var(--secondary);
+  opacity: .18;
   pointer-events: none;
   z-index: 0;
   /* Slow drift so the figure feels alive without distracting */
@@ -350,7 +484,7 @@ p { margin: 0; }
   right: clamp(20px, 5vw, 80px);
   width: clamp(50px, 8vw, 110px);
   height: auto;
-  color: var(--peach-500);
+  color: var(--primary);
   opacity: .92;
   transform: rotate(14deg);
   filter: drop-shadow(0 6px 24px rgba(232, 162, 90, .35));
@@ -363,18 +497,22 @@ p { margin: 0; }
 .moment--cream + .moment--cream { padding-top: 0; }
 .moment--dark + .moment--dark { padding-top: 0; }
 
-/* Display typography — Cinzel inscription, cream on warm charcoal */
+/* Display typography — Cinzel inscription, deep-olive ink on cream.
+   Black text-shadows were a holdover from a dark-bg era and were
+   creating muddy halos around dark type on light paper. A whisper of
+   warm-brown ink is enough to give the letterforms weight without
+   ringing them. */
 .moment-display {
   font-family: var(--font-display);
   font-size: clamp(4.4rem, 16vw, 10rem);
   font-weight: 900;
   line-height: .95;
   letter-spacing: .005em;
-  color: var(--cream);
+  color: var(--on-surface);
   text-wrap: balance;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, .35), 0 12px 30px rgba(0, 0, 0, .55);
+  text-shadow: 0 1px 0 rgba(74, 53, 30, .12);
 }
-.moment-display.on-dark { color: var(--cream); text-shadow: 0 2px 0 rgba(0,0,0,.4), 0 12px 30px rgba(0,0,0,.6); }
+.moment-display.on-dark { color: var(--on-surface); text-shadow: 0 1px 0 rgba(74, 53, 30, .12); }
 .moment-display .accent,
 .moment-display .accent-orange {
   display: inline-block;
@@ -388,11 +526,11 @@ p { margin: 0; }
   font-weight: 700;
   line-height: 1;
   letter-spacing: .005em;
-  color: var(--cream);
+  color: var(--on-surface);
   text-wrap: balance;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .45);
+  text-shadow: 0 1px 0 rgba(74, 53, 30, .10);
 }
-.moment-display-md.on-dark { color: var(--cream); }
+.moment-display-md.on-dark { color: var(--on-surface); }
 
 .moment-sub {
   font-size: clamp(1.05rem, 1.5vw, 1.4rem);
@@ -403,7 +541,7 @@ p { margin: 0; }
   text-wrap: balance;
 }
 .moment-sub.on-dark { color: var(--cream-soft); }
-.moment-sub strong { color: var(--peach-400); font-weight: 700; }
+.moment-sub strong { color: var(--primary); font-weight: 700; }
 
 /* Subtle hyphen styling so "Same-day" reads cleanly at huge size */
 .hyphen { color: var(--olive-500); display: inline-block; transform: translateY(-.08em); margin: 0 -.02em; }
@@ -433,13 +571,13 @@ p { margin: 0; }
   font-family: "Modak", "Cinzel", Georgia, serif;
   font-weight: 400;
   font-size: clamp(7rem, 22vw, 14rem);
-  color: #ffffff;
-  -webkit-text-stroke: 4px var(--bg-island);
-  text-stroke: 4px var(--bg-island);
+  color: var(--surface-container-lowest);
+  -webkit-text-stroke: 4px var(--inverse-surface);
+  text-stroke: 4px var(--inverse-surface);
   paint-order: stroke fill;
   letter-spacing: 0;
   line-height: .85;
-  text-shadow: 5px 5px 0 var(--olive-700);
+  text-shadow: 5px 5px 0 var(--secondary);
 }
 @media (min-width: 760px) {
   .big-num--bubble {
@@ -455,7 +593,7 @@ p { margin: 0; }
   font-weight: 700;
   font-style: italic;
   letter-spacing: .02em;
-  color: var(--olive-300);
+  color: var(--on-surface-variant);
 }
 
 /* =========================================================
@@ -504,14 +642,14 @@ p { margin: 0; }
 }
 .portrait-frame {
   position: relative;
-  background: var(--cream);
+  background: var(--bg-elevated);
   padding: 14px 14px 56px;
   width: clamp(240px, 70vw, 360px);
   aspect-ratio: 4 / 5;
   box-shadow:
-    0 1px 0 rgba(0, 0, 0, .15),
-    0 14px 30px rgba(0, 0, 0, .45),
-    0 28px 60px rgba(0, 0, 0, .35);
+    0 1px 0 rgba(74, 53, 30, .08),
+    0 14px 30px rgba(74, 53, 30, .18),
+    0 28px 60px rgba(74, 53, 30, .14);
   /* Near-vertical so it reads as the anchor; the postmark stamp
      carries the deliberate -12deg tilt as the accent. */
   transform: rotate(-1deg);
@@ -555,7 +693,7 @@ p { margin: 0; }
   inset: 14px 14px 56px;
   display: flex;
   flex-direction: column;
-  background: var(--olive-800);
+  background: var(--inverse-surface);
   overflow: hidden;
 }
 .portrait-img:not(.is-missing) + .portrait-fallback { display: none; }
@@ -610,8 +748,8 @@ p { margin: 0; }
   bottom: 8px;
   right: -18px;
   font-size: clamp(.6rem, .9vw, .78rem);
-  color: var(--peach-600);
-  background: rgba(232, 162, 90, .08);
+  color: var(--primary);
+  background: rgba(156, 94, 31, .08);
   z-index: 4;
   transform: rotate(-12deg);
 }
@@ -670,11 +808,12 @@ p { margin: 0; }
   position: absolute;
   top: clamp(78px, 12vh, 140px);
   right: clamp(14px, 5vw, 64px);
-  color: var(--peach-400);
-  background: rgba(232, 162, 90, .07);
+  color: var(--olive-900);
+  background: var(--peach-400);
   font-size: clamp(.7rem, 1.1vw, .9rem);
   transform: rotate(11deg);
   z-index: 3;
+  opacity: 1;
   animation: stamp-slap .6s cubic-bezier(.2, 1.6, .4, 1) 1.7s both;
 }
 @media (min-width: 760px) {
@@ -746,6 +885,7 @@ p { margin: 0; }
    peach pin marks the center. Headline + tags wrap cleanly so any
    real city name (long or short) drops in without overflow. */
 .moment--map {
+  background-color: var(--bg-soft);
   background-image:
     radial-gradient(60% 50% at 100% 0%, rgba(74, 83, 48, .25), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(232, 162, 90, .08), transparent 60%);
@@ -796,53 +936,53 @@ p { margin: 0; }
 /* ---------- HERO moment ---------- */
 .moment--hero {
   background:
-    radial-gradient(70% 50% at 50% 100%, rgba(232, 162, 90, .14), transparent 65%),
-    radial-gradient(60% 50% at 50% 0%, rgba(74, 83, 48, .25), transparent 60%),
+    radial-gradient(70% 50% at 50% 100%, rgba(232, 162, 90, .15), transparent 65%),
+    radial-gradient(60% 50% at 50% 0%, rgba(139, 148, 97, .20), transparent 60%),
     var(--bg-base);
 }
-/* Folded field-guide pattern: trifold creases (verticals at 1/3 and 2/3,
-   one horizontal at 50%) plus subtle tonal banding between panels.
-   Reads as "weathered map opened on the truck dashboard" rather than a
-   tech grid. Mask softens it toward the section edges. */
+/* Folded field-guide pattern on cream paper: subtle warm-brown crease
+   shadows where the page bends, plus tonal banding to suggest the
+   trifold panels age unevenly. */
 .moment--hero::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    /* horizontal half-fold */
+    /* horizontal half-fold — warm shadow line */
     linear-gradient(0deg,
       transparent calc(50% - 2px),
-      rgba(241,232,212,.05) calc(50% - 1px),
-      rgba(241,232,212,.10) 50%,
-      rgba(0,0,0,.10) calc(50% + 1px),
+      rgba(74, 53, 30, .04) calc(50% - 1px),
+      rgba(74, 53, 30, .14) 50%,
+      rgba(74, 53, 30, .04) calc(50% + 1px),
       transparent calc(50% + 2px)
     ),
     /* vertical fold @ 1/3 */
     linear-gradient(90deg,
       transparent calc(33.33% - 2px),
-      rgba(241,232,212,.06) calc(33.33% - 1px),
-      rgba(241,232,212,.12) 33.33%,
-      rgba(0,0,0,.12) calc(33.33% + 1px),
+      rgba(74, 53, 30, .05) calc(33.33% - 1px),
+      rgba(74, 53, 30, .16) 33.33%,
+      rgba(74, 53, 30, .05) calc(33.33% + 1px),
       transparent calc(33.33% + 2px)
     ),
     /* vertical fold @ 2/3 */
     linear-gradient(90deg,
       transparent calc(66.66% - 2px),
-      rgba(241,232,212,.06) calc(66.66% - 1px),
-      rgba(241,232,212,.12) 66.66%,
-      rgba(0,0,0,.12) calc(66.66% + 1px),
+      rgba(74, 53, 30, .05) calc(66.66% - 1px),
+      rgba(74, 53, 30, .16) 66.66%,
+      rgba(74, 53, 30, .05) calc(66.66% + 1px),
       transparent calc(66.66% + 2px)
     ),
-    /* tonal banding so the trifold panels read as separate paper sections */
+    /* tonal banding — center panel slightly darker (the well-worn
+       section that gets folded innermost) */
     linear-gradient(90deg,
-      rgba(241,232,212,.014) 0%,
-      rgba(241,232,212,.014) 33.33%,
-      rgba(0,0,0,.05) 33.33%,
-      rgba(0,0,0,.05) 66.66%,
-      rgba(241,232,212,.014) 66.66%,
-      rgba(241,232,212,.014) 100%
+      rgba(255, 248, 225, .35) 0%,
+      rgba(255, 248, 225, .35) 33.33%,
+      rgba(74, 53, 30, .03) 33.33%,
+      rgba(74, 53, 30, .03) 66.66%,
+      rgba(255, 248, 225, .35) 66.66%,
+      rgba(255, 248, 225, .35) 100%
     );
-  mask-image: radial-gradient(ellipse 88% 80% at 50% 50%, black 55%, transparent);
-  -webkit-mask-image: radial-gradient(ellipse 88% 80% at 50% 50%, black 55%, transparent);
+  mask-image: radial-gradient(ellipse 92% 82% at 50% 50%, black 60%, transparent);
+  -webkit-mask-image: radial-gradient(ellipse 92% 82% at 50% 50%, black 60%, transparent);
   pointer-events: none;
 }
 .moment--hero {
@@ -919,19 +1059,20 @@ p { margin: 0; }
   position: relative;
   z-index: 1;
 }
-/* Hero wordmark uses Rubik Wet Paint — same dripping cave-paint family
-   already in use elsewhere. Letterforms have built-in texture, so we
-   skip the heavy stroke that the bubble version needed and let the
-   font's character carry the read. */
+/* Hero wordmark — brand-identity tokens (not role tokens). Deep
+   chocolate brown body with a bright peach offset shadow for the
+   classic poster-print pop. The brand-wordmark-shadow is intentionally
+   a much lighter tone than the body so the offset reads as a separate
+   layer, not a misregistered print. */
 .lockup-line {
   font-family: "Rubik Wet Paint", "Modak", Georgia, serif;
   font-weight: 400;
   letter-spacing: .015em;
-  color: var(--cream);
+  color: var(--brand-wordmark);
   display: block;
   text-shadow:
-    0 2px 0 rgba(0, 0, 0, .35),
-    4px 4px 0 var(--olive-700);
+    0 1px 0 rgba(74, 53, 30, .25),
+    4px 4px 0 var(--brand-wordmark-shadow);
 }
 .lockup-l1 {
   font-size: clamp(2.6rem, 9vw, 5rem);
@@ -951,7 +1092,7 @@ p { margin: 0; }
   100% { opacity: 1; transform: translateX(0) rotate(.5deg); }
 }
 @media (min-width: 760px) {
-  .lockup-line { text-shadow: 0 3px 0 rgba(0, 0, 0, .4), 6px 6px 0 var(--olive-700); }
+  .lockup-line { text-shadow: 0 2px 0 rgba(74, 53, 30, .3), 6px 6px 0 var(--brand-wordmark-shadow); }
 }
 
 .lockup-tag {
@@ -960,7 +1101,7 @@ p { margin: 0; }
   font-style: normal;
   font-weight: 500;
   font-size: clamp(.85rem, 1.2vw, 1.05rem);
-  color: var(--olive-300);
+  color: var(--on-surface-variant);
   letter-spacing: .14em;
   text-transform: uppercase;
   animation: hero-fade-up .7s ease-out .85s both;
@@ -971,14 +1112,14 @@ p { margin: 0; }
   font-style: italic;
   font-size: clamp(1.1rem, 1.8vw, 1.4rem);
   line-height: 1.45;
-  color: var(--cream-soft);
+  color: var(--on-surface);
   max-width: 40ch;
   text-wrap: balance;
   font-weight: 500;
   animation: hero-fade-up .7s ease-out 1.05s both;
 }
 .hero-tagline em {
-  color: var(--peach-400);
+  color: var(--primary);
   font-style: italic;
   font-weight: 700;
 }
@@ -990,7 +1131,7 @@ p { margin: 0; }
   font-weight: 500;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--cream-mute);
+  color: var(--on-surface-variant);
   animation: hero-fade-up .7s ease-out 1.45s both;
 }
 .hero-credit strong { color: var(--cream); font-weight: 700; }
@@ -1018,16 +1159,16 @@ p { margin: 0; }
   bottom: 32px; left: 50%;
   transform: translateX(-50%);
   width: 26px; height: 42px;
-  border: 2px solid var(--ink-300);
+  border: 2px solid var(--outline-variant);
   border-radius: 999px;
   justify-content: center;
   padding-top: 8px;
   opacity: .7;
   transition: opacity .2s ease, border-color .2s ease;
 }
-.scroll-hint:hover { opacity: 1; border-color: var(--olive-500); }
+.scroll-hint:hover { opacity: 1; border-color: var(--outline); }
 .scroll-hint span {
-  width: 3px; height: 8px; background: var(--olive-500); border-radius: 999px;
+  width: 3px; height: 8px; background: var(--outline); border-radius: 999px;
   animation: scroll-bounce 1.6s ease-in-out infinite;
 }
 @keyframes scroll-bounce {
@@ -1049,23 +1190,26 @@ p { margin: 0; }
 }
 @media (min-width: 760px) { .price-row { grid-template-columns: repeat(3, 1fr); } }
 
+/* Price tiles — base = surface-container (gentle elevation), featured =
+   surface-container-lowest (white) ringed in primary. The featured tile
+   uses primary for label + amount so the eye finds it instantly. */
 .price-tile {
   position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radius-lg);
   padding: clamp(24px, 3vw, 36px);
   text-align: left;
   display: flex; flex-direction: column; gap: 8px;
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  color: var(--cream);
+  color: var(--on-surface);
 }
-.price-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--olive-500); }
+.price-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--outline); }
 .price-tile--feature {
-  background: var(--bg-elevated);
-  color: var(--cream);
-  border: 2px solid var(--peach-500);
-  box-shadow: 0 0 0 1px rgba(232, 162, 90, .2), var(--shadow-lg);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 0 1px rgba(156, 94, 31, .18), var(--shadow-lg);
 }
 @media (min-width: 760px) {
   /* Scale the featured tile only on desktop — full-width column on
@@ -1077,22 +1221,22 @@ p { margin: 0; }
   font-family: var(--font-display);
   font-size: .8rem; font-weight: 500;
   letter-spacing: .14em; text-transform: uppercase;
-  color: var(--olive-400);
+  color: var(--on-surface-variant);
 }
-.price-tile--feature .price-tile-label { color: var(--peach-400); }
+.price-tile--feature .price-tile-label { color: var(--primary); }
 .price-tile-num {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(2.6rem, 4.5vw, 3.6rem);
   line-height: 1;
   letter-spacing: 0;
-  color: var(--cream);
+  color: var(--on-surface);
   margin: 4px 0 6px;
 }
-.price-tile--feature .price-tile-num { color: var(--peach-400); }
+.price-tile--feature .price-tile-num { color: var(--primary); }
 .price-tile-incl {
   font-size: .85rem;
-  color: var(--cream-soft);
+  color: var(--on-surface-variant);
   border-top: 1px solid var(--border);
   padding-top: 14px;
   margin-top: 8px;
@@ -1101,46 +1245,54 @@ p { margin: 0; }
   color: var(--cream-soft);
   border-top-color: var(--border-strong);
 }
+/* "Most popular" pill — primary bg + on-primary (white). MD3 chip. */
 .price-tile-tag {
   position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-  background: var(--peach-500); color: var(--bg-island);
+  background: var(--primary);
+  color: var(--on-primary);
   font-family: var(--font-display);
   font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   padding: 7px 16px; border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(232, 162, 90, .35);
+  box-shadow: 0 4px 14px rgba(156, 94, 31, .35);
   white-space: nowrap;
 }
 
-/* ---------- AREAS tags ---------- */
+/* Areas tags — MD3 assist chips. Resting = surface-container with
+   outline; hover = secondary-container (the soft-tinted state layer
+   pattern). On-secondary-container guarantees readable text. */
 .areas-tags {
   display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
   margin: clamp(36px, 5vw, 52px) auto 0;
   max-width: 800px;
 }
 .areas-tags span {
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
   padding: 10px 18px;
   border-radius: 999px;
   font-weight: 500;
-  color: var(--cream-soft);
+  color: var(--on-surface);
   font-size: .95rem;
   transition: border-color .2s ease, color .2s ease, background .2s ease;
 }
-.areas-tags span:hover { border-color: var(--peach-500); color: var(--peach-400); }
+.areas-tags span:hover {
+  background: var(--secondary-container);
+  border-color: var(--secondary);
+  color: var(--on-secondary-container);
+}
 
 /* ---------- BOOK moment ---------- */
 .moment--book {
-  background: var(--bg-island);
+  background: var(--bg-base);
   color: var(--cream);
   background-image:
-    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .14), transparent 60%),
-    radial-gradient(60% 50% at 0% 100%, rgba(74, 83, 48, .28), transparent 60%);
+    radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .16), transparent 60%),
+    radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .22), transparent 60%);
 }
 .moment--book .moment-eyebrow,
-.moment--book .moment-eyebrow.on-dark { color: var(--peach-500); }
-.moment--book .book-h2 { color: var(--cream); }
-.moment--book .book-sub { color: var(--cream-soft); }
+.moment--book .moment-eyebrow.on-dark { color: var(--primary); }
+.moment--book .book-h2 { color: var(--on-surface); }
+.moment--book .book-sub { color: var(--on-surface-variant); }
 .book-inner {
   display: grid;
   grid-template-columns: 1fr;
@@ -1160,35 +1312,39 @@ p { margin: 0; }
   letter-spacing: .005em;
   color: var(--cream);
   margin: 16px 0 18px;
-  text-shadow: 0 2px 0 rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.4);
+  text-shadow: 0 1px 0 rgba(74, 53, 30, .15);
 }
 .book-sub {
   font-size: clamp(1.05rem, 1.4vw, 1.25rem);
   color: var(--cream-soft);
   max-width: 38ch;
 }
+/* Inline phone link — primary tone for clear "this is clickable" cue. */
 .book-phone-large {
   display: inline-flex; align-items: center; gap: 10px;
-  font-weight: 700; color: var(--peach-400); font-size: 1.1rem;
+  font-weight: 700; color: var(--primary); font-size: 1.1rem;
   margin-top: 24px;
   font-family: var(--font-display);
   letter-spacing: .04em;
 }
-.book-phone-large:hover { color: var(--peach-300); }
+.book-phone-large:hover { color: var(--peach-600); }
 
+/* Booking form card — surface-container-lowest (white) with soft
+   outline. The card is the focal moment so it sits at maximum lift. */
 .book-form {
-  background: var(--cream);
-  color: var(--ink-900);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
   padding: clamp(28px, 4vw, 40px);
   border-radius: var(--radius-lg);
   display: grid; gap: 14px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--outline-variant);
 }
 .field label {
   display: block;
   font-family: var(--font-display);
   font-size: .78rem; font-weight: 500;
-  color: var(--olive-700);
+  color: var(--on-surface-variant);
   margin-bottom: 8px;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -1200,7 +1356,7 @@ p { margin: 0; }
   font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--ink-900);
+  color: var(--on-surface);
   margin-bottom: 10px;
   letter-spacing: 0;
   text-transform: none;
@@ -1208,24 +1364,24 @@ p { margin: 0; }
 .field input {
   width: 100%;
   padding: 14px 16px;
-  border: 1.5px solid var(--border-light);
+  border: 1.5px solid var(--outline-variant);
   border-radius: 10px;
-  background: var(--white);
+  background: var(--surface-container-lowest);
   font: inherit;
-  color: var(--ink-900);
+  color: var(--on-surface);
   transition: border-color .2s ease, box-shadow .2s ease;
 }
 .field input:focus {
   outline: none;
-  border-color: var(--olive-500);
-  box-shadow: 0 0 0 3px rgba(136, 135, 71, .2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(156, 94, 31, .18);
 }
 .field-radio { border: 0; padding: 0; margin: 0; }
 .field-radio legend { padding: 0; }
 .field-radio > label {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--white);
-  border: 1.5px solid var(--border);
+  background: var(--surface-container-lowest);
+  border: 1.5px solid var(--outline-variant);
   border-radius: 999px;
   padding: 10px 16px;
   margin: 4px 6px 4px 0;
@@ -1233,46 +1389,56 @@ p { margin: 0; }
   cursor: pointer;
   transition: border-color .2s ease, background .2s ease, color .2s ease;
 }
-.field-radio > label:hover { border-color: var(--olive-500); }
+.field-radio > label:hover { border-color: var(--outline); }
 .field-radio input[type="radio"] {
   appearance: none; -webkit-appearance: none;
   width: 14px; height: 14px;
-  border: 1.5px solid var(--ink-300);
+  border: 1.5px solid var(--outline);
   border-radius: 50%;
   position: relative;
   cursor: pointer;
   margin: 0;
 }
-.field-radio input[type="radio"]:checked { border-color: var(--olive-600); }
+.field-radio input[type="radio"]:checked { border-color: var(--primary); }
 .field-radio input[type="radio"]:checked::after {
-  content: ""; position: absolute; inset: 2px; background: var(--olive-500); border-radius: 50%;
+  content: ""; position: absolute; inset: 2px; background: var(--primary); border-radius: 50%;
 }
-.field-radio > label:has(input:checked) { border-color: var(--olive-500); background: var(--olive-100); color: var(--olive-700); font-weight: 600; }
+/* Selected radio chip = secondary-container (the soft "selected"
+   tinted state from MD3, with on-secondary-container for text). */
+.field-radio > label:has(input:checked) {
+  border-color: var(--secondary);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font-weight: 600;
+}
 
 .form-fineprint {
-  font-size: .8rem; color: var(--ink-500); text-align: center; margin-top: 4px;
+  font-size: .8rem; color: var(--on-surface-variant); text-align: center; margin-top: 4px;
 }
 
 .book-success {
   grid-column: 1 / -1;
-  background: var(--cream);
-  color: var(--ink-900);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
   padding: 48px 32px;
   border-radius: var(--radius-lg);
   text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--outline-variant);
 }
-.success-icon { color: var(--olive-700); }
-.book-success h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--olive-800); }
-.book-success p { color: var(--ink-700); }
-.book-success a { color: var(--peach-700); font-weight: 700; }
+.success-icon { color: var(--secondary); }
+.book-success h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--on-surface); }
+.book-success p { color: var(--on-surface-variant); }
+.book-success a { color: var(--primary); font-weight: 700; }
 
-/* ---------- Footer (compressed) ---------- */
+/* ---------- Footer ----------
+   Same surface tier as the header — calm chrome, brand presence comes
+   from the brand-mark + primary-colored phone link, not the bg. */
 .site-footer {
-  background: var(--bg-island);
-  border-top: 1px solid var(--border);
-  color: var(--cream-soft);
+  background: var(--surface-container-high);
+  border-top: 1px solid var(--outline-variant);
+  color: var(--on-surface);
   padding: 44px 0 28px;
   font-size: .9rem;
 }
@@ -1285,48 +1451,48 @@ p { margin: 0; }
 }
 .footer-brand {
   display: inline-flex; align-items: center; gap: 14px;
-  color: var(--cream);
+  color: var(--on-surface);
 }
-.footer-brand .brand-mark { color: var(--olive-300); }
-.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: var(--cream); letter-spacing: .02em; text-transform: uppercase; }
-.footer-tag { font-size: .82rem; color: var(--cream-mute); font-style: italic; }
+.footer-brand .brand-mark { color: var(--secondary); }
+.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: var(--on-surface); letter-spacing: .02em; text-transform: uppercase; }
+.footer-tag { font-size: .82rem; color: var(--on-surface-variant); font-style: italic; }
 .footer-info {
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
-  color: var(--cream-soft);
+  color: var(--on-surface);
 }
-.footer-info a { color: var(--peach-400); font-weight: 700; }
-.footer-info a:hover { color: var(--peach-300); }
-.footer-meta { font-size: .78rem; color: var(--cream-mute); }
-.footer-brand { color: var(--cream); }
-.footer-brand .brand-mark { color: var(--peach-400); }
+.footer-info a { color: var(--primary); font-weight: 700; }
+.footer-info a:hover { color: var(--peach-700); }
+.footer-meta { font-size: .78rem; color: var(--on-surface-variant); }
 
-/* ---------- Mobile sticky bar ---------- */
+/* ---------- Mobile sticky bar ----------
+   Same surface tier as header/footer so the chrome is visually
+   coherent. Book CTA is primary — the only loud thing in the bar. */
 .mobile-bar {
   position: fixed; left: 0; right: 0; bottom: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: rgba(14, 10, 6, .94);
-  backdrop-filter: saturate(140%) blur(18px);
-  -webkit-backdrop-filter: saturate(140%) blur(18px);
-  border-top: 1px solid var(--border);
+  background: rgba(237, 226, 197, .94);   /* surface-container-high @ blur */
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-top: 1px solid var(--outline-variant);
   padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
   gap: 4px;
   z-index: 60;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, .5);
+  box-shadow: 0 -8px 24px rgba(74, 53, 30, .12);
 }
 .mobile-bar-btn {
   display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
   padding: 11px 6px;
   border-radius: 12px;
   font-size: .82rem; font-weight: 600;
-  color: var(--cream);
+  color: var(--on-surface);
   min-height: 44px;
 }
-.mobile-bar-btn:hover { background: rgba(232, 162, 90, .08); color: var(--peach-400); }
-.mobile-bar-btn svg { color: var(--olive-400); flex-shrink: 0; }
-.mobile-bar-book { background: var(--peach-500); color: var(--bg-island); }
-.mobile-bar-book:hover { background: var(--peach-400); color: var(--bg-island); }
-.mobile-bar-book svg { color: var(--bg-island); }
+.mobile-bar-btn:hover { background: rgba(199, 136, 64, .14); color: var(--primary); }
+.mobile-bar-btn svg { color: var(--secondary); flex-shrink: 0; }
+.mobile-bar-book { background: var(--primary); color: var(--on-primary); }
+.mobile-bar-book:hover { background: var(--peach-400); color: var(--on-primary); }
+.mobile-bar-book svg { color: var(--on-primary); }
 
 @media (min-width: 900px) { .mobile-bar { display: none; } }
 @media (max-width: 899px) { body { padding-bottom: 60px; } }
