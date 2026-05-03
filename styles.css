@@ -362,14 +362,14 @@ p { margin: 0; }
 .nav a:hover::after { transform: scaleX(1); }
 
 .header-cta {
-  /* Hidden on mobile — the sticky bottom bar already has Call/Text/Book
-     and showing them in the header too is just visual noise. Promoted
-     back to inline-flex at the desktop breakpoint below. */
-  display: none;
-  align-items: center; gap: 8px;
+  /* Mobile: icon-only Call / Text / Book circles sit on the right.
+     Desktop: phone number text + Book pill (icons drop out). */
+  display: inline-flex;
+  align-items: center; gap: 6px;
   margin-left: auto;
 }
-.btn-phone {
+.btn-phone,
+.btn-text-link {
   display: inline-flex; align-items: center; gap: 6px;
   font-weight: 700; color: var(--on-surface); font-size: .9rem;
   width: 40px; height: 40px;
@@ -377,11 +377,16 @@ p { margin: 0; }
   border: 1.5px solid var(--outline);
   border-radius: 999px;
 }
-.btn-phone:hover { color: var(--primary); border-color: var(--primary); background: rgba(199, 136, 64, .08); }
+.btn-phone:hover,
+.btn-text-link:hover { color: var(--primary); border-color: var(--primary); background: rgba(199, 136, 64, .08); }
 .btn-phone-text { display: none; }
-/* Sizing only — color/background inherit from .btn-primary (peach
-   on dark text). The header chrome is calm so the CTA can pop. */
-.btn-book-header { padding: 9px 16px; font-size: .88rem; }
+/* Mobile: 40×40 icon-only circle sharing the .btn-primary fill.
+   Desktop (below): falls back to a text pill. */
+.btn-book-header {
+  width: 40px; height: 40px; padding: 0;
+  font-size: .88rem;
+}
+.btn-book-text { display: none; }
 
 @media (min-width: 900px) {
   .header-row { height: 76px; gap: 20px; }
@@ -389,14 +394,17 @@ p { margin: 0; }
   .brand-line-1 { font-size: 1.25rem; }
   .brand-line-2 { font-size: .7rem; letter-spacing: .18em; }
   .nav { display: flex; }
-  .header-cta { display: inline-flex; gap: 14px; margin-left: 24px; }
+  .header-cta { gap: 14px; margin-left: 24px; }
   .btn-phone {
     width: auto; height: auto;
     border: 0; padding: 0;
     font-size: .95rem;
   }
   .btn-phone-text { display: inline; }
-  .btn-book-header { padding: 12px 22px; font-size: .95rem; }
+  .btn-text-link { display: none; }
+  .btn-book-header { width: auto; height: auto; padding: 12px 22px; font-size: .95rem; }
+  .btn-book-icon { display: none; }
+  .btn-book-text { display: inline; }
 }
 
 /* =========================================================
@@ -1494,39 +1502,6 @@ p { margin: 0; }
 .footer-info a { color: var(--primary); font-weight: 700; }
 .footer-info a:hover { color: var(--peach-700); }
 .footer-meta { font-size: .78rem; color: var(--on-surface-variant); }
-
-/* ---------- Mobile sticky bar ----------
-   Same surface tier as header/footer so the chrome is visually
-   coherent. Book CTA is primary — the only loud thing in the bar. */
-.mobile-bar {
-  position: fixed; left: 0; right: 0; bottom: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: rgba(237, 226, 197, .94);   /* surface-container-high @ blur */
-  backdrop-filter: saturate(160%) blur(18px);
-  -webkit-backdrop-filter: saturate(160%) blur(18px);
-  border-top: 1px solid var(--outline-variant);
-  padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
-  gap: 4px;
-  z-index: 60;
-  box-shadow: 0 -8px 24px rgba(74, 53, 30, .12);
-}
-.mobile-bar-btn {
-  display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
-  padding: 11px 6px;
-  border-radius: 12px;
-  font-size: .82rem; font-weight: 600;
-  color: var(--on-surface);
-  min-height: 44px;
-}
-.mobile-bar-btn:hover { background: rgba(199, 136, 64, .14); color: var(--primary); }
-.mobile-bar-btn svg { color: var(--secondary); flex-shrink: 0; }
-.mobile-bar-book { background: var(--primary); color: var(--on-primary); }
-.mobile-bar-book:hover { background: var(--peach-400); color: var(--on-primary); }
-.mobile-bar-book svg { color: var(--on-primary); }
-
-@media (min-width: 900px) { .mobile-bar { display: none; } }
-@media (max-width: 899px) { body { padding-bottom: 60px; } }
 
 /* ---------- Reveal on scroll ---------- */
 .reveal {
