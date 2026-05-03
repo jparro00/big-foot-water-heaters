@@ -154,35 +154,49 @@
   </a>
 </section>
 
-<!-- 2 · SAME-DAY -->
-<section class="moment moment--dark" id="promise">
+<!-- 2 · SAME-DAY (peach billboard, color-flipped from rest of deck) -->
+<section class="moment moment--invert" id="promise">
   <div class="moment-inner">
-    <h2 class="moment-display on-dark">Same<span class="hyphen">-</span>day.</h2>
-    <p class="moment-sub on-dark">Call before noon. We install today. The new heater is already on the truck.</p>
+    <h2 class="moment-display moment-display--invert">Same<span class="hyphen">-</span>day.</h2>
+    <p class="moment-sub moment-sub--invert">Call before noon. We install today. The new heater is already on the truck.</p>
   </div>
+  <svg class="bolt-deco" viewBox="0 0 60 100" aria-hidden="true">
+    <path d="M30 6 L8 56 L26 56 L14 94 L52 38 L34 38 L42 6 Z" fill="#0a0805"/>
+  </svg>
 </section>
 
-<!-- 3 · 40 YEARS + the Ingleses -->
-<section class="moment moment--cream moment--asymmetric">
+<!-- 3 · 40 YEARS + the Ingleses (asymmetric + bubble "40" + footprint trail) -->
+<section class="moment moment--cream moment--asymmetric moment--trail">
   <div class="moment-inner">
     <p class="moment-eyebrow">The Ingleses</p>
     <div class="years-stack">
-      <h2 class="moment-display"><span class="big-num">40</span><span class="big-sub">years.</span></h2>
+      <h2 class="moment-display"><span class="big-num big-num--bubble">40</span><span class="big-sub">years.</span></h2>
       <span class="stamp stamp--ages" aria-hidden="true">
         <span class="stamp-line">Est. not</span>
         <span class="stamp-line stamp-line--big">yesterday</span>
       </span>
-      <svg class="footprint footprint--floor" viewBox="0 0 32 40" aria-hidden="true">
+    </div>
+    <p class="moment-sub"><strong>John &amp; Jonathan Ingles.</strong> One family. The company is brand new — the hands are not.</p>
+  </div>
+
+  <!-- Footprint trail walking diagonally across the moment -->
+  <svg class="trail trail--1" viewBox="0 0 32 40" aria-hidden="true"><use href="#fp"/></svg>
+  <svg class="trail trail--2" viewBox="0 0 32 40" aria-hidden="true"><use href="#fp"/></svg>
+  <svg class="trail trail--3" viewBox="0 0 32 40" aria-hidden="true"><use href="#fp"/></svg>
+  <svg class="trail trail--4" viewBox="0 0 32 40" aria-hidden="true"><use href="#fp"/></svg>
+  <svg class="trail trail--5" viewBox="0 0 32 40" aria-hidden="true"><use href="#fp"/></svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="fp" viewBox="0 0 32 40">
         <ellipse cx="16" cy="27" rx="9" ry="11"/>
         <circle cx="8" cy="11" r="2.4"/>
         <circle cx="13" cy="6" r="2.6"/>
         <circle cx="19" cy="6" r="2.6"/>
         <circle cx="24" cy="11" r="2.4"/>
         <circle cx="27" cy="16" r="1.8"/>
-      </svg>
-    </div>
-    <p class="moment-sub"><strong>John &amp; Jonathan Ingles.</strong> One family. The company is brand new — the hands are not.</p>
-  </div>
+      </symbol>
+    </defs>
+  </svg>
 </section>
 
 <!-- 4 · PRICING -->
@@ -214,8 +228,8 @@
   </div>
 </section>
 
-<!-- 5 · THE BAR -->
-<section class="moment moment--bar" id="bar">
+<!-- 5 · THE BAR (poster pasted onto a wall — tape decorations) -->
+<section class="moment moment--bar moment--posted" id="bar">
   <div class="moment-inner bar-inner">
     <div class="bar-mascot" aria-hidden="true">
       <svg viewBox="0 0 80 80" width="72" height="72">
@@ -244,8 +258,8 @@
   </div>
 </section>
 
-<!-- 6 · YOUR CITY -->
-<section class="moment moment--cream">
+<!-- 6 · YOUR CITY (topographic-contour bg, implies the map) -->
+<section class="moment moment--cream moment--map">
   <div class="moment-inner">
     <p class="moment-eyebrow">The service area</p>
     <h2 class="moment-display-md"><span class="accent">[Your City]</span><br/>and surrounding.</h2>

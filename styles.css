@@ -282,6 +282,37 @@ p { margin: 0; }
     radial-gradient(50% 60% at 100% 0%, rgba(185, 184, 112, .08), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(110, 108, 51, .28), transparent 60%);
 }
+
+/* INVERT moment — peach billboard, near-black type. The deck's color
+   block to break up the dark monotony. */
+.moment--invert {
+  background: var(--cream);
+  color: var(--bg-base);
+}
+.moment-display--invert {
+  color: var(--bg-base);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .25), 0 8px 24px rgba(10, 8, 5, .12);
+}
+.moment-sub--invert {
+  color: rgba(10, 8, 5, .82);
+}
+.moment--invert .hyphen { color: var(--olive-700); }
+/* Big lightning bolt floating in the corner of the inverted moment */
+.bolt-deco {
+  position: absolute;
+  top: clamp(40px, 6vw, 80px);
+  right: clamp(20px, 5vw, 80px);
+  width: clamp(40px, 7vw, 90px);
+  height: auto;
+  opacity: .9;
+  transform: rotate(14deg);
+  filter: drop-shadow(2px 4px 0 rgba(110, 108, 51, .35));
+  pointer-events: none;
+  z-index: 0;
+}
+@media (max-width: 760px) {
+  .bolt-deco { top: 16px; right: 16px; opacity: .8; }
+}
 .moment--cream + .moment--cream { padding-top: 0; }
 .moment--dark + .moment--dark { padding-top: 0; }
 
@@ -333,14 +364,35 @@ p { margin: 0; }
 
 /* Stylized 40 with the small "years." label */
 .big-num { display: inline-block; }
+
+/* Bubble variant — Modak callback to the brand mark, used ONLY on the
+   "40" so the moment has its own visual identity. */
+.big-num--bubble {
+  font-family: "Modak", "Cinzel", Georgia, serif;
+  font-weight: 400;
+  color: var(--cream);
+  -webkit-text-stroke: 4px var(--olive-700);
+  text-stroke: 4px var(--olive-700);
+  paint-order: stroke fill;
+  letter-spacing: 0;
+  text-shadow: 8px 8px 0 var(--olive-800);
+}
+@media (min-width: 760px) {
+  .big-num--bubble {
+    -webkit-text-stroke-width: 6px;
+    text-stroke-width: 6px;
+    text-shadow: 12px 12px 0 var(--olive-800);
+  }
+}
+
 .big-sub {
   font-family: var(--font-display);
   font-size: .35em;
   font-weight: 700;
   font-style: italic;
-  letter-spacing: -.02em;
-  color: var(--ember-600);
-  margin-left: .1em;
+  letter-spacing: 0;
+  color: var(--olive-300);
+  margin-left: .15em;
   vertical-align: .3em;
 }
 
@@ -451,6 +503,44 @@ p { margin: 0; }
    like Bigfoot tracked through the page */
 .moment--dark .footprint { fill: var(--olive-300); opacity: .3; }
 .moment--cream .footprint { fill: var(--olive-400); opacity: .38; }
+
+/* Footprint TRAIL — diagonal walk across a moment. Used in the 40
+   years section so it feels like Bigfoot strolled through it. */
+.trail {
+  position: absolute;
+  width: clamp(22px, 2.4vw, 36px);
+  height: auto;
+  fill: var(--olive-400);
+  opacity: .32;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Walking diagonally from bottom-left up to top-right, with subtle
+   rotation variation so it reads as natural, not gridded. */
+.trail--1 { bottom: 10%; left: 5%;  transform: rotate(-26deg); }
+.trail--2 { bottom: 28%; left: 16%; transform: rotate(-14deg); opacity: .28; }
+.trail--3 { top: 50%;    left: 32%; transform: rotate(-2deg);  opacity: .26; }
+.trail--4 { top: 28%;    right: 24%; transform: rotate(14deg); opacity: .24; }
+.trail--5 { top: 8%;     right: 8%;  transform: rotate(26deg); opacity: .22; }
+@media (max-width: 760px) {
+  /* On narrow screens scatter horizontally with less vertical spread */
+  .trail--1 { bottom: 6%;  left: 4%; }
+  .trail--2 { bottom: 26%; left: 78%; }
+  .trail--3 { top: 50%;    left: 6%;  }
+  .trail--4 { top: 30%;    right: 6%; }
+  .trail--5 { top: 8%;     left: 50%; }
+}
+
+/* MAP moment — topographic contour rings as bg pattern. Hints at a
+   service-area map without being literal. */
+.moment--map {
+  background-image:
+    radial-gradient(circle at 18% 32%, transparent 36px, rgba(110, 108, 51, .2) 37px, transparent 38px, transparent 73px, rgba(110, 108, 51, .15) 74px, transparent 75px, transparent 110px, rgba(110, 108, 51, .12) 111px, transparent 112px, transparent 147px, rgba(110, 108, 51, .08) 148px, transparent 149px),
+    radial-gradient(circle at 78% 68%, transparent 48px, rgba(110, 108, 51, .18) 49px, transparent 50px, transparent 95px, rgba(110, 108, 51, .14) 96px, transparent 97px, transparent 142px, rgba(110, 108, 51, .1) 143px, transparent 144px),
+    radial-gradient(circle at 60% 18%, transparent 24px, rgba(110, 108, 51, .14) 25px, transparent 26px, transparent 51px, rgba(110, 108, 51, .1) 52px, transparent 53px),
+    radial-gradient(60% 50% at 0% 100%, rgba(136, 135, 71, .07), transparent 60%);
+}
+.moment--map .moment-inner { position: relative; z-index: 1; }
 
 /* Pricing tiles slightly rotated — like a stack of taped-up receipts. */
 @media (min-width: 760px) {
