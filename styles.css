@@ -492,6 +492,11 @@ p { margin: 0; }
   margin-left: auto;
   margin-right: auto;
 }
+/* Mobile: bigfoot's body sits in the lower portion of the section, so
+   anchor the headline near the bottom to land it inside the dome. */
+@media (max-width: 899px) {
+  #promise { align-items: end; padding-bottom: clamp(80px, 18vh, 160px); }
+}
 @keyframes silhouette-drift {
   0%, 100% { transform: translateY(0) scale(1); }
   50%      { transform: translateY(-8px) scale(1.015); }
