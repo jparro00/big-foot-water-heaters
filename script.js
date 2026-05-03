@@ -30,7 +30,7 @@
   // Booking form
   const form = document.getElementById("bookForm");
   const success = document.getElementById("bookSuccess");
-  if (form && success) {
+  if (form) {
     const phoneInput = form.querySelector('input[type="tel"]');
     if (phoneInput) {
       phoneInput.addEventListener("blur", () => {
@@ -52,8 +52,10 @@
       // fetch("/api/lead", { method: "POST", body: JSON.stringify(data) })
 
       form.hidden = true;
-      success.hidden = false;
-      success.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (success) {
+        success.hidden = false;
+        success.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     });
   }
 

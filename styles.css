@@ -4,24 +4,12 @@
    One idea, big type, lots of air. Apple/Linear/Stripe school.
    ========================================================= */
 
-/* Ore Crusher — display face for the hero wordmark. Iconian Fonts;
-   freeware for personal use, commercial use requires donation per
-   iconian.com/commercial.html. Two variants are loaded:
-     - "Ore Crusher" (Regular)   — solid filled letterforms.
-     - "Ore Crusher 3D" (Regular) — hollow chunky outline + 3D depth.
-   The lockup uses both as overlapping layers: Regular underneath as a
-   brown fill, 3D on top via a ::after pseudo-element. They share glyph
-   geometry so they align. */
+/* Ore Crusher Regular — display face for the hero wordmark and the
+   "40 years" numeral. Iconian Fonts; freeware for personal use, commercial
+   use requires donation per iconian.com/commercial.html. */
 @font-face {
   font-family: "Ore Crusher";
   src: url("fonts/OreCrusher-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Ore Crusher 3D";
-  src: url("fonts/OreCrusher-3DRegular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -209,7 +197,6 @@
 
   --font-display: "Cinzel", "Trajan Pro", "Iowan Old Style", Georgia, serif;
   --font-sans: "Bricolage Grotesque", "Söhne", "Helvetica Neue", system-ui, sans-serif;
-  --font-hand: "Caveat", "Marker Felt", "Bradley Hand", cursive;
 }
 
 
@@ -604,7 +591,7 @@ p { margin: 0; }
    this uses a white face with dark stroke). Same family, distinct
    treatment. */
 .big-num--bubble {
-  font-family: "Ore Crusher", "Modak", "Cinzel", Georgia, serif;
+  font-family: "Ore Crusher", "Cinzel", Georgia, serif;
   font-weight: 400;
   font-size: clamp(7rem, 22vw, 14rem);
   color: var(--surface-container-lowest);
@@ -654,14 +641,15 @@ p { margin: 0; }
   align-items: center;
 }
 .portrait-grid .portrait { justify-self: center; }
-.portrait-grid .years-block { text-align: center; }
+.portrait-grid .years-block { text-align: center; order: -1; }
 @media (min-width: 820px) {
   .portrait-grid {
     grid-template-columns: minmax(280px, 1fr) minmax(0, 1.25fr);
     text-align: left;
   }
   .portrait-grid .portrait { justify-self: start; }
-  .portrait-grid .years-block { text-align: left; }
+  /* Restore source order on desktop so portrait sits left, years-block right. */
+  .portrait-grid .years-block { text-align: left; order: 0; }
   .portrait-grid .moment-sub { margin-left: 0; }
   .portrait-grid .years-stack { text-align: left; }
 }
@@ -769,8 +757,10 @@ p { margin: 0; }
 }
 
 .portrait-caption {
-  font-family: var(--font-hand);
-  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
   color: var(--cream);
   transform: rotate(-1.5deg);
   letter-spacing: 0;
@@ -1106,7 +1096,7 @@ p { margin: 0; }
    so the outline drifted off the fill. CSS text-shadow guarantees
    alignment because it's a single rendering. */
 .lockup-line {
-  font-family: "Ore Crusher", "Rubik Wet Paint", "Modak", Georgia, serif;
+  font-family: "Ore Crusher", "Cinzel", Georgia, serif;
   font-weight: 400;
   letter-spacing: .015em;
   color: var(--brand-wordmark);

@@ -17,3 +17,15 @@ npm-debug.log*
 dist/
 build/
 *.log
+
+# Claude Code local settings
+.claude/
+
+# Source archives — extracted assets live in /fonts already
+*.zip
+
+# Working/source artifacts (not part of the deployed site)
+server.py
+trace_bigfoot.py
+bigfoot.svg
+bigfoot silhouette.png
