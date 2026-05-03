@@ -146,7 +146,7 @@
      because brand identity is allowed to specify hue + tone directly,
      unlike system colors which must go through roles. */
 
-  --brand-wordmark:        var(--peach-800);   /* deep chocolate brown */
+  --brand-wordmark:        #ffffff;             /* white face — reads against the brown extrusion shadow */
   --brand-wordmark-shadow: var(--peach-900);   /* darker brown — 3D extrusion depth */
 
   /* ---------- LEGACY ALIASES (back-compat) ----------
