@@ -1,6 +1,17 @@
 /* Big Foot Water Heaters — interactive behaviors */
 
 (() => {
+  // Refresh always lands at the top, even if a previous in-page click
+  // (Book / Pricing / etc.) left a #fragment in the URL. Without this
+  // the browser re-jumps to that section on every reload, which reads
+  // as the page being broken — the user's complaint was "refreshing
+  // takes me down to the booking form". Cleared via replaceState so the
+  // back button isn't polluted.
+  if (window.location.hash) {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+    window.scrollTo(0, 0);
+  }
+
   // Year in footer
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -14,23 +25,6 @@
     };
     document.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-  }
-
-  // Mobile nav
-  const toggle = document.querySelector(".nav-toggle");
-  const mobileNav = document.getElementById("mobileNav");
-  if (toggle && mobileNav) {
-    const setOpen = (open) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      mobileNav.hidden = !open;
-    };
-    toggle.addEventListener("click", () => {
-      const expanded = toggle.getAttribute("aria-expanded") === "true";
-      setOpen(!expanded);
-    });
-    mobileNav.querySelectorAll("a").forEach((a) =>
-      a.addEventListener("click", () => setOpen(false))
-    );
   }
 
   // Booking form
@@ -63,16 +57,15 @@
     });
   }
 
-  // Reveal-on-scroll for the moment-deck
+  // Reveal-on-scroll — one accent element per moment, not a blanket
+  // fade-up on every text node. Hero choreography stays special.
   const revealTargets = document.querySelectorAll(
-    ".moment-eyebrow, .moment-display, .moment-display-md, .moment-sub, .hero-h1, .hero-sub, .hero-ctas, .hero-mascot, .price-tile, .bar-verse, .bar-mascot, .bar-attrib, .areas-tags, .book-pitch, .book-form"
+    ".moment:not(.moment--hero) .moment-display, " +
+    ".moment:not(.moment--hero) .moment-display-md, " +
+    ".bar-verse, .price-row, .areas-tags, .book-form"
   );
-  if ("IntersectionObserver" in window) {
-    revealTargets.forEach((el, i) => {
-      el.classList.add("reveal");
-      // tiny stagger for elements within the same moment
-      el.style.transitionDelay = `${(i % 4) * 60}ms`;
-    });
+  if ("IntersectionObserver" in window && revealTargets.length) {
+    revealTargets.forEach((el) => el.classList.add("reveal"));
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -82,7 +75,7 @@
           }
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -80px 0px" }
     );
     revealTargets.forEach((el) => io.observe(el));
   }

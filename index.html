@@ -14,9 +14,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Modak&family=Cinzel:wght@500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Modak&family=Cinzel:wght@500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Caveat:wght@500;700&family=Rubik+Wet+Paint&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/bigfoot/styles.css" />
 
   <script type="application/ld+json">
   {
@@ -29,16 +29,7 @@
     "description": "Bigfoot Water Heaters and Plumbing — same-day water heater install, full plumbing service. Flat-rate pricing. 40 years of plumbing from John & Jonathan Ingels.",
     "telephone": "(555) 123-4567",
     "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "[Your Street]",
-      "addressLocality": "[Your City]",
-      "addressRegion": "[ST]",
-      "postalCode": "[ZIP]",
-      "addressCountry": "US"
-    },
     "openingHours": "Mo-Su 07:00-20:00",
-    "areaServed": ["[Your City]", "[Nearby City 1]", "[Nearby City 2]"],
     "makesOffer": [
       { "@type": "Offer", "name": "Tank Water Heater Replacement" },
       { "@type": "Offer", "name": "Tankless Water Heater Installation" },
@@ -47,6 +38,18 @@
     ]
   }
   </script>
+  <!-- TODO: before launch, add real "address" and "areaServed" blocks
+       to the JSON-LD above. Example shape:
+         "address": {
+           "@type": "PostalAddress",
+           "streetAddress": "123 Main St",
+           "addressLocality": "Yourtown",
+           "addressRegion": "CA",
+           "postalCode": "90000",
+           "addressCountry": "US"
+         },
+         "areaServed": ["Yourtown", "Nearbytown", "Anothertown"]
+  -->
 </head>
 <body>
 
@@ -75,7 +78,7 @@
     <nav class="nav" aria-label="Primary">
       <a href="#promise">Same-day</a>
       <a href="#pricing">Pricing</a>
-      <a href="#bar">Bigfoot</a>
+      <a href="#map">Service area</a>
       <a href="#book">Book</a>
     </nav>
 
@@ -95,7 +98,7 @@
 <section class="moment moment--hero" id="top">
   <div class="moment-inner hero-inner">
 
-    <p class="moment-eyebrow"><span class="dot"></span> Same-day install · Call before noon</p>
+    <p class="moment-eyebrow"><span class="dot" aria-hidden="true"></span><span class="moment-eyebrow-text">Same-day install&nbsp;·&nbsp;Call before noon</span></p>
 
     <div class="lockup" aria-label="Bigfoot Water Heaters and Plumbing">
       <svg class="lockup-face" viewBox="0 0 240 230" aria-hidden="true">
@@ -174,14 +177,79 @@
     <figure class="portrait">
       <div class="portrait-frame">
         <img class="portrait-img"
-             src="ingels.jpg"
+             src="/bigfoot/ingels.jpg"
              alt="John and Jonathan Ingels"
              loading="lazy"
              onerror="this.onerror=null; this.classList.add('is-missing');" />
-        <div class="portrait-placeholder" aria-hidden="true">
-          <span class="portrait-placeholder-eyebrow">Photo</span>
-          <strong>John &amp;<br/>Jonathan</strong>
-          <span class="portrait-placeholder-note">drop ingels.jpg in project root</span>
+        <div class="portrait-fallback" aria-hidden="true">
+          <svg class="portrait-fallback-art" viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="cardWeave" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="6" height="6" fill="#3a4225"/>
+                <line x1="0" y1="0" x2="0" y2="6" stroke="#4a5330" stroke-width="1"/>
+              </pattern>
+              <radialGradient id="cardGlow" cx="50%" cy="40%" r="65%">
+                <stop offset="0%" stop-color="#75814d" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#2a3018" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="240" height="300" fill="url(#cardWeave)"/>
+            <rect width="240" height="300" fill="url(#cardGlow)"/>
+            <!-- horizon line -->
+            <line x1="0" y1="232" x2="240" y2="232" stroke="#d6dcb6" stroke-width=".75" opacity=".25"/>
+
+            <!-- LEFT figure: John (older, taller) -->
+            <g transform="translate(74 0)">
+              <!-- pipe wrench leaning against shoulder -->
+              <g stroke="#d6dcb6" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".7">
+                <line x1="-22" y1="118" x2="-2" y2="220"/>
+              </g>
+              <rect x="-26" y="108" width="12" height="20" rx="2" fill="#d6dcb6" opacity=".7"/>
+              <!-- head -->
+              <circle cx="0" cy="92" r="20" fill="#d6dcb6"/>
+              <!-- cap brim -->
+              <path d="M-22 86 Q0 70 22 86 L20 78 Q0 64 -20 78 Z" fill="#0e0a06"/>
+              <path d="M-22 86 Q0 80 22 86 L22 88 Q0 82 -22 88 Z" fill="#15110b"/>
+              <!-- mustache -->
+              <path d="M-9 100 Q0 104 9 100 Q5 105 0 105 Q-5 105 -9 100 Z" fill="#0e0a06" opacity=".75"/>
+              <!-- shirt / overalls -->
+              <path d="M-30 112 L-30 232 L30 232 L30 112 Q30 108 24 108 L20 108 Q14 116 0 116 Q-14 116 -20 108 L-24 108 Q-30 108 -30 112 Z" fill="#4a5330"/>
+              <!-- overall straps -->
+              <rect x="-14" y="116" width="6" height="48" fill="#3a4225"/>
+              <rect x="8" y="116" width="6" height="48" fill="#3a4225"/>
+              <!-- buckle -->
+              <rect x="-15" y="158" width="8" height="6" fill="#eab947" opacity=".85"/>
+              <rect x="7" y="158" width="8" height="6" fill="#eab947" opacity=".85"/>
+              <!-- pocket -->
+              <rect x="-10" y="172" width="20" height="20" fill="#3a4225"/>
+              <line x1="-10" y1="180" x2="10" y2="180" stroke="#2a3018" stroke-width="1"/>
+            </g>
+
+            <!-- RIGHT figure: Jonathan (younger, slightly smaller) -->
+            <g transform="translate(160 14)">
+              <!-- head -->
+              <circle cx="0" cy="92" r="18" fill="#d6dcb6"/>
+              <!-- cap -->
+              <path d="M-20 86 Q0 72 20 86 L19 79 Q0 66 -19 79 Z" fill="#0e0a06"/>
+              <!-- beard hint -->
+              <path d="M-12 102 Q0 116 12 102 Q8 110 0 111 Q-8 110 -12 102 Z" fill="#0e0a06" opacity=".55"/>
+              <!-- shirt -->
+              <path d="M-26 110 L-26 218 L26 218 L26 110 Q26 106 22 106 L18 106 Q12 114 0 114 Q-12 114 -18 106 L-22 106 Q-26 106 -26 110 Z" fill="#5e6a3e"/>
+              <!-- collar -->
+              <path d="M-8 112 L0 124 L8 112 L4 112 L0 118 L-4 112 Z" fill="#3a4225"/>
+              <!-- pocket -->
+              <rect x="-22" y="138" width="14" height="18" fill="#4a5330"/>
+              <!-- pen in pocket -->
+              <line x1="-15" y1="138" x2="-15" y2="148" stroke="#eab947" stroke-width="2" stroke-linecap="round"/>
+            </g>
+
+            <!-- Soft floor shadow tying them together -->
+            <ellipse cx="120" cy="234" rx="92" ry="6" fill="#0e0a06" opacity=".35"/>
+          </svg>
+          <div class="portrait-fallback-meta">
+            <span class="portrait-fallback-eyebrow">John &amp; Jonathan Ingels</span>
+            <span class="portrait-fallback-line">Plumbers · Father &amp; Son</span>
+          </div>
         </div>
         <span class="stamp stamp--postmark" aria-hidden="true">
           <span class="stamp-line">Est. not</span>
@@ -193,7 +261,10 @@
 
     <div class="years-block">
       <div class="years-stack">
-        <h2 class="moment-display"><span class="big-num big-num--bubble">40</span><span class="big-sub">years.</span></h2>
+        <h2 class="moment-display years-display">
+          <span class="big-num big-num--bubble">40</span>
+          <span class="big-sub">years.</span>
+        </h2>
       </div>
       <p class="moment-sub"><strong>John &amp; Jonathan Ingels.</strong> Two generations of plumbers.</p>
     </div>
@@ -265,10 +336,10 @@
     </div>
     <p class="moment-eyebrow on-dark">Bigfoot says</p>
     <blockquote class="bar-verse">
-      <span>"Bigfoot ditched his old tank —</span>
+      <span>Bigfoot ditched his old tank —</span>
       <span>now he's <em>tankless.</em></span>
       <span>Don't get caught with</span>
-      <span class="accent-orange">pre-historic plumbing."</span>
+      <span class="accent-orange">pre-historic plumbing.</span>
     </blockquote>
     <p class="bar-attrib">— Bigfoot · John &amp; Jonathan Ingels</p>
 
@@ -279,11 +350,46 @@
   </div>
 </section>
 
-<!-- 6 · YOUR CITY (topographic-contour bg, implies the map) -->
-<section class="moment moment--cream moment--map">
-  <div class="moment-inner">
+<!-- 6 · YOUR CITY — real SVG topographic contours behind the headline -->
+<section class="moment moment--cream moment--map" id="map">
+  <svg class="map-topo" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="topoFade" cx="50%" cy="50%" r="55%">
+        <stop offset="0%" stop-color="#d6dcb6" stop-opacity=".22"/>
+        <stop offset="60%" stop-color="#8b9461" stop-opacity=".12"/>
+        <stop offset="100%" stop-color="#0e0a06" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g fill="none" stroke="#8b9461" stroke-width="1.1" opacity=".55">
+      <!-- Center cluster — irregular concentric blobs around the pin -->
+      <path d="M520,330 C540,300 600,290 640,310 C690,330 700,380 670,400 C640,420 560,420 530,400 C500,380 500,360 520,330 Z"/>
+      <path d="M490,310 C520,265 615,255 670,285 C725,315 735,395 690,425 C645,455 540,450 500,420 C460,390 460,355 490,310 Z"/>
+      <path d="M455,290 C495,235 645,220 710,260 C770,300 785,420 720,455 C655,490 525,485 470,445 C415,405 415,345 455,290 Z" opacity=".7"/>
+      <path d="M420,265 C475,200 685,185 760,235 C825,280 840,455 750,490 C660,525 510,520 440,475 C375,430 365,330 420,265 Z" opacity=".55"/>
+      <path d="M380,240 C455,170 720,155 805,210 C880,260 895,490 780,530 C660,570 495,565 410,510 C330,460 305,310 380,240 Z" opacity=".4"/>
+      <!-- Outer smaller ridges around the canvas to sell the "field map" feel -->
+      <path d="M120,150 C160,130 220,135 250,160 C275,180 270,210 240,225 C200,245 130,235 110,210 C95,190 100,165 120,150 Z" opacity=".4"/>
+      <path d="M90,135 C145,110 240,115 285,150 C320,180 310,235 265,255 C210,278 110,265 80,230 C60,205 65,155 90,135 Z" opacity=".25"/>
+      <path d="M970,510 C1010,490 1080,500 1110,530 C1135,555 1125,595 1085,610 C1035,628 960,615 940,585 C925,565 935,525 970,510 Z" opacity=".35"/>
+      <path d="M945,495 C1000,470 1110,480 1145,520 C1175,555 1160,615 1105,640 C1040,668 935,650 905,610 C880,580 895,520 945,495 Z" opacity=".22"/>
+      <path d="M880,80 C920,65 985,75 1015,105 C1040,130 1030,170 985,185 C935,200 870,185 850,160 C835,140 845,95 880,80 Z" opacity=".3"/>
+      <!-- Faint long ridges suggesting roads -->
+      <path d="M0,520 Q300,460 580,540 T1200,500" opacity=".18"/>
+      <path d="M0,180 Q280,260 520,180 T1200,260" opacity=".15"/>
+    </g>
+    <!-- Center fade so the headline reads cleanly over it -->
+    <rect width="1200" height="700" fill="url(#topoFade)"/>
+    <!-- Pin at the heart of the contour cluster -->
+    <g transform="translate(595 360)">
+      <circle r="34" fill="#e8a25a" opacity=".18"/>
+      <circle r="20" fill="#e8a25a" opacity=".32"/>
+      <path d="M0,-22 C8,-22 14,-16 14,-8 C14,2 0,18 0,18 C0,18 -14,2 -14,-8 C-14,-16 -8,-22 0,-22 Z" fill="#e8a25a"/>
+      <circle cy="-9" r="4.5" fill="#0e0a06"/>
+    </g>
+  </svg>
+  <div class="moment-inner map-inner">
     <p class="moment-eyebrow">The service area</p>
-    <h2 class="moment-display-md"><span class="accent">[Your City]</span><br/>and surrounding.</h2>
+    <h2 class="moment-display-md map-headline"><span class="accent">[Your City]</span><br/><span class="map-headline-sub">and surrounding.</span></h2>
     <div class="areas-tags">
       <span>[Your City]</span>
       <span>[Nearby 1]</span>
@@ -392,6 +498,6 @@
   </a>
 </div>
 
-<script src="script.js"></script>
+<script src="/bigfoot/script.js"></script>
 </body>
 </html>

@@ -18,16 +18,6 @@
   --bg-elevated: #2a241a;
   --bg-island:   #0e0a06;   /* deepest dark for highest contrast */
 
-  /* Legacy --green-* aliases collapse onto canvas tones */
-  --green-900: #0e0a06;
-  --green-800: #15110b;
-  --green-700: #1a1610;
-  --green-600: #211c14;
-  --green-500: #2a241a;
-  --green-200: #3a342a;
-  --green-100: #524a3c;
-  --green-50:  #6a604f;
-
   /* SAGE OLIVE — green-leaning, not muddy yellow. Used for headlines,
      accents, eyebrow text, the bigfoot brand body. */
   --olive-900: #2a3018;
@@ -39,14 +29,6 @@
   --olive-300: #a3ac7c;
   --olive-200: #bcc497;
   --olive-100: #d6dcb6;
-
-  --ember-800: var(--olive-800);
-  --ember-700: var(--olive-700);
-  --ember-600: var(--olive-600);
-  --ember-500: var(--olive-500);
-  --ember-400: var(--olive-400);
-  --ember-300: var(--olive-300);
-  --ember-100: var(--olive-100);
 
   /* PEACH PUNCH — single accent color used sparingly: bubble lockup
      fill, primary CTAs, hero highlights. Hits hard because it's rare. */
@@ -142,9 +124,18 @@ p { margin: 0; }
   font-size: .8rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase;
   color: var(--peach-500);
   margin: 0 0 clamp(20px, 3vw, 40px);
+  max-width: 100%;
+}
+.moment-eyebrow .moment-eyebrow-text {
+  /* Allow the text to wrap, but keep the dot visually tied to the
+     first line so it never orphans on its own row at narrow widths. */
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .moment-eyebrow.on-dark { color: var(--peach-500); }
 .moment-eyebrow .dot {
+  flex: 0 0 auto;
+  align-self: center;
   width: 8px; height: 8px; border-radius: 50%; background: var(--peach-500);
   box-shadow: 0 0 0 0 rgba(232, 162, 90, .6);
   animation: pulse 2.2s infinite;
@@ -208,9 +199,12 @@ p { margin: 0; }
 .brand:hover { color: var(--peach-400); }
 .brand-mark { color: var(--olive-400); display: inline-flex; }
 .brand-mark svg { width: 36px; height: 36px; }
-.brand-text { display: inline-flex; flex-direction: column; line-height: 1; gap: 2px; }
-.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; letter-spacing: .02em; text-transform: uppercase; }
-.brand-line-2 { display: none; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--olive-300); }
+.brand-text { display: inline-flex; flex-direction: column; line-height: 1.05; gap: 2px; min-width: 0; }
+.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .02em; text-transform: uppercase; }
+/* Always visible — on mobile we hide the right-side header CTAs (the
+   sticky bottom bar carries Call/Text/Book), so the title has room
+   for the subtitle. */
+.brand-line-2 { display: inline; font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--olive-300); white-space: nowrap; }
 
 .nav { display: none; gap: 28px; margin-left: auto; }
 .nav a {
@@ -226,7 +220,11 @@ p { margin: 0; }
 .nav a:hover::after { transform: scaleX(1); }
 
 .header-cta {
-  display: inline-flex; align-items: center; gap: 8px;
+  /* Hidden on mobile — the sticky bottom bar already has Call/Text/Book
+     and showing them in the header too is just visual noise. Promoted
+     back to inline-flex at the desktop breakpoint below. */
+  display: none;
+  align-items: center; gap: 8px;
   margin-left: auto;
 }
 .btn-phone {
@@ -245,9 +243,9 @@ p { margin: 0; }
   .header-row { height: 76px; gap: 20px; }
   .brand-mark svg { width: 44px; height: 44px; }
   .brand-line-1 { font-size: 1.25rem; }
-  .brand-line-2 { display: inline; }
+  .brand-line-2 { font-size: .7rem; letter-spacing: .18em; }
   .nav { display: flex; }
-  .header-cta { gap: 14px; margin-left: 24px; }
+  .header-cta { display: inline-flex; gap: 14px; margin-left: 24px; }
   .btn-phone {
     width: auto; height: auto;
     border: 0; padding: 0;
@@ -379,41 +377,56 @@ p { margin: 0; }
 .moment-sub strong { color: var(--peach-400); font-weight: 700; }
 
 /* Subtle hyphen styling so "Same-day" reads cleanly at huge size */
-.hyphen { color: var(--ember-500); display: inline-block; transform: translateY(-.08em); margin: 0 -.02em; }
+.hyphen { color: var(--olive-500); display: inline-block; transform: translateY(-.08em); margin: 0 -.02em; }
 
 /* Stylized 40 with the small "years." label */
 .big-num { display: inline-block; }
 
+/* "40 / years." — bubble numeral stacked above an italic Cinzel label.
+   Stacking eliminates the shadow-into-letterform collision that
+   happened when "40" + "years." sat on the same line. */
+.years-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 28px);
+  line-height: 1;
+}
+@media (min-width: 820px) {
+  .portrait-grid .years-display { align-items: flex-start; }
+}
+
 /* Bubble variant — Modak callback, used ONLY on the "40" so the moment
-   has its own visual identity. Peach fill on dark canvas with olive
-   shadow, mirroring the hero lockup's treatment. */
+   has its own visual identity. White fill on dark canvas with olive
+   shadow, mirroring the hero lockup's treatment. Shadow is restrained
+   so it reads as depth, not a misregistered print run. */
 .big-num--bubble {
   font-family: "Modak", "Cinzel", Georgia, serif;
   font-weight: 400;
-  color: var(--peach-500);
+  font-size: clamp(7rem, 22vw, 14rem);
+  color: #ffffff;
   -webkit-text-stroke: 4px var(--bg-island);
   text-stroke: 4px var(--bg-island);
   paint-order: stroke fill;
   letter-spacing: 0;
-  text-shadow: 8px 8px 0 var(--olive-700);
+  line-height: .85;
+  text-shadow: 5px 5px 0 var(--olive-700);
 }
 @media (min-width: 760px) {
   .big-num--bubble {
     -webkit-text-stroke-width: 6px;
     text-stroke-width: 6px;
-    text-shadow: 12px 12px 0 var(--olive-700);
+    text-shadow: 7px 7px 0 var(--olive-700);
   }
 }
 
 .big-sub {
   font-family: var(--font-display);
-  font-size: .35em;
+  font-size: clamp(1.6rem, 3.6vw, 2.4rem);
   font-weight: 700;
   font-style: italic;
-  letter-spacing: 0;
-  color: var(--olive-400);
-  margin-left: .15em;
-  vertical-align: .3em;
+  letter-spacing: .02em;
+  color: var(--olive-300);
 }
 
 /* =========================================================
@@ -470,14 +483,16 @@ p { margin: 0; }
     0 1px 0 rgba(0, 0, 0, .15),
     0 14px 30px rgba(0, 0, 0, .45),
     0 28px 60px rgba(0, 0, 0, .35);
-  transform: rotate(-2deg);
+  /* Near-vertical so it reads as the anchor; the postmark stamp
+     carries the deliberate -12deg tilt as the accent. */
+  transform: rotate(-1deg);
   border-radius: 2px;
   overflow: visible;
 }
 @media (min-width: 820px) {
   .portrait-frame {
     width: clamp(280px, 32vw, 400px);
-    transform: rotate(-3deg);
+    transform: rotate(-1.2deg);
   }
 }
 /* Tape strip pinning the polaroid */
@@ -503,46 +518,51 @@ p { margin: 0; }
 }
 .portrait-img.is-missing { display: none; }
 
-/* Placeholder shown when ingels.jpg isn't in the project yet —
-   stays designed-looking instead of broken. Once the image loads
-   successfully this stays hidden behind it. */
-.portrait-placeholder {
+/* Designed fallback shown when ingels.jpg isn't in the project. Reads
+   as an intentional editorial illustration, not a missing-asset state.
+   Hidden once a real photo successfully loads. */
+.portrait-fallback {
   position: absolute;
   inset: 14px 14px 56px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background:
-    linear-gradient(160deg, var(--olive-700), var(--olive-900));
-  color: var(--cream);
-  font-family: var(--font-display);
-  gap: 8px;
-  padding: 20px;
+  background: var(--olive-800);
+  overflow: hidden;
 }
-.portrait-img:not(.is-missing) + .portrait-placeholder { display: none; }
-.portrait-placeholder-eyebrow {
-  font-size: .7rem;
+.portrait-img:not(.is-missing) + .portrait-fallback { display: none; }
+.portrait-fallback-art {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.portrait-fallback-meta {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  background:
+    linear-gradient(to top, rgba(14, 10, 6, .92), rgba(14, 10, 6, 0));
+  color: var(--cream);
+}
+.portrait-fallback-eyebrow {
+  font-family: var(--font-display);
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--cream);
+}
+.portrait-fallback-line {
+  font-family: var(--font-display);
+  font-size: .62rem;
   font-weight: 500;
-  letter-spacing: .26em;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--olive-200);
-}
-.portrait-placeholder strong {
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: .01em;
-}
-.portrait-placeholder-note {
-  margin-top: 12px;
-  font-family: var(--font-sans);
-  font-style: italic;
-  font-size: .72rem;
-  color: rgba(214, 220, 182, .55);
-  letter-spacing: .04em;
-  text-transform: none;
 }
 
 .portrait-caption {
@@ -635,7 +655,7 @@ p { margin: 0; }
   position: absolute;
   bottom: 8%;
   right: clamp(16px, 4vw, 60px);
-  color: var(--ember-300);
+  color: var(--olive-300);
   background: rgba(12, 36, 24, .6);
   font-size: clamp(.7rem, 1.1vw, .9rem);
   transform: rotate(8deg);
@@ -696,16 +716,46 @@ p { margin: 0; }
   .trail--5 { top: 8%;     left: 50%; }
 }
 
-/* MAP moment — topographic contour rings on the dark canvas. Olive
-   lines glow softly at low opacity for the field-guide map feel. */
+/* MAP moment — inline-SVG contour map sits behind the headline,
+   peach pin marks the center. Headline + tags wrap cleanly so any
+   real city name (long or short) drops in without overflow. */
 .moment--map {
   background-image:
-    radial-gradient(circle at 18% 32%, transparent 36px, rgba(139, 148, 97, .14) 37px, transparent 38px, transparent 73px, rgba(139, 148, 97, .12) 74px, transparent 75px, transparent 110px, rgba(139, 148, 97, .09) 111px, transparent 112px, transparent 147px, rgba(139, 148, 97, .07) 148px, transparent 149px),
-    radial-gradient(circle at 78% 68%, transparent 48px, rgba(139, 148, 97, .12) 49px, transparent 50px, transparent 95px, rgba(139, 148, 97, .1) 96px, transparent 97px, transparent 142px, rgba(139, 148, 97, .07) 143px, transparent 144px),
-    radial-gradient(circle at 60% 18%, transparent 24px, rgba(139, 148, 97, .1) 25px, transparent 26px, transparent 51px, rgba(139, 148, 97, .07) 52px, transparent 53px),
+    radial-gradient(60% 50% at 100% 0%, rgba(74, 83, 48, .25), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(232, 162, 90, .08), transparent 60%);
 }
-.moment--map .moment-inner { position: relative; z-index: 1; }
+.map-topo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .9;
+}
+.moment--map .moment-inner,
+.moment--map .map-inner { position: relative; z-index: 1; }
+
+.map-headline {
+  /* Allow long real city names to shrink before they overflow. */
+  font-size: clamp(2.4rem, 8vw, 5.6rem);
+  line-height: 1.05;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.map-headline .accent {
+  display: inline-block;
+  max-width: 100%;
+}
+.map-headline-sub {
+  display: inline-block;
+  font-size: .68em;
+  color: var(--cream);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .005em;
+}
 
 /* Pricing tiles slightly rotated — like a stack of taped-up receipts. */
 @media (min-width: 760px) {
@@ -813,7 +863,7 @@ p { margin: 0; }
   font-family: "Modak", "Fraunces", Georgia, serif;
   font-weight: 400;
   letter-spacing: .005em;
-  color: var(--peach-500);
+  color: #ffffff;
   -webkit-text-stroke: 3.5px var(--bg-island);
   text-stroke: 3.5px var(--bg-island);
   paint-order: stroke fill;
@@ -918,9 +968,9 @@ p { margin: 0; }
   opacity: .7;
   transition: opacity .2s ease, border-color .2s ease;
 }
-.scroll-hint:hover { opacity: 1; border-color: var(--ember-500); }
+.scroll-hint:hover { opacity: 1; border-color: var(--olive-500); }
 .scroll-hint span {
-  width: 3px; height: 8px; background: var(--ember-500); border-radius: 999px;
+  width: 3px; height: 8px; background: var(--olive-500); border-radius: 999px;
   animation: scroll-bounce 1.6s ease-in-out infinite;
 }
 @keyframes scroll-bounce {
@@ -1017,32 +1067,37 @@ p { margin: 0; }
 .moment--bar .bar-verse em { color: var(--peach-400); }
 .bar-inner {
   max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .bar-mascot {
   display: inline-flex;
-  margin-bottom: 24px;
+  align-self: center;
+  margin: 0 auto 18px;
   filter: drop-shadow(0 8px 20px rgba(0,0,0,.3));
   animation: bob 5.5s ease-in-out infinite;
 }
 .bar-verse {
   margin: 0;
-  font-family: var(--font-hand);
+  /* Rubik Wet Paint — wet, dripping letterforms that read as cave-paint
+     on stone, fitting the "pre-historic plumbing" punchline. */
+  font-family: "Rubik Wet Paint", "Caveat Brush", "Marker Felt", cursive;
   font-style: normal;
-  font-weight: 700;
-  font-size: clamp(2.4rem, 7.5vw, 5rem);
-  line-height: 1.05;
-  letter-spacing: 0;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6.4vw, 4.4rem);
+  line-height: 1.25;
+  letter-spacing: .01em;
   color: var(--cream);
   text-wrap: balance;
-  transform: rotate(-1.2deg);
   text-shadow: 0 2px 0 rgba(0,0,0,.15);
+  max-width: 22ch;
+  margin-inline: auto;
 }
 .bar-verse span {
   display: block;
 }
-.bar-verse span:nth-child(2) { transform: rotate(.8deg) translateX(8px); }
-.bar-verse span:nth-child(3) { transform: rotate(-.6deg); }
-.bar-verse span:nth-child(4) { transform: rotate(1deg) translateX(-12px); }
 .bar-verse em { font-style: normal; color: var(--peach-400); }
 .bar-attrib {
   margin-top: clamp(28px, 4vw, 44px);
@@ -1127,7 +1182,7 @@ p { margin: 0; }
   display: grid; gap: 14px;
   box-shadow: var(--shadow-lg);
 }
-.field label, .field-radio legend {
+.field label {
   display: block;
   font-family: var(--font-display);
   font-size: .78rem; font-weight: 500;
@@ -1135,6 +1190,18 @@ p { margin: 0; }
   margin-bottom: 8px;
   letter-spacing: .12em;
   text-transform: uppercase;
+}
+/* Legend reads as a real question, not as a tiny eyebrow tag, so the
+   form has a conversational tone where it asks for content. */
+.field-radio legend {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-900);
+  margin-bottom: 10px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .field input {
   width: 100%;
@@ -1164,7 +1231,7 @@ p { margin: 0; }
   cursor: pointer;
   transition: border-color .2s ease, background .2s ease, color .2s ease;
 }
-.field-radio > label:hover { border-color: var(--green-500); }
+.field-radio > label:hover { border-color: var(--olive-500); }
 .field-radio input[type="radio"] {
   appearance: none; -webkit-appearance: none;
   width: 14px; height: 14px;
@@ -1174,11 +1241,11 @@ p { margin: 0; }
   cursor: pointer;
   margin: 0;
 }
-.field-radio input[type="radio"]:checked { border-color: var(--ember-600); }
+.field-radio input[type="radio"]:checked { border-color: var(--olive-600); }
 .field-radio input[type="radio"]:checked::after {
-  content: ""; position: absolute; inset: 2px; background: var(--ember-500); border-radius: 50%;
+  content: ""; position: absolute; inset: 2px; background: var(--olive-500); border-radius: 50%;
 }
-.field-radio > label:has(input:checked) { border-color: var(--ember-500); background: var(--ember-100); color: var(--ember-700); font-weight: 600; }
+.field-radio > label:has(input:checked) { border-color: var(--olive-500); background: var(--olive-100); color: var(--olive-700); font-weight: 600; }
 
 .form-fineprint {
   font-size: .8rem; color: var(--ink-500); text-align: center; margin-top: 4px;
