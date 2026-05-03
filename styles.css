@@ -483,6 +483,15 @@ p { margin: 0; }
   position: relative;
   z-index: 1;
 }
+/* Same-day headline must sit inside the silhouette's dome, not spill
+   across it. Smaller scale + a narrow max-width forces the three words
+   to balance into the visible body of the figure. */
+#promise .moment-display {
+  font-size: clamp(2.6rem, 9vw, 5.5rem);
+  max-width: 9ch;
+  margin-left: auto;
+  margin-right: auto;
+}
 @keyframes silhouette-drift {
   0%, 100% { transform: translateY(0) scale(1); }
   50%      { transform: translateY(-8px) scale(1.015); }
