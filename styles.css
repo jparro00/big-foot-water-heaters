@@ -4,6 +4,29 @@
    One idea, big type, lots of air. Apple/Linear/Stripe school.
    ========================================================= */
 
+/* Ore Crusher — display face for the hero wordmark. Iconian Fonts;
+   freeware for personal use, commercial use requires donation per
+   iconian.com/commercial.html. Two variants are loaded:
+     - "Ore Crusher" (Regular)   — solid filled letterforms.
+     - "Ore Crusher 3D" (Regular) — hollow chunky outline + 3D depth.
+   The lockup uses both as overlapping layers: Regular underneath as a
+   brown fill, 3D on top via a ::after pseudo-element. They share glyph
+   geometry so they align. */
+@font-face {
+  font-family: "Ore Crusher";
+  src: url("fonts/OreCrusher-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ore Crusher 3D";
+  src: url("fonts/OreCrusher-3DRegular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* =========================================================
      COLOR SYSTEM — Material Design 3 inspired
@@ -136,7 +159,7 @@
      unlike system colors which must go through roles. */
 
   --brand-wordmark:        var(--peach-800);   /* deep chocolate brown */
-  --brand-wordmark-shadow: var(--peach-500);   /* bright peach offset */
+  --brand-wordmark-shadow: var(--peach-900);   /* darker brown — 3D extrusion depth */
 
   /* ---------- LEGACY ALIASES (back-compat) ----------
      Roles above are the source of truth. Aliases keep older selectors
@@ -390,23 +413,35 @@ p { margin: 0; }
 }
 
 /* =========================================================
-   The MOMENT system — each section is a single beat
-   Desktop: full viewport. Mobile: natural height + padding.
-   Forcing 100vh on phones wastes screen and makes the sticky
-   header feel oversized when content is small.
+   The MOMENT system — each section is a single beat. Each moment
+   sized to the *visible* viewport (the slice between the sticky
+   header at top and the fixed bar at bottom on mobile / just
+   under the header on desktop). Content is sized at its natural
+   scale; if a moment's content needs more room than that, the
+   moment grows taller (min-height, not height). No scroll-snap —
+   that fights the user's natural scroll feel.
    ========================================================= */
 .moment {
   display: grid;
   place-items: center;
-  padding: clamp(72px, 10vh, 120px) var(--gutter);
+  padding: clamp(40px, 6vh, 80px) var(--gutter);
   position: relative;
   overflow: hidden;
+  /* svh, not dvh — dvh recalculates every frame as the mobile URL
+     bar animates, which causes scroll jitter. svh locks to the
+     "small viewport" (chrome-expanded) height so layout is stable
+     regardless of scroll position. */
+  min-height: calc(100vh - 56px - 60px);
+  min-height: calc(100svh - 56px - 60px);
+  scroll-margin-top: 56px;
 }
-@media (min-width: 760px) {
+@media (min-width: 900px) {
+  /* Desktop: no fixed bottom bar, just the 76px header. */
   .moment {
-    min-height: 100vh;
-    min-height: 100dvh;
     padding: clamp(80px, 12vh, 140px) var(--gutter);
+    min-height: calc(100vh - 76px);
+    min-height: calc(100svh - 76px);
+    scroll-margin-top: 76px;
   }
 }
 .moment-inner {
@@ -563,12 +598,13 @@ p { margin: 0; }
   .portrait-grid .years-display { align-items: flex-start; }
 }
 
-/* Bubble variant — Modak callback, used ONLY on the "40" so the moment
-   has its own visual identity. White fill on dark canvas with olive
-   shadow, mirroring the hero lockup's treatment. Shadow is restrained
-   so it reads as depth, not a misregistered print run. */
+/* The big "40" — same Ore Crusher face as the hero wordmark, scaled up.
+   Kept the existing white-on-dark stroke + olive offset so the 40 still
+   has its own visual identity (the wordmark uses a brown extrusion;
+   this uses a white face with dark stroke). Same family, distinct
+   treatment. */
 .big-num--bubble {
-  font-family: "Modak", "Cinzel", Georgia, serif;
+  font-family: "Ore Crusher", "Modak", "Cinzel", Georgia, serif;
   font-weight: 400;
   font-size: clamp(7rem, 22vw, 14rem);
   color: var(--surface-container-lowest);
@@ -643,9 +679,9 @@ p { margin: 0; }
 .portrait-frame {
   position: relative;
   background: var(--bg-elevated);
-  padding: 14px 14px 56px;
+  padding: 14px 14px 36px;
   width: clamp(240px, 70vw, 360px);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   box-shadow:
     0 1px 0 rgba(74, 53, 30, .08),
     0 14px 30px rgba(74, 53, 30, .18),
@@ -690,7 +726,7 @@ p { margin: 0; }
    Hidden once a real photo successfully loads. */
 .portrait-fallback {
   position: absolute;
-  inset: 14px 14px 56px;
+  inset: 14px 14px 36px;
   display: flex;
   flex-direction: column;
   background: var(--inverse-surface);
@@ -1064,15 +1100,24 @@ p { margin: 0; }
    classic poster-print pop. The brand-wordmark-shadow is intentionally
    a much lighter tone than the body so the offset reads as a separate
    layer, not a misregistered print. */
+/* Hero wordmark — solid Ore Crusher Regular letters, with a stacked
+   text-shadow extrusion for depth. We tried layering the 3D variant on
+   top as a ::after pseudo but the two font designs don't share metrics,
+   so the outline drifted off the fill. CSS text-shadow guarantees
+   alignment because it's a single rendering. */
 .lockup-line {
-  font-family: "Rubik Wet Paint", "Modak", Georgia, serif;
+  font-family: "Ore Crusher", "Rubik Wet Paint", "Modak", Georgia, serif;
   font-weight: 400;
   letter-spacing: .015em;
   color: var(--brand-wordmark);
   display: block;
   text-shadow:
-    0 1px 0 rgba(74, 53, 30, .25),
-    4px 4px 0 var(--brand-wordmark-shadow);
+    1px 1px 0 var(--brand-wordmark-shadow),
+    2px 2px 0 var(--brand-wordmark-shadow),
+    3px 3px 0 var(--brand-wordmark-shadow),
+    4px 4px 0 var(--brand-wordmark-shadow),
+    5px 5px 0 var(--brand-wordmark-shadow),
+    6px 6px 0 var(--brand-wordmark-shadow);
 }
 .lockup-l1 {
   font-size: clamp(2.6rem, 9vw, 5rem);
@@ -1091,10 +1136,6 @@ p { margin: 0; }
   0%   { opacity: 0; transform: translateX(32px) rotate(4deg); }
   100% { opacity: 1; transform: translateX(0) rotate(.5deg); }
 }
-@media (min-width: 760px) {
-  .lockup-line { text-shadow: 0 2px 0 rgba(74, 53, 30, .3), 6px 6px 0 var(--brand-wordmark-shadow); }
-}
-
 .lockup-tag {
   margin-top: 18px;
   font-family: var(--font-display);
