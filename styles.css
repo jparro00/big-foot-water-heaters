@@ -329,50 +329,110 @@ p { margin: 0; }
   .hero-inner { grid-template-columns: 1.15fr 1fr; }
 }
 
-.hero-h1 {
-  font-family: var(--font-display);
-  font-size: clamp(3.75rem, 13vw, 8rem);
-  line-height: .92;
-  letter-spacing: -.045em;
-  color: var(--green-900);
-  margin: 14px 0 20px;
-  text-wrap: balance;
-}
-.hero-h1 .accent {
-  color: var(--ember-600);
-  font-style: italic;
-  display: inline-block;
-  position: relative;
-}
-.hero-h1 .accent::after {
-  content: ""; position: absolute; left: 4%; right: 4%; bottom: 6%;
-  height: 14px; background: rgba(249, 115, 22, .18); z-index: -1; border-radius: 4px;
-  transform: skewX(-8deg);
-}
-.hero-sub {
-  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
-  color: var(--ink-700);
-  max-width: 50ch;
-  text-wrap: balance;
-}
 .hero-ctas {
   display: flex; gap: 12px; flex-wrap: wrap;
-  margin-top: clamp(24px, 4vw, 36px);
+  justify-content: center;
+  margin-top: clamp(8px, 2vw, 16px);
 }
 
-.hero-mascot {
-  display: flex; justify-content: center; align-items: center;
+/* Hero LOCKUP — bubble-letter brand mark with bigfoot face above.
+   The whole lockup is the visual hero; tagline + CTAs sit below. */
+.hero-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: clamp(20px, 3vw, 36px) !important;
+  max-width: 920px !important;
+  grid-template-columns: none !important;
 }
-.mascot {
-  width: 100%;
-  max-width: 280px;
-  filter: drop-shadow(0 22px 44px rgba(15, 20, 16, .18));
+
+.lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  padding: 0 8px;
+}
+.lockup-face {
+  width: clamp(120px, 16vw, 200px);
+  height: auto;
+  margin-bottom: -8px;
+  filter: drop-shadow(0 12px 28px rgba(15, 20, 16, .18));
   animation: bob 5.5s ease-in-out infinite;
   transform-origin: center bottom;
+  position: relative;
+  z-index: 2;
+}
+.lockup-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: .82;
+  position: relative;
+  z-index: 1;
+}
+.lockup-line {
+  font-family: "Modak", "Fraunces", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: .005em;
+  color: var(--cream);
+  -webkit-text-stroke: 3.5px var(--green-900);
+  text-stroke: 3.5px var(--green-900);
+  paint-order: stroke fill;
+  display: block;
+  text-shadow: 6px 6px 0 var(--green-900);
+}
+.lockup-l1 {
+  font-size: clamp(2.6rem, 9vw, 5rem);
+  transform: rotate(-1.5deg);
+  margin-bottom: -.05em;
+}
+.lockup-l2 {
+  font-size: clamp(3.6rem, 13vw, 7.5rem);
+  transform: rotate(.5deg);
 }
 @media (min-width: 760px) {
-  .mascot { max-width: 460px; }
+  .lockup-line { -webkit-text-stroke-width: 5px; text-stroke-width: 5px; text-shadow: 8px 8px 0 var(--green-900); }
 }
+
+.lockup-tag {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(.95rem, 1.3vw, 1.15rem);
+  color: var(--green-800);
+  letter-spacing: .02em;
+}
+
+.hero-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--ink-900);
+  max-width: 38ch;
+  text-wrap: balance;
+  font-weight: 500;
+}
+.hero-tagline em {
+  color: var(--ember-600);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.hero-credit {
+  margin-top: clamp(8px, 2vw, 16px);
+  font-family: var(--font-sans);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+.hero-credit strong { color: var(--green-800); font-weight: 800; }
 @keyframes bob {
   0%, 100% { transform: translateY(0) rotate(-1deg); }
   50%      { transform: translateY(-10px) rotate(1deg); }
