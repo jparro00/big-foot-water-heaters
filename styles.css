@@ -131,20 +131,24 @@ p { margin: 0; }
   transition: border-color .2s ease, background .2s ease;
 }
 .site-header.is-scrolled { border-bottom-color: var(--border); background: rgba(250, 246, 239, .96); }
+/* Mobile header: tight 56px, logo + phone icon + Book.
+   Desktop header: 76px, logo + nav + phone text + Book. */
 .header-row {
-  display: flex; align-items: center; gap: 20px;
-  height: 76px;
+  display: flex; align-items: center; gap: 12px;
+  height: 56px;
+  padding-left: 0; padding-right: 0;
 }
 .brand {
-  display: inline-flex; align-items: center; gap: 12px;
+  display: inline-flex; align-items: center; gap: 10px;
   color: var(--green-800);
   flex-shrink: 0;
 }
 .brand:hover { color: var(--green-700); }
 .brand-mark { color: var(--green-700); display: inline-flex; }
+.brand-mark svg { width: 36px; height: 36px; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1; gap: 2px; }
-.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.25rem; letter-spacing: -.02em; }
-.brand-line-2 { font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-500); }
+.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; letter-spacing: -.02em; }
+.brand-line-2 { display: none; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-500); }
 
 .nav { display: none; gap: 28px; margin-left: auto; }
 .nav a {
@@ -159,62 +163,57 @@ p { margin: 0; }
 }
 .nav a:hover::after { transform: scaleX(1); }
 
-.header-cta { display: none; align-items: center; gap: 14px; margin-left: 24px; }
-.btn-phone {
+.header-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  font-weight: 700; color: var(--green-800); font-size: .95rem;
-}
-.btn-phone:hover { color: var(--ember-600); }
-
-.nav-toggle {
   margin-left: auto;
-  display: inline-flex; flex-direction: column; gap: 4px;
-  padding: 10px;
 }
-.nav-toggle span { width: 24px; height: 2px; background: var(--green-800); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
-.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-.mobile-nav {
-  display: flex; flex-direction: column; gap: 4px;
-  padding: 8px var(--gutter) 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--cream);
-}
-.mobile-nav a {
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--border);
-  font-weight: 500; color: var(--ink-700);
-}
-.mobile-nav a:last-child { border-bottom: 0; }
-.mobile-nav .mobile-book {
-  margin-top: 12px;
-  background: var(--ember-500); color: var(--white);
+.btn-phone {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 700; color: var(--green-800); font-size: .9rem;
+  width: 40px; height: 40px;
+  justify-content: center;
+  border: 1.5px solid var(--green-700);
   border-radius: 999px;
-  text-align: center;
-  padding: 14px;
-  font-weight: 600;
 }
+.btn-phone:hover { color: var(--ember-600); border-color: var(--ember-600); }
+.btn-phone-text { display: none; }
+.btn-book-header { padding: 9px 16px; font-size: .88rem; }
 
 @media (min-width: 900px) {
+  .header-row { height: 76px; gap: 20px; }
+  .brand-mark svg { width: 44px; height: 44px; }
+  .brand-line-1 { font-size: 1.25rem; }
+  .brand-line-2 { display: inline; }
   .nav { display: flex; }
-  .header-cta { display: inline-flex; }
-  .nav-toggle { display: none; }
-  .mobile-nav { display: none !important; }
+  .header-cta { gap: 14px; margin-left: 24px; }
+  .btn-phone {
+    width: auto; height: auto;
+    border: 0; padding: 0;
+    font-size: .95rem;
+  }
+  .btn-phone-text { display: inline; }
+  .btn-book-header { padding: 12px 22px; font-size: .95rem; }
 }
 
 /* =========================================================
    The MOMENT system — each section is a single beat
+   Desktop: full viewport. Mobile: natural height + padding.
+   Forcing 100vh on phones wastes screen and makes the sticky
+   header feel oversized when content is small.
    ========================================================= */
 .moment {
-  min-height: 100vh;
-  min-height: 100dvh;
   display: grid;
   place-items: center;
-  padding: clamp(80px, 12vh, 140px) var(--gutter) clamp(80px, 12vh, 140px);
+  padding: clamp(72px, 10vh, 120px) var(--gutter);
   position: relative;
   overflow: hidden;
+}
+@media (min-width: 760px) {
+  .moment {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: clamp(80px, 12vh, 140px) var(--gutter);
+  }
 }
 .moment-inner {
   width: 100%;
@@ -234,14 +233,16 @@ p { margin: 0; }
 .moment--cream + .moment--cream { padding-top: 0; }
 .moment--dark + .moment--dark { padding-top: 0; }
 
-/* Display typography */
+/* Display typography — bigger on mobile, restrained on desktop.
+   Apple makes display text feel monumental on phones; we match. */
 .moment-display {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 13vw, 11rem);
+  font-size: clamp(5rem, 18vw, 11rem);
   font-weight: 900;
   line-height: .9;
   letter-spacing: -.045em;
   color: var(--green-900);
+  text-wrap: balance;
 }
 .moment-display.on-dark { color: var(--cream); }
 .moment-display .accent,
@@ -253,20 +254,21 @@ p { margin: 0; }
 
 .moment-display-md {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-size: clamp(3.5rem, 11vw, 6.5rem);
   font-weight: 900;
   line-height: .95;
   letter-spacing: -.035em;
   color: var(--green-900);
+  text-wrap: balance;
 }
 .moment-display-md.on-dark { color: var(--cream); }
 
 .moment-sub {
   font-size: clamp(1.05rem, 1.5vw, 1.45rem);
-  line-height: 1.5;
-  margin: clamp(28px, 4vw, 44px) auto 0;
+  line-height: 1.45;
+  margin: clamp(24px, 4vw, 44px) auto 0;
   color: var(--ink-700);
-  max-width: 36ch;
+  max-width: 32ch;
   text-wrap: balance;
 }
 .moment-sub.on-dark { color: rgba(250, 246, 239, .78); }
@@ -305,11 +307,21 @@ p { margin: 0; }
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
   pointer-events: none;
 }
+.moment--hero {
+  /* On mobile, anchor content to the top of the viewport so the user
+     sees the headline + CTAs immediately, not centered emptiness. */
+  place-items: start center;
+  padding-top: clamp(28px, 6vh, 80px);
+}
+@media (min-width: 760px) {
+  .moment--hero { place-items: center; }
+}
+
 .hero-inner {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(40px, 6vw, 80px);
+  gap: clamp(28px, 5vw, 80px);
   align-items: center;
   text-align: left;
 }
@@ -319,11 +331,12 @@ p { margin: 0; }
 
 .hero-h1 {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-size: clamp(3.75rem, 13vw, 8rem);
   line-height: .92;
   letter-spacing: -.045em;
   color: var(--green-900);
-  margin: 16px 0 24px;
+  margin: 14px 0 20px;
+  text-wrap: balance;
 }
 .hero-h1 .accent {
   color: var(--ember-600);
@@ -352,25 +365,31 @@ p { margin: 0; }
 }
 .mascot {
   width: 100%;
-  max-width: 460px;
+  max-width: 280px;
   filter: drop-shadow(0 22px 44px rgba(15, 20, 16, .18));
   animation: bob 5.5s ease-in-out infinite;
   transform-origin: center bottom;
+}
+@media (min-width: 760px) {
+  .mascot { max-width: 460px; }
 }
 @keyframes bob {
   0%, 100% { transform: translateY(0) rotate(-1deg); }
   50%      { transform: translateY(-10px) rotate(1deg); }
 }
 
-/* Scroll hint at bottom of hero */
+/* Scroll hint — desktop only. On mobile the bottom CTA bar
+   would overlap it and the hint is unnecessary anyway since
+   mobile users know to scroll. */
 .scroll-hint {
+  display: none;
   position: absolute;
   bottom: 32px; left: 50%;
   transform: translateX(-50%);
   width: 26px; height: 42px;
   border: 2px solid var(--ink-300);
   border-radius: 999px;
-  display: flex; justify-content: center;
+  justify-content: center;
   padding-top: 8px;
   opacity: .7;
   transition: opacity .2s ease, border-color .2s ease;
@@ -384,6 +403,7 @@ p { margin: 0; }
   0%, 100% { transform: translateY(0); opacity: 1; }
   50%      { transform: translateY(10px); opacity: .3; }
 }
+@media (min-width: 760px) { .scroll-hint { display: flex; } }
 
 /* ---------- PRICING moment ---------- */
 .moment--pricing .moment-display-md { margin-bottom: clamp(36px, 5vw, 56px); }
@@ -413,10 +433,14 @@ p { margin: 0; }
   background: var(--green-900);
   color: var(--cream);
   border-color: var(--green-900);
-  transform: scale(1.04);
   box-shadow: var(--shadow-lg);
 }
-.price-tile--feature:hover { transform: scale(1.04) translateY(-4px); }
+@media (min-width: 760px) {
+  /* Scale the featured tile only on desktop — full-width column on
+     mobile would overflow and clip the rounded corners. */
+  .price-tile--feature { transform: scale(1.04); }
+  .price-tile--feature:hover { transform: scale(1.04) translateY(-4px); }
+}
 .price-tile-label {
   font-size: .85rem; font-weight: 600;
   letter-spacing: .12em; text-transform: uppercase;
@@ -475,8 +499,8 @@ p { margin: 0; }
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 700;
-  font-size: clamp(1.8rem, 5vw, 4rem);
-  line-height: 1.18;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1.2;
   letter-spacing: -.025em;
   color: var(--cream);
   text-wrap: balance;
@@ -663,28 +687,31 @@ p { margin: 0; }
   position: fixed; left: 0; right: 0; bottom: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: var(--white);
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
   border-top: 1px solid var(--border);
-  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
-  gap: 6px;
+  padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+  gap: 4px;
   z-index: 60;
-  box-shadow: 0 -8px 24px rgba(15, 20, 16, .08);
+  box-shadow: 0 -6px 18px rgba(15, 20, 16, .06);
 }
 .mobile-bar-btn {
-  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  padding: 10px 6px;
+  display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 6px;
   border-radius: 12px;
-  font-size: .78rem; font-weight: 600;
+  font-size: .82rem; font-weight: 600;
   color: var(--green-900);
+  min-height: 44px;
 }
 .mobile-bar-btn:hover { background: var(--green-50); color: var(--green-700); }
-.mobile-bar-btn svg { color: var(--green-700); }
+.mobile-bar-btn svg { color: var(--green-700); flex-shrink: 0; }
 .mobile-bar-book { background: var(--ember-500); color: var(--white); }
 .mobile-bar-book:hover { background: var(--ember-600); color: var(--white); }
 .mobile-bar-book svg { color: var(--white); }
 
 @media (min-width: 900px) { .mobile-bar { display: none; } }
-@media (max-width: 899px) { body { padding-bottom: 80px; } }
+@media (max-width: 899px) { body { padding-bottom: 60px; } }
 
 /* ---------- Reveal on scroll ---------- */
 .reveal {
