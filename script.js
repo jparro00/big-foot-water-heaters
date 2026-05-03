@@ -7,12 +7,14 @@
 
   // Sticky header shadow on scroll
   const header = document.getElementById("siteHeader");
-  const onScroll = () => {
-    if (window.scrollY > 8) header.classList.add("is-scrolled");
-    else header.classList.remove("is-scrolled");
-  };
-  document.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  if (header) {
+    const onScroll = () => {
+      if (window.scrollY > 8) header.classList.add("is-scrolled");
+      else header.classList.remove("is-scrolled");
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
   // Mobile nav
   const toggle = document.querySelector(".nav-toggle");
@@ -20,11 +22,7 @@
   if (toggle && mobileNav) {
     const setOpen = (open) => {
       toggle.setAttribute("aria-expanded", String(open));
-      if (open) {
-        mobileNav.hidden = false;
-      } else {
-        mobileNav.hidden = true;
-      }
+      mobileNav.hidden = !open;
     };
     toggle.addEventListener("click", () => {
       const expanded = toggle.getAttribute("aria-expanded") === "true";
@@ -35,23 +33,10 @@
     );
   }
 
-  // FAQ — close siblings when one opens (single-open accordion)
-  const faqItems = document.querySelectorAll(".faq-item");
-  faqItems.forEach((item) => {
-    item.addEventListener("toggle", () => {
-      if (item.open) {
-        faqItems.forEach((other) => {
-          if (other !== item) other.open = false;
-        });
-      }
-    });
-  });
-
   // Booking form
   const form = document.getElementById("bookForm");
   const success = document.getElementById("bookSuccess");
   if (form && success) {
-    // Light phone-number formatting on blur — US 10 digit
     const phoneInput = form.querySelector('input[type="tel"]');
     if (phoneInput) {
       phoneInput.addEventListener("blur", () => {
@@ -68,7 +53,7 @@
         form.reportValidity();
         return;
       }
-      // In production: POST to your backend / Formspree / Netlify Forms
+      // Wire up to a real handler (Formspree, Netlify Forms, your backend) here:
       // const data = Object.fromEntries(new FormData(form));
       // fetch("/api/lead", { method: "POST", body: JSON.stringify(data) })
 
@@ -78,12 +63,16 @@
     });
   }
 
-  // Reveal-on-scroll for sections that opt in (we add the class via JS so SSR-less pages still look right with JS off)
+  // Reveal-on-scroll for the moment-deck
   const revealTargets = document.querySelectorAll(
-    ".section-head, .service-card, .price-card, .how-step, .diff-item, .hero-card, .about-copy, .about-photo, .faq-item, .book-form"
+    ".moment-eyebrow, .moment-display, .moment-display-md, .moment-sub, .hero-h1, .hero-sub, .hero-ctas, .hero-mascot, .price-tile, .bar-verse, .bar-mascot, .bar-attrib, .areas-tags, .book-pitch, .book-form"
   );
   if ("IntersectionObserver" in window) {
-    revealTargets.forEach((el) => el.classList.add("reveal"));
+    revealTargets.forEach((el, i) => {
+      el.classList.add("reveal");
+      // tiny stagger for elements within the same moment
+      el.style.transitionDelay = `${(i % 4) * 60}ms`;
+    });
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -93,7 +82,7 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.18, rootMargin: "0px 0px -60px 0px" }
     );
     revealTargets.forEach((el) => io.observe(el));
   }
