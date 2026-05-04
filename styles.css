@@ -1090,19 +1090,17 @@ p { margin: 0; }
    area beneath bigfoot's hands. */
 .lockup-frame {
   width: clamp(300px, 82vw, 680px);
-  aspect-ratio: 2480 / 3508;
+  /* Aspect ratio matches the bigfoot.png bitmap (1640×1344, tightly
+     cropped — no whitespace around the figure). With a matching ratio
+     the image fills the frame exactly under object-fit, so there is no
+     empty space inside the frame and no need for negative-margin hacks
+     to compensate. The frame's height naturally collapses (W × 0.819
+     instead of W × 1.414), which is what makes the hero fit on a
+     single desktop screen. */
+  aspect-ratio: 1640 / 1344;
   position: relative;
   container-type: inline-size;
-  /* margin-top pulls the frame up by the empty-whitespace strip above
-     bigfoot's head in bigfoot.png (top 22% of the bitmap). 22% of frame
-     HEIGHT, expressed in cqi (% of frame width), is 22 × (3508/2480) ≈ 31.
-     Mobile only: on desktop the section is vertically centered inside a
-     ~viewport-height box, and a 31cqi pull-up (~210px at the 680px max
-     frame width) pushes the whole composition above the viewport. */
-  margin: -31cqi auto 0;
-}
-@media (min-width: 760px) {
-  .lockup-frame { margin-top: 0; }
+  margin: 0 auto;
 }
 .lockup-bigfoot {
   position: absolute;
