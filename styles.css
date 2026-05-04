@@ -919,13 +919,14 @@ p { margin: 0; }
   pointer-events: none;
   z-index: 0;
 }
-/* Walking diagonally from bottom-left up to top-right, with subtle
-   rotation variation so it reads as natural, not gridded. */
-.trail--1 { bottom: 10%; left: 5%;  transform: rotate(-26deg); }
-.trail--2 { bottom: 28%; left: 16%; transform: rotate(-14deg); opacity: .28; }
-.trail--3 { top: 50%;    left: 32%; transform: rotate(-2deg);  opacity: .26; }
-.trail--4 { top: 28%;    right: 24%; transform: rotate(14deg); opacity: .24; }
-.trail--5 { top: 8%;     right: 8%;  transform: rotate(26deg); opacity: .22; }
+/* Walking diagonally toward the top-right corner. Each footprint
+   points ~40deg from vertical, with alternating scaleX(-1) so the
+   trail reads as left/right/left/right footsteps. */
+.trail--1 { bottom: 10%; left: 5%;  transform: rotate(38deg); }
+.trail--2 { bottom: 28%; left: 16%; transform: rotate(42deg) scaleX(-1); opacity: .28; }
+.trail--3 { top: 50%;    left: 32%; transform: rotate(40deg);  opacity: .26; }
+.trail--4 { top: 28%;    right: 24%; transform: rotate(45deg) scaleX(-1); opacity: .24; }
+.trail--5 { top: 8%;     right: 8%;  transform: rotate(38deg); opacity: .22; }
 @media (max-width: 760px) {
   /* On narrow screens scatter horizontally with less vertical spread */
   .trail--1 { bottom: 6%;  left: 4%; }
