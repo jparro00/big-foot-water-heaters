@@ -1319,25 +1319,20 @@ p { margin: 0; }
 /* Areas tags — MD3 assist chips. Resting = surface-container with
    outline; hover = secondary-container (the soft-tinted state layer
    pattern). On-secondary-container guarantees readable text. */
+/* Plain inline list of cities separated by middots — these are labels,
+   not interactive elements, so the pill-button treatment was misleading. */
 .areas-tags {
-  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-  margin: clamp(36px, 5vw, 52px) auto 0;
-  max-width: 800px;
+  margin: clamp(28px, 4vw, 44px) auto 0;
+  max-width: 700px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--on-surface-variant);
+  line-height: 1.7;
 }
-.areas-tags span {
-  background: var(--surface-container);
-  border: 1px solid var(--outline-variant);
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-weight: 500;
-  color: var(--on-surface);
-  font-size: .95rem;
-  transition: border-color .2s ease, color .2s ease, background .2s ease;
-}
-.areas-tags span:hover {
-  background: var(--secondary-container);
-  border-color: var(--secondary);
-  color: var(--on-secondary-container);
+.areas-tags span + span::before {
+  content: " · ";
+  color: var(--outline);
+  margin: 0 .25em;
 }
 
 /* ---------- BOOK moment ---------- */
