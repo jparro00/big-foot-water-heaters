@@ -146,7 +146,7 @@
      because brand identity is allowed to specify hue + tone directly,
      unlike system colors which must go through roles. */
 
-  --brand-wordmark:        #ffffff;             /* white face — reads against the brown extrusion shadow */
+  --brand-wordmark:        var(--neutral-90);   /* deepest cream — surface-container-highest tier (tone ~88), reads as elevated against canvas (tone ~96) */
   --brand-wordmark-shadow: var(--peach-900);   /* darker brown — 3D extrusion depth */
 
   /* ---------- LEGACY ALIASES (back-compat) ----------
@@ -236,7 +236,7 @@ p { margin: 0; }
 .moment-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-display);
-  font-size: .8rem; font-weight: 500; letter-spacing: .28em; text-transform: uppercase;
+  font-size: 1.1rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase;
   color: var(--primary);
   margin: 0 0 clamp(20px, 3vw, 40px);
   max-width: 100%;
@@ -342,7 +342,7 @@ p { margin: 0; }
 .brand-mark { color: var(--secondary); display: inline-flex; }
 .brand-mark svg { width: 36px; height: 36px; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1.05; gap: 2px; min-width: 0; }
-.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .02em; text-transform: uppercase; }
+.brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: .02em; text-transform: uppercase; }
 /* Always visible — on mobile we hide the right-side header CTAs (the
    sticky bottom bar carries Call/Text/Book), so the title has room
    for the subtitle. */
@@ -362,8 +362,8 @@ p { margin: 0; }
 .nav a:hover::after { transform: scaleX(1); }
 
 .header-cta {
-  /* Mobile: icon-only Call / Text / Book circles sit on the right.
-     Desktop: phone number text + Book pill (icons drop out). */
+  /* Mobile: icon-only Call / Text circles sit on the right.
+     Desktop: phone number + "Text" as flat text-icon links. */
   display: inline-flex;
   align-items: center; gap: 6px;
   margin-left: auto;
@@ -380,14 +380,8 @@ p { margin: 0; }
 }
 .btn-phone:hover,
 .btn-text-link:hover { color: var(--primary); border-color: var(--primary); background: rgba(199, 136, 64, .08); }
-.btn-phone-text { display: none; }
-/* Mobile: 40×40 icon-only circle sharing the .btn-primary fill.
-   Desktop (below): falls back to a text pill. */
-.btn-book-header {
-  width: 40px; height: 40px; padding: 0;
-  font-size: .88rem;
-}
-.btn-book-text { display: none; }
+.btn-phone-text,
+.btn-text-link-text { display: none; }
 
 @media (min-width: 900px) {
   .header-row { height: 76px; gap: 20px; }
@@ -396,16 +390,16 @@ p { margin: 0; }
   .brand-line-2 { font-size: .7rem; letter-spacing: .18em; }
   .nav { display: flex; }
   .header-cta { gap: 14px; margin-left: 24px; }
-  .btn-phone {
+  .btn-phone,
+  .btn-text-link {
     width: auto; height: auto;
     border: 0; padding: 0;
     font-size: .95rem;
   }
-  .btn-phone-text { display: inline; }
-  .btn-text-link { display: none; }
-  .btn-book-header { width: auto; height: auto; padding: 12px 22px; font-size: .95rem; }
-  .btn-book-icon { display: none; }
-  .btn-book-text { display: inline; }
+  .btn-phone:hover,
+  .btn-text-link:hover { background: transparent; }
+  .btn-phone-text,
+  .btn-text-link-text { display: inline; }
 }
 
 /* =========================================================
@@ -771,14 +765,14 @@ p { margin: 0; }
 }
 .portrait-fallback-eyebrow {
   font-family: var(--font-display);
-  font-size: .82rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: .04em;
   color: var(--cream);
 }
 .portrait-fallback-line {
   font-family: var(--font-display);
-  font-size: .62rem;
+  font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1089,18 +1083,36 @@ p { margin: 0; }
   position: relative;
   padding: 0 8px;
 }
-.lockup-face {
-  width: clamp(120px, 16vw, 200px);
-  height: auto;
-  margin-bottom: -8px;
+/* Lockup frame — single rigid container that locks the bigfoot image and
+   the wordmark together. ONE viewport-coupled width on the frame; everything
+   inside is sized in cqi (% of frame width), so proportions are identical
+   on every viewport. The wordmark is absolutely positioned over the empty
+   area beneath bigfoot's hands. */
+.lockup-frame {
+  width: clamp(300px, 82vw, 680px);
+  aspect-ratio: 2480 / 3508;
+  position: relative;
+  container-type: inline-size;
+  /* margin-top pulls the frame up by the empty-whitespace strip above
+     bigfoot's head in bigfoot.png (top 22% of the bitmap). 22% of frame
+     HEIGHT, expressed in cqi (% of frame width), is 22 × (3508/2480) ≈ 31.
+     Mobile only: on desktop the section is vertically centered inside a
+     ~viewport-height box, and a 31cqi pull-up (~210px at the 680px max
+     frame width) pushes the whole composition above the viewport. */
+  margin: -31cqi auto 0;
+}
+@media (min-width: 760px) {
+  .lockup-frame { margin-top: 0; }
+}
+.lockup-bigfoot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   filter: drop-shadow(0 12px 28px rgba(15, 20, 16, .18));
   transform-origin: center bottom;
-  position: relative;
-  z-index: 2;
-  /* Drop in, then start bobbing — animations chain via delay */
-  animation:
-    face-drop .9s cubic-bezier(.18,1.2,.4,1) both,
-    bob 5.5s ease-in-out 1.4s infinite;
+  animation: face-drop .9s cubic-bezier(.18,1.2,.4,1) both;
 }
 @keyframes face-drop {
   0%   { opacity: 0; transform: translateY(-40px) scale(.85) rotate(-8deg); }
@@ -1108,11 +1120,15 @@ p { margin: 0; }
   100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
 }
 .lockup-name {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   line-height: .82;
-  position: relative;
   z-index: 1;
 }
 /* Hero wordmark — brand-identity tokens (not role tokens). Deep
@@ -1139,22 +1155,26 @@ p { margin: 0; }
     5px 5px 0 var(--brand-wordmark-shadow),
     6px 6px 0 var(--brand-wordmark-shadow);
 }
+/* Wordmark sizes in cqi (container query inline) — % of .lockup-frame
+   width. With the frame's clamp() being the only viewport-coupled value,
+   this keeps the bigfoot↔wordmark relationship identical at every
+   viewport size. */
 .lockup-l1 {
-  font-size: clamp(2.6rem, 9vw, 5rem);
+  font-size: 12cqi;
   margin-bottom: -.05em;
   animation: bubble-l1 .8s cubic-bezier(.2,1.1,.3,1) .35s both;
 }
 .lockup-l2 {
-  font-size: clamp(3.6rem, 13vw, 7.5rem);
+  font-size: 16cqi;
   animation: bubble-l2 .8s cubic-bezier(.2,1.1,.3,1) .55s both;
 }
 @keyframes bubble-l1 {
   0%   { opacity: 0; transform: translateX(-32px) rotate(-6deg); }
-  100% { opacity: 1; transform: translateX(0) rotate(-1deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0); }
 }
 @keyframes bubble-l2 {
   0%   { opacity: 0; transform: translateX(32px) rotate(4deg); }
-  100% { opacity: 1; transform: translateX(0) rotate(.5deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0); }
 }
 .lockup-tag {
   margin-top: 18px;
@@ -1267,7 +1287,7 @@ p { margin: 0; }
 }
 .price-tile-label {
   font-family: var(--font-display);
-  font-size: .8rem; font-weight: 500;
+  font-size: 1.1rem; font-weight: 500;
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--on-surface-variant);
 }
@@ -1299,7 +1319,7 @@ p { margin: 0; }
   background: var(--primary);
   color: var(--on-primary);
   font-family: var(--font-display);
-  font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   padding: 7px 16px; border-radius: 999px;
   box-shadow: 0 4px 14px rgba(156, 94, 31, .35);
   white-space: nowrap;
@@ -1385,7 +1405,7 @@ p { margin: 0; }
   color: var(--on-surface);
 }
 .footer-brand .brand-mark { color: var(--secondary); }
-.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: var(--on-surface); letter-spacing: .02em; text-transform: uppercase; }
+.footer-name { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: var(--on-surface); letter-spacing: .02em; text-transform: uppercase; }
 .footer-tag { font-size: .82rem; color: var(--on-surface-variant); font-style: italic; }
 .footer-info {
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
