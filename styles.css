@@ -1226,7 +1226,7 @@ p { margin: 0; }
 @media (min-width: 760px) { .scroll-hint { display: flex; } }
 
 /* ---------- PRICING moment ---------- */
-.moment--pricing .moment-display-md { margin-bottom: clamp(36px, 5vw, 56px); }
+.moment--pricing .moment-display-md { margin-top: clamp(36px, 5vw, 56px); margin-bottom: clamp(36px, 5vw, 56px); }
 
 .price-row {
   display: grid;
