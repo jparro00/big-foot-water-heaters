@@ -337,10 +337,13 @@ p { margin: 0; }
   display: inline-flex; align-items: center; gap: 10px;
   color: var(--cream);
   flex-shrink: 0;
+  margin-left: 6px;
 }
 .brand:hover { color: var(--primary); }
-.brand-mark { color: var(--secondary); display: inline-flex; }
-.brand-mark svg { width: 36px; height: 36px; }
+.brand-mark { color: var(--secondary); display: inline-flex; flex-shrink: 0; }
+.brand-mark svg,
+.brand-mark img { width: 36px; height: 36px; display: block; flex-shrink: 0; }
+.brand-mark img { object-fit: contain; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1.05; gap: 2px; min-width: 0; }
 .brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: .02em; text-transform: uppercase; }
 /* Always visible — on mobile we hide the right-side header CTAs (the
@@ -385,7 +388,8 @@ p { margin: 0; }
 
 @media (min-width: 900px) {
   .header-row { height: 76px; gap: 20px; }
-  .brand-mark svg { width: 44px; height: 44px; }
+  .brand-mark svg,
+  .brand-mark img { width: 44px; height: 44px; }
   .brand-line-1 { font-size: 1.25rem; }
   .brand-line-2 { font-size: .7rem; letter-spacing: .18em; }
   .nav { display: flex; }
@@ -1175,13 +1179,14 @@ p { margin: 0; }
   100% { opacity: 1; transform: translateX(0) rotate(0); }
 }
 .lockup-tag {
-  margin-top: 18px;
+  margin-top: 4px;
   font-family: var(--font-display);
   font-style: normal;
   font-weight: 600;
   font-size: clamp(1.1rem, 1.9vw, 1.5rem);
   color: var(--on-surface);
   letter-spacing: .03em;
+  line-height: 1.15;
   animation: hero-fade-up .7s ease-out .85s both;
 }
 
