@@ -1,13 +1,18 @@
 /* Big Foot Water Heaters — interactive behaviors */
 
 (() => {
-  // Refresh always lands at the top, even if a previous in-page click
-  // (Book / Pricing / etc.) left a #fragment in the URL. Without this
-  // the browser re-jumps to that section on every reload, which reads
-  // as the page being broken — the user's complaint was "refreshing
-  // takes me down to the booking form". Cleared via replaceState so the
-  // back button isn't polluted.
-  if (window.location.hash) {
+  // On page RELOAD only, scroll back to the top and clear any in-page
+  // hash that a previous click left in the URL — so refreshing doesn't
+  // re-jump to (say) the booking section that the user clicked through
+  // five minutes ago. We only do this on a true reload; external deep
+  // links like /#pricing keep their hash so a Google result can land
+  // the user on the right section.
+  const isReload =
+    (performance.getEntriesByType?.("navigation")[0]?.type === "reload") ||
+    // Fallback for older browsers (deprecated but still around).
+    (performance.navigation && performance.navigation.type === 1);
+
+  if (isReload && window.location.hash) {
     history.replaceState(null, "", window.location.pathname + window.location.search);
     window.scrollTo(0, 0);
   }
@@ -32,7 +37,7 @@
   const revealTargets = document.querySelectorAll(
     ".moment:not(.moment--hero) .moment-display, " +
     ".moment:not(.moment--hero) .moment-display-md, " +
-    ".bar-verse, .price-row, .areas-tags, .book-cta"
+    ".price-row, .areas-tags, .book-cta"
   );
   if ("IntersectionObserver" in window && revealTargets.length) {
     revealTargets.forEach((el) => el.classList.add("reveal"));

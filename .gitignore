@@ -29,3 +29,12 @@ server.py
 trace_bigfoot.py
 bigfoot.svg
 bigfoot silhouette.png
+
+# Image source originals (compressed copies are committed)
+ingels.original.jpg
+bigfoot-original.png
+mascot-original.png
+Untitled.jpg
+
+# Stray utility script (kept locally; not deployed)
+generate_og_image.py

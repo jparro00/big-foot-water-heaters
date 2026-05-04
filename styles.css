@@ -99,6 +99,12 @@
   --on-primary:                var(--neutral-100); /* pure white */
   --primary-container:         var(--peach-100);   /* tone ~90 */
   --on-primary-container:      var(--peach-900);   /* tone ~18 */
+  /* State variants of primary — components reference these for hover /
+     pressed states instead of reaching into the raw peach-* scale. The
+     hover sibling is one tone lighter (peach-600); pressed is one tone
+     darker (peach-800). Stays inside the role layer per MD3 contract. */
+  --primary-hover:             var(--peach-600);   /* tone ~50 */
+  --primary-pressed:           var(--peach-800);   /* tone ~25 */
 
   /* SECONDARY — olive. Tone ~40. Brand identity: wordmarks, supporting
      accents. Less chroma than primary — quieter on its own, anchoring. */
@@ -140,46 +146,21 @@
   --inverse-primary:           var(--peach-300);
 
   /* ---------- BRAND IDENTITY ----------
-     Tokens for one-off brand artwork (the hero wordmark, future
-     stamps/labels). Distinct from role tokens — these aren't UI roles
-     and shouldn't be reused for components. They map to palette tones
-     because brand identity is allowed to specify hue + tone directly,
-     unlike system colors which must go through roles. */
+     Tokens for one-off brand artwork (hero wordmark, "Bigfoot approved"
+     stamp, the giant silhouette behind the same-day section, the
+     footprint trails). Distinct from role tokens — these aren't UI
+     roles and shouldn't be reused for components. They map to palette
+     tones directly because brand identity is allowed to specify
+     hue + tone, unlike system colors which must go through roles. */
 
-  --brand-wordmark:        var(--neutral-90);   /* deepest cream — surface-container-highest tier (tone ~88), reads as elevated against canvas (tone ~96) */
+  --brand-wordmark:        var(--neutral-90);   /* deepest cream — surface-container-highest tier */
   --brand-wordmark-shadow: var(--peach-900);   /* darker brown — 3D extrusion depth */
 
-  /* ---------- LEGACY ALIASES (back-compat) ----------
-     Roles above are the source of truth. Aliases keep older selectors
-     working until they're migrated. Removing them later is a
-     mechanical sweep — no visual change, since each alias points at
-     the role it would have been written as. */
+  --brand-stamp-bg:        var(--peach-400);   /* "Bigfoot approved" stamp paper */
+  --brand-stamp-ink:       var(--olive-900);   /* stamp text — high contrast on the peach */
 
-  --bg-base:     var(--surface);
-  --bg-soft:     var(--surface-container);
-  --bg-card:     var(--surface-container-high);
-  --bg-elevated: var(--surface-container-lowest);
-  --bg-island:   var(--inverse-surface);
-
-  --cream:       var(--on-surface);
-  --cream-deep:  var(--olive-900);
-  --cream-soft:  rgba(26, 29, 16, .78);
-  --cream-mute:  rgba(26, 29, 16, .55);
-
-  --ink-on-dark:        var(--on-surface);
-  --ink-on-dark-soft:   rgba(26, 29, 16, .78);
-  --ink-on-dark-mute:   rgba(26, 29, 16, .55);
-
-  --ink-900: #0d1410;
-  --ink-700: #2a322d;
-  --ink-500: #5a635c;
-  --ink-300: #97a098;
-  --ink-100: #d9ddd8;
-
-  --white:         var(--neutral-100);
-  --border:        var(--outline-variant);
-  --border-strong: rgba(26, 29, 16, .32);
-  --border-light:  var(--neutral-80);
+  --brand-silhouette:      var(--olive-700);   /* atmospheric Bigfoot silhouette behind same-day */
+  --brand-trail:           var(--olive-400);   /* footprint trail decorative motif */
 
   /* ---------- LAYOUT & TYPE ---------- */
 
@@ -208,24 +189,30 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
-  color: var(--cream);
-  background: var(--bg-base);
+  color: var(--on-surface);
+  background: var(--surface);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
 a { color: var(--primary); text-decoration: none; }
-a:hover { color: var(--peach-600); }
+a:hover { color: var(--primary-hover); }
 ul, ol { padding-left: 0; list-style: none; margin: 0; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1; letter-spacing: -.02em; }
 p { margin: 0; }
 
 .container { max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
 
+/* Skip-link uses inverse-surface (dark olive) + on-inverse-surface (cream)
+   per MD3 — properly paired roles, not handpicked colors. */
 .skip-link {
   position: absolute; left: -10000px; top: 0;
-  background: var(--olive-500); color: var(--bg-base); padding: 10px 16px; border-radius: var(--radius-sm); z-index: 999;
+  background: var(--inverse-surface);
+  color: var(--on-inverse-surface);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  z-index: 999;
 }
 .skip-link:focus { left: 12px; top: 12px; }
 
@@ -247,7 +234,6 @@ p { margin: 0; }
   flex: 1 1 auto;
   min-width: 0;
 }
-.moment-eyebrow.on-dark { color: var(--primary); }
 .moment-eyebrow .dot {
   flex: 0 0 auto;
   align-self: center;
@@ -261,11 +247,9 @@ p { margin: 0; }
   100% { box-shadow: 0 0 0 0 rgba(156, 94, 31, 0); }
 }
 
-/* Inline accents inside display headlines. Both map to primary now —
-   peach-400 was failing contrast (~2.5:1) even as inline accent text. */
+/* Inline accent inside display headlines — primary at tone 40 hits the
+   readable-italic mark; the older peach-400 (tone ~50) failed contrast. */
 .accent { color: var(--primary); font-style: italic; }
-.accent-orange { color: var(--primary); font-style: italic; }
-.on-dark { color: var(--on-surface); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -290,7 +274,7 @@ p { margin: 0; }
   letter-spacing: .03em;
 }
 .btn-primary:hover {
-  background: var(--peach-600);
+  background: var(--primary-hover);
   color: var(--on-primary);
   transform: translateY(-1px);
   box-shadow: 0 8px 26px rgba(156, 94, 31, .45);
@@ -323,19 +307,21 @@ p { margin: 0; }
 }
 .site-header.is-scrolled {
   background: rgba(230, 218, 179, .96);   /* surface-container-highest */
-  border-bottom-color: rgba(26, 29, 16, .22);
+  border-bottom-color: var(--outline);
   box-shadow: 0 2px 12px rgba(74, 53, 30, .12);
 }
-/* Mobile header: tight 56px, logo + phone icon + Book.
-   Desktop header: 76px, logo + nav + phone text + Book. */
+/* Mobile header: tight 64px, logo on the left + Call/Text icon buttons
+   on the right. Desktop header: 76px, logo + nav links + phone text +
+   Text link. The right-side CTAs are visible at every viewport — they
+   are the persistent path to a phone call. */
 .header-row {
   display: flex; align-items: center; gap: 12px;
-  height: 56px;
+  height: 64px;
   padding-left: 0; padding-right: 0;
 }
 .brand {
   display: inline-flex; align-items: center; gap: 10px;
-  color: var(--cream);
+  color: var(--on-surface);
   flex-shrink: 0;
   margin-left: 6px;
 }
@@ -346,10 +332,10 @@ p { margin: 0; }
 .brand-mark img { object-fit: contain; }
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1.05; gap: 2px; min-width: 0; }
 .brand-line-1 { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: .02em; text-transform: uppercase; }
-/* Always visible — on mobile we hide the right-side header CTAs (the
-   sticky bottom bar carries Call/Text/Book), so the title has room
-   for the subtitle. */
-.brand-line-2 { display: inline; font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--on-surface-variant); white-space: nowrap; }
+/* Subtitle stays visible at every viewport. Floor at .7rem (~11px) so
+   it actually reads on a phone — anything smaller stops being legible
+   and starts looking like decorative noise next to the wordmark. */
+.brand-line-2 { display: inline; font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--on-surface-variant); white-space: nowrap; }
 
 .nav { display: none; gap: 28px; margin-left: auto; }
 .nav a {
@@ -372,17 +358,26 @@ p { margin: 0; }
   margin-left: auto;
   margin-right: 6px;
 }
+/* 44×44 mobile minimum per Apple HIG / WCAG 2.5.5. Below that the icon
+   becomes a frustrating tap target on a phone — and these buttons ARE
+   the mobile CTA path, so they need to land cleanly. */
 .btn-phone,
 .btn-text-link {
   display: inline-flex; align-items: center; gap: 6px;
   font-weight: 700; color: var(--on-surface); font-size: .9rem;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   justify-content: center;
   border: 1.5px solid var(--outline);
   border-radius: 999px;
 }
+/* Hover state-layer = primary-container (pale peach tint of the brand
+   hue), per MD3 state-layer convention. No alpha overlays. */
 .btn-phone:hover,
-.btn-text-link:hover { color: var(--primary); border-color: var(--primary); background: rgba(199, 136, 64, .08); }
+.btn-text-link:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-container);
+}
 .btn-phone-text,
 .btn-text-link-text { display: none; }
 
@@ -391,7 +386,7 @@ p { margin: 0; }
   .brand-mark svg,
   .brand-mark img { width: 44px; height: 44px; }
   .brand-line-1 { font-size: 1.25rem; }
-  .brand-line-2 { font-size: .7rem; letter-spacing: .18em; }
+  .brand-line-2 { font-size: .72rem; letter-spacing: .18em; }
   .nav { display: flex; }
   .header-cta { gap: 14px; margin-left: 24px; }
   .btn-phone,
@@ -408,12 +403,11 @@ p { margin: 0; }
 
 /* =========================================================
    The MOMENT system — each section is a single beat. Each moment
-   sized to the *visible* viewport (the slice between the sticky
-   header at top and the fixed bar at bottom on mobile / just
-   under the header on desktop). Content is sized at its natural
-   scale; if a moment's content needs more room than that, the
-   moment grows taller (min-height, not height). No scroll-snap —
-   that fights the user's natural scroll feel.
+   sized to the *visible* viewport (the slice under the sticky
+   header). Content is sized at its natural scale; if a moment's
+   content needs more room than that, the moment grows taller
+   (min-height, not height). No scroll-snap — that fights the
+   user's natural scroll feel.
    ========================================================= */
 .moment {
   display: grid;
@@ -425,12 +419,11 @@ p { margin: 0; }
      bar animates, which causes scroll jitter. svh locks to the
      "small viewport" (chrome-expanded) height so layout is stable
      regardless of scroll position. */
-  min-height: calc(100vh - 56px - 60px);
-  min-height: calc(100svh - 56px - 60px);
-  scroll-margin-top: 56px;
+  min-height: calc(100vh - 64px);
+  min-height: calc(100svh - 64px);
+  scroll-margin-top: 64px;
 }
 @media (min-width: 900px) {
-  /* Desktop: no fixed bottom bar, just the 76px header. */
   .moment {
     padding: clamp(80px, 12vh, 140px) var(--gutter);
     min-height: calc(100vh - 76px);
@@ -448,100 +441,83 @@ p { margin: 0; }
    gradients, patterns, and motifs, not from flipping bg colors.
    Each variant has a subtly different gradient signature. */
 .moment--cream {
-  background: var(--bg-base);
-  color: var(--cream);
+  background: var(--surface);
+  color: var(--on-surface);
   background-image:
     radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .18), transparent 60%);
 }
-.moment--dark {
-  background: var(--bg-base);
-  color: var(--cream);
+
+/* SAME-DAY moment — Bigfoot silhouette anchors the section as a giant
+   atmospheric backdrop (xMidYMin meet on the SVG locks it to the top).
+   Headline + drop-in content slot flow over it. Brand silhouette token
+   — not a UI role — so the deep-olive fill is intentional. */
+.moment--silhouette {
+  background: var(--surface);
+  color: var(--on-surface);
   background-image:
     radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .14), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .22), transparent 60%);
 }
-
-/* SAME-DAY moment — bigfoot silhouette anchors the section as a giant
-   atmospheric backdrop. Olive-tinted at moderate opacity so the
-   "Same-day." headline still reads cleanly on top. The cream canvas
-   means we need more silhouette presence than on dark to hold weight. */
 .moment-bg-silhouette {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  fill: var(--olive-700);
+  fill: var(--brand-silhouette);
   opacity: .35;
   pointer-events: none;
   z-index: 0;
 }
-.moment--dark .moment-inner,
-.moment--dark .bolt-deco {
+.moment--silhouette .moment-inner {
   position: relative;
   z-index: 1;
 }
-/* Same-day headline must sit inside the silhouette's dome, not spill
-   across it. Smaller scale + a narrow max-width forces the three words
-   to balance into the visible body of the figure. */
-#promise .moment-display {
+/* Headline scaled smaller than the canonical .moment-display so the
+   words balance inside the silhouette's body rather than spilling
+   across it. */
+.promise-headline {
   font-size: clamp(2.6rem, 9vw, 5.5rem);
   max-width: 9ch;
   margin-left: auto;
   margin-right: auto;
 }
-/* Mobile: position the headline 35% from the top of the moment, so it
-   reads inside/over the silhouette (which is anchored to the top via
-   xMidYMin meet on the SVG). */
+/* Promise content slot — empty by default, ready for client copy.
+   Whatever drops in here flows below the headline at a comfortable
+   reading scale. Spacing is applied to the FIRST CHILD rather than the
+   slot itself, so an empty slot contributes no top margin (avoids the
+   :empty / whitespace-text-node footgun). When content is added, the
+   first element gets the gap-from-headline margin automatically. */
+.promise-content {
+  max-width: 56ch;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--on-surface-variant);
+  text-wrap: pretty;
+}
+.promise-content > :first-child {
+  margin-top: clamp(20px, 3vh, 36px);
+}
+/* Mobile: free-flow from the top of the section so the headline sits
+   ~35% down (below the silhouette's drawn area on a portrait viewport)
+   and any drop-in content flows naturally below it. The section's
+   default place-items: center is overridden so the layout is top-anchored
+   instead of vertically centered. */
 @media (max-width: 899px) {
-  #promise .moment-inner {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 35%;
+  .moment--silhouette {
+    align-items: start;
+  }
+  .moment--silhouette .moment-inner {
+    padding-top: 35vh;
   }
 }
 
-/* INVERT — flips to peach-as-bg for ONE billboard moment if needed.
-   Kept available but unused by default; the Same-day moment is now
-   dark like everything else. */
-.moment--invert {
-  background: var(--peach-500);
-  color: var(--bg-island);
-}
-.moment-display--invert {
-  color: var(--bg-island);
-  text-shadow: 0 1px 0 rgba(255,255,255,.2);
-}
-.moment-sub--invert {
-  color: rgba(14, 10, 6, .82);
-}
-.moment--invert .hyphen { color: var(--olive-800); }
-/* Big peach lightning bolt floating in the corner of the Same-day
-   moment — a single punch of accent color anchors the section */
-.bolt-deco {
-  position: absolute;
-  top: clamp(40px, 6vw, 80px);
-  right: clamp(20px, 5vw, 80px);
-  width: clamp(50px, 8vw, 110px);
-  height: auto;
-  color: var(--primary);
-  opacity: .92;
-  transform: rotate(14deg);
-  filter: drop-shadow(0 6px 24px rgba(232, 162, 90, .35));
-  pointer-events: none;
-  z-index: 0;
-}
-@media (max-width: 760px) {
-  .bolt-deco { top: 24px; right: 16px; opacity: .8; }
-}
 .moment--cream + .moment--cream { padding-top: 0; }
-.moment--dark + .moment--dark { padding-top: 0; }
+.moment--silhouette + .moment--cream { padding-top: 0; }
 
-/* Display typography — Cinzel inscription, deep-olive ink on cream.
-   Black text-shadows were a holdover from a dark-bg era and were
-   creating muddy halos around dark type on light paper. A whisper of
-   warm-brown ink is enough to give the letterforms weight without
-   ringing them. */
+/* Display typography — Cinzel inscription, deep ink on cream. A whisper
+   of warm-brown ink shadow gives the letterforms weight without halo. */
 .moment-display {
   font-family: var(--font-display);
   font-size: clamp(4.4rem, 16vw, 10rem);
@@ -552,13 +528,8 @@ p { margin: 0; }
   text-wrap: balance;
   text-shadow: 0 1px 0 rgba(74, 53, 30, .12);
 }
-.moment-display.on-dark { color: var(--on-surface); text-shadow: 0 1px 0 rgba(74, 53, 30, .12); }
-.moment-display .accent,
-.moment-display .accent-orange {
-  display: inline-block;
-}
-.moment-display br + .accent,
-.moment-display br + .accent-orange { margin-top: .1em; }
+.moment-display .accent { display: inline-block; }
+.moment-display br + .accent { margin-top: .1em; }
 
 .moment-display-md {
   font-family: var(--font-display);
@@ -570,24 +541,16 @@ p { margin: 0; }
   text-wrap: balance;
   text-shadow: 0 1px 0 rgba(74, 53, 30, .10);
 }
-.moment-display-md.on-dark { color: var(--on-surface); }
 
 .moment-sub {
   font-size: clamp(1.05rem, 1.5vw, 1.4rem);
   line-height: 1.55;
   margin: clamp(28px, 4vw, 48px) auto 0;
-  color: var(--cream-soft);
+  color: var(--on-surface-variant);
   max-width: 36ch;
   text-wrap: balance;
 }
-.moment-sub.on-dark { color: var(--cream-soft); }
 .moment-sub strong { color: var(--primary); font-weight: 700; }
-
-/* Subtle hyphen styling so "Same-day" reads cleanly at huge size */
-.hyphen { color: var(--olive-500); display: inline-block; transform: translateY(-.08em); margin: 0 -.02em; }
-
-/* Stylized 40 with the small "years." label */
-.big-num { display: inline-block; }
 
 /* "40 / years." — bubble numeral stacked above an italic Cinzel label.
    Stacking eliminates the shadow-into-letterform collision that
@@ -603,11 +566,11 @@ p { margin: 0; }
   .portrait-grid .years-display { align-items: flex-start; }
 }
 
-/* The big "40" — same Ore Crusher face as the hero wordmark, scaled up.
-   Kept the existing white-on-dark stroke + olive offset so the 40 still
-   has its own visual identity (the wordmark uses a brown extrusion;
-   this uses a white face with dark stroke). Same family, distinct
-   treatment. */
+/* The big "40" is brand artwork — same Ore Crusher face as the hero
+   wordmark, scaled up, white-faced with a dark olive stroke and an
+   olive offset shadow. It uses surface-container-lowest (white) for
+   the fill and inverse-surface roles for stroke + shadow rather than
+   raw palette tokens, keeping it inside the role layer. */
 .big-num--bubble {
   font-family: "Ore Crusher", "Cinzel", Georgia, serif;
   font-weight: 400;
@@ -624,7 +587,7 @@ p { margin: 0; }
   .big-num--bubble {
     -webkit-text-stroke-width: 6px;
     text-stroke-width: 6px;
-    text-shadow: 7px 7px 0 var(--olive-700);
+    text-shadow: 7px 7px 0 var(--inverse-surface);
   }
 }
 
@@ -684,7 +647,7 @@ p { margin: 0; }
 }
 .portrait-frame {
   position: relative;
-  background: var(--bg-elevated);
+  background: var(--surface-container-lowest);
   padding: 14px 14px 36px;
   width: clamp(240px, 70vw, 360px);
   aspect-ratio: 1 / 1;
@@ -692,8 +655,6 @@ p { margin: 0; }
     0 1px 0 rgba(74, 53, 30, .08),
     0 14px 30px rgba(74, 53, 30, .18),
     0 28px 60px rgba(74, 53, 30, .14);
-  /* Near-vertical so it reads as the anchor; the postmark stamp
-     carries the deliberate -12deg tilt as the accent. */
   transform: rotate(-1deg);
   border-radius: 2px;
   overflow: visible;
@@ -704,7 +665,9 @@ p { margin: 0; }
     transform: rotate(-1.2deg);
   }
 }
-/* Tape strip pinning the polaroid */
+/* Tape strip pinning the polaroid. Decorative paper-craft motif —
+   peach + brown alpha values are intentional translucency to read as
+   masking tape, not a UI surface. */
 .portrait-frame::before {
   content: "";
   position: absolute;
@@ -723,55 +686,7 @@ p { margin: 0; }
   height: 100%;
   object-fit: cover;
   filter: contrast(1.05) saturate(.92) brightness(.98);
-  background: var(--bg-elevated);
-}
-.portrait-img.is-missing { display: none; }
-
-/* Designed fallback shown when ingels.jpg isn't in the project. Reads
-   as an intentional editorial illustration, not a missing-asset state.
-   Hidden once a real photo successfully loads. */
-.portrait-fallback {
-  position: absolute;
-  inset: 14px 14px 36px;
-  display: flex;
-  flex-direction: column;
-  background: var(--inverse-surface);
-  overflow: hidden;
-}
-.portrait-img:not(.is-missing) + .portrait-fallback { display: none; }
-.portrait-fallback-art {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.portrait-fallback-meta {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
-  background:
-    linear-gradient(to top, rgba(14, 10, 6, .92), rgba(14, 10, 6, 0));
-  color: var(--cream);
-}
-.portrait-fallback-eyebrow {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  color: var(--cream);
-}
-.portrait-fallback-line {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--olive-200);
+  background: var(--surface-container-lowest);
 }
 
 .portrait-caption {
@@ -779,34 +694,13 @@ p { margin: 0; }
   font-style: italic;
   font-weight: 500;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-  color: var(--cream);
+  color: var(--on-surface);
   transform: rotate(-1.5deg);
   letter-spacing: 0;
 }
 
-/* "Est. not yesterday" postmark stamp — sits on the corner of the
-   polaroid like a vintage rubber stamp on a photograph. Replaces
-   the prior placement next to the 40 stat. */
-.stamp--postmark {
-  position: absolute;
-  bottom: 8px;
-  right: -18px;
-  font-size: clamp(.6rem, .9vw, .78rem);
-  color: var(--primary);
-  background: rgba(156, 94, 31, .08);
-  z-index: 4;
-  transform: rotate(-12deg);
-}
-@media (min-width: 820px) {
-  .stamp--postmark {
-    right: -28px;
-    bottom: 28px;
-  }
-}
-
-/* Rubber-stamp annotation. Used for "Est. not yesterday" and
-   "Bigfoot approved." Designed to look slapped-on, slightly off-kilter,
-   weathered but legible. */
+/* Rubber-stamp annotation — "Bigfoot approved" on the hero. Designed
+   to look slapped-on, slightly off-kilter, weathered but legible. */
 .stamp {
   display: inline-flex;
   flex-direction: column;
@@ -844,16 +738,18 @@ p { margin: 0; }
   line-height: 1;
 }
 
-/* Variant: "Bigfoot approved" stamped onto the hero like it got slapped
-   on the field guide cover. Floats off in the upper-right where there's
-   no content competing with it; tilts noticeably so it reads as applied
-   after the layout, not part of the layout. */
+/* "Bigfoot approved" stamp on the hero. Brand artwork — uses
+   brand-stamp tokens (paired ink + paper) rather than raw palette,
+   keeping it inside the brand-identity layer per the role-system
+   contract. Floats off in the upper-right where there's no content
+   competing with it; tilts noticeably so it reads as applied after
+   the layout, not part of the layout. */
 .stamp--hero {
   position: absolute;
   top: clamp(78px, 12vh, 140px);
   right: clamp(14px, 5vw, 64px);
-  color: var(--olive-900);
-  background: var(--peach-400);
+  color: var(--brand-stamp-ink);
+  background: var(--brand-stamp-bg);
   font-size: clamp(.7rem, 1.1vw, .9rem);
   transform: rotate(11deg);
   z-index: 3;
@@ -873,38 +769,14 @@ p { margin: 0; }
   100% { opacity: 1; transform: rotate(11deg) scale(1); }
 }
 
-/* Footprint mark — used as a "Bigfoot was here" annotation. */
-.footprint {
-  position: absolute;
-  width: 36px;
-  height: 45px;
-  fill: var(--olive-400);
-  opacity: .4;
-  transform: rotate(-22deg);
-  pointer-events: none;
-}
-.footprint--floor {
-  bottom: -28px;
-  left: -10px;
-  width: 30px;
-  height: 38px;
-}
-@media (min-width: 760px) {
-  .footprint--floor { bottom: -36px; left: -56px; width: 44px; height: 56px; }
-}
-
-/* Section-level footprint motifs — sprinkled through moments
-   like Bigfoot tracked through the page */
-.moment--dark .footprint { fill: var(--olive-300); opacity: .3; }
-.moment--cream .footprint { fill: var(--olive-400); opacity: .3; }
-
-/* Footprint TRAIL — diagonal walk across a moment. Used in the 40
-   years section so it feels like Bigfoot strolled through it. */
+/* Footprint TRAIL — diagonal walk across the 40-years section so it
+   feels like Bigfoot strolled through it. Uses --brand-trail (an
+   olive brand decorative token, not a UI role). */
 .trail {
   position: absolute;
   width: clamp(22px, 2.4vw, 36px);
   height: auto;
-  fill: var(--olive-400);
+  fill: var(--brand-trail);
   opacity: .22;
   pointer-events: none;
   z-index: 0;
@@ -930,7 +802,7 @@ p { margin: 0; }
    peach pin marks the center. Headline + tags wrap cleanly so any
    real city name (long or short) drops in without overflow. */
 .moment--map {
-  background-color: var(--bg-soft);
+  background-color: var(--surface-container);
   background-image:
     radial-gradient(60% 50% at 100% 0%, rgba(74, 83, 48, .25), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(232, 162, 90, .08), transparent 60%);
@@ -962,20 +834,10 @@ p { margin: 0; }
 .map-headline-sub {
   display: inline-block;
   font-size: .68em;
-  color: var(--cream);
+  color: var(--on-surface);
   font-style: normal;
   font-weight: 600;
   letter-spacing: .005em;
-}
-
-/* Pricing tiles slightly rotated — like a stack of taped-up receipts. */
-@media (min-width: 760px) {
-  .price-tile { transform: rotate(-1.2deg); }
-  .price-tile:nth-child(2) { transform: scale(1.04) rotate(.6deg); }
-  .price-tile:nth-child(3) { transform: rotate(1.4deg); }
-  .price-tile:hover { transform: rotate(-1.2deg) translateY(-4px); }
-  .price-tile:nth-child(2):hover { transform: scale(1.04) rotate(.6deg) translateY(-4px); }
-  .price-tile:nth-child(3):hover { transform: rotate(1.4deg) translateY(-4px); }
 }
 
 /* ---------- HERO moment ---------- */
@@ -983,7 +845,7 @@ p { margin: 0; }
   background:
     radial-gradient(70% 50% at 50% 100%, rgba(232, 162, 90, .15), transparent 65%),
     radial-gradient(60% 50% at 50% 0%, rgba(139, 148, 97, .20), transparent 60%),
-    var(--bg-base);
+    var(--surface);
 }
 /* Folded field-guide pattern on cream paper: subtle warm-brown crease
    shadows where the page bends, plus tonal banding to suggest the
@@ -1040,34 +902,24 @@ p { margin: 0; }
   .moment--hero { place-items: center; }
 }
 
+/* Hero LOCKUP — bubble-letter brand mark with bigfoot face above.
+   The whole lockup is the visual hero; tagline + CTAs sit below.
+   Single column, centered — there's no two-column variant on this
+   page, so a flex-column declaration is enough (no overrides). */
 .hero-inner {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(28px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  text-align: left;
-}
-@media (min-width: 960px) {
-  .hero-inner { grid-template-columns: 1.15fr 1fr; }
+  text-align: center;
+  gap: clamp(20px, 3vw, 36px);
+  max-width: 920px;
 }
 
 .hero-ctas {
   display: flex; gap: 12px; flex-wrap: wrap;
   justify-content: center;
   margin-top: clamp(8px, 2vw, 16px);
-}
-
-/* Hero LOCKUP — bubble-letter brand mark with bigfoot face above.
-   The whole lockup is the visual hero; tagline + CTAs sit below. */
-.hero-inner {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  gap: clamp(20px, 3vw, 36px) !important;
-  max-width: 920px !important;
-  grid-template-columns: none !important;
 }
 
 .lockup {
@@ -1212,9 +1064,8 @@ p { margin: 0; }
   animation: hero-fade-up .7s ease-out 1.25s both;
 }
 
-/* Scroll hint — desktop only. On mobile the bottom CTA bar
-   would overlap it and the hint is unnecessary anyway since
-   mobile users know to scroll. */
+/* Scroll hint — desktop only. Mobile users know to scroll, and the
+   tighter mobile viewport doesn't need an explicit affordance. */
 .scroll-hint {
   display: none;
   position: absolute;
@@ -1299,13 +1150,13 @@ p { margin: 0; }
 .price-tile-incl {
   font-size: .85rem;
   color: var(--on-surface-variant);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--outline-variant);
   padding-top: 14px;
   margin-top: 8px;
 }
 .price-tile--feature .price-tile-incl {
-  color: var(--cream-soft);
-  border-top-color: var(--border-strong);
+  color: var(--on-surface-variant);
+  border-top-color: var(--outline);
 }
 /* "Most popular" pill — primary bg + on-primary (white). MD3 chip. */
 .price-tile-tag {
@@ -1338,19 +1189,16 @@ p { margin: 0; }
   margin: 0 .25em;
 }
 
-/* ---------- BOOK moment ---------- */
+/* ---------- BOOK moment (closing CTA) ---------- */
 .moment--book {
-  background: var(--bg-base);
-  color: var(--cream);
+  background: var(--surface);
+  color: var(--on-surface);
   background-image:
     radial-gradient(50% 60% at 100% 0%, rgba(232, 162, 90, .16), transparent 60%),
     radial-gradient(60% 50% at 0% 100%, rgba(139, 148, 97, .22), transparent 60%);
 }
-.moment--book .moment-eyebrow,
-.moment--book .moment-eyebrow.on-dark { color: var(--primary); }
-.moment--book .book-h2 { color: var(--on-surface); }
 /* Single-column, centered. The whole moment is one CTA — call John —
-   with hours and a text-fallback link below it. No form. */
+   with a text-fallback link below it. No form. */
 .book-inner {
   display: flex; flex-direction: column; align-items: center;
   text-align: center;
@@ -1363,7 +1211,7 @@ p { margin: 0; }
   font-weight: 700;
   line-height: 1;
   letter-spacing: .005em;
-  color: var(--cream);
+  color: var(--on-surface);
   margin: 4px 0 8px;
   text-shadow: 0 1px 0 rgba(74, 53, 30, .15);
 }
@@ -1406,7 +1254,7 @@ p { margin: 0; }
   color: var(--on-surface);
 }
 .footer-info a { color: var(--primary); font-weight: 700; }
-.footer-info a:hover { color: var(--peach-700); }
+.footer-info a:hover { color: var(--primary-hover); }
 .footer-meta { font-size: .78rem; color: var(--on-surface-variant); }
 
 /* ---------- Reveal on scroll ---------- */
