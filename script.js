@@ -27,44 +27,12 @@
     onScroll();
   }
 
-  // Booking form
-  const form = document.getElementById("bookForm");
-  const success = document.getElementById("bookSuccess");
-  if (form) {
-    const phoneInput = form.querySelector('input[type="tel"]');
-    if (phoneInput) {
-      phoneInput.addEventListener("blur", () => {
-        const digits = phoneInput.value.replace(/\D/g, "").slice(0, 10);
-        if (digits.length === 10) {
-          phoneInput.value = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-        }
-      });
-    }
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      // Wire up to a real handler (Formspree, Netlify Forms, your backend) here:
-      // const data = Object.fromEntries(new FormData(form));
-      // fetch("/api/lead", { method: "POST", body: JSON.stringify(data) })
-
-      form.hidden = true;
-      if (success) {
-        success.hidden = false;
-        success.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    });
-  }
-
   // Reveal-on-scroll — one accent element per moment, not a blanket
   // fade-up on every text node. Hero choreography stays special.
   const revealTargets = document.querySelectorAll(
     ".moment:not(.moment--hero) .moment-display, " +
     ".moment:not(.moment--hero) .moment-display-md, " +
-    ".bar-verse, .price-row, .areas-tags, .book-form"
+    ".bar-verse, .price-row, .areas-tags, .book-cta"
   );
   if ("IntersectionObserver" in window && revealTargets.length) {
     revealTargets.forEach((el) => el.classList.add("reveal"));

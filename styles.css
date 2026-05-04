@@ -1346,17 +1346,13 @@ p { margin: 0; }
 .moment--book .moment-eyebrow,
 .moment--book .moment-eyebrow.on-dark { color: var(--primary); }
 .moment--book .book-h2 { color: var(--on-surface); }
-.moment--book .book-sub { color: var(--on-surface-variant); }
+/* Single-column, centered. The whole moment is one CTA — call John —
+   with hours and a text-fallback link below it. No form. */
 .book-inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(40px, 5vw, 64px);
-  align-items: center;
-  text-align: left;
-  max-width: 1100px;
-}
-@media (min-width: 880px) {
-  .book-inner { grid-template-columns: 1fr 1.05fr; }
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  gap: 18px;
+  max-width: 640px;
 }
 .book-h2 {
   font-family: var(--font-display);
@@ -1365,126 +1361,23 @@ p { margin: 0; }
   line-height: 1;
   letter-spacing: .005em;
   color: var(--cream);
-  margin: 16px 0 18px;
+  margin: 4px 0 8px;
   text-shadow: 0 1px 0 rgba(74, 53, 30, .15);
 }
-.book-sub {
-  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-  color: var(--cream-soft);
-  max-width: 38ch;
-}
-/* Inline phone link — primary tone for clear "this is clickable" cue. */
-.book-phone-large {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-weight: 700; color: var(--primary); font-size: 1.1rem;
-  margin-top: 24px;
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-.book-phone-large:hover { color: var(--peach-600); }
-
-/* Booking form card — surface-container-lowest (white) with soft
-   outline. The card is the focal moment so it sits at maximum lift. */
-.book-form {
-  background: var(--surface-container-lowest);
-  color: var(--on-surface);
-  padding: clamp(28px, 4vw, 40px);
-  border-radius: var(--radius-lg);
-  display: grid; gap: 14px;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--outline-variant);
-}
-.field label {
-  display: block;
-  font-family: var(--font-display);
-  font-size: .78rem; font-weight: 500;
+.book-cta { margin-top: 8px; }
+.book-hours {
+  font-size: .95rem;
   color: var(--on-surface-variant);
-  margin-bottom: 8px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
+  margin-top: 4px;
 }
-/* Legend reads as a real question, not as a tiny eyebrow tag, so the
-   form has a conversational tone where it asks for content. */
-.field-radio legend {
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 1.05rem;
-  font-weight: 600;
+.book-text-link {
   color: var(--on-surface);
-  margin-bottom: 10px;
-  letter-spacing: 0;
-  text-transform: none;
+  font-size: .95rem;
+  text-decoration: underline;
+  text-decoration-color: var(--outline);
+  text-underline-offset: 4px;
 }
-.field input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--outline-variant);
-  border-radius: 10px;
-  background: var(--surface-container-lowest);
-  font: inherit;
-  color: var(--on-surface);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-.field input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(156, 94, 31, .18);
-}
-.field-radio { border: 0; padding: 0; margin: 0; }
-.field-radio legend { padding: 0; }
-.field-radio > label {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--surface-container-lowest);
-  border: 1.5px solid var(--outline-variant);
-  border-radius: 999px;
-  padding: 10px 16px;
-  margin: 4px 6px 4px 0;
-  font-size: .9rem;
-  cursor: pointer;
-  transition: border-color .2s ease, background .2s ease, color .2s ease;
-}
-.field-radio > label:hover { border-color: var(--outline); }
-.field-radio input[type="radio"] {
-  appearance: none; -webkit-appearance: none;
-  width: 14px; height: 14px;
-  border: 1.5px solid var(--outline);
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  margin: 0;
-}
-.field-radio input[type="radio"]:checked { border-color: var(--primary); }
-.field-radio input[type="radio"]:checked::after {
-  content: ""; position: absolute; inset: 2px; background: var(--primary); border-radius: 50%;
-}
-/* Selected radio chip = secondary-container (the soft "selected"
-   tinted state from MD3, with on-secondary-container for text). */
-.field-radio > label:has(input:checked) {
-  border-color: var(--secondary);
-  background: var(--secondary-container);
-  color: var(--on-secondary-container);
-  font-weight: 600;
-}
-
-.form-fineprint {
-  font-size: .8rem; color: var(--on-surface-variant); text-align: center; margin-top: 4px;
-}
-
-.book-success {
-  grid-column: 1 / -1;
-  background: var(--surface-container-lowest);
-  color: var(--on-surface);
-  padding: 48px 32px;
-  border-radius: var(--radius-lg);
-  text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--outline-variant);
-}
-.success-icon { color: var(--secondary); }
-.book-success h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--on-surface); }
-.book-success p { color: var(--on-surface-variant); }
-.book-success a { color: var(--primary); font-weight: 700; }
+.book-text-link:hover { color: var(--primary); text-decoration-color: var(--primary); }
 
 /* ---------- Footer ----------
    Same surface tier as the header — calm chrome, brand presence comes
