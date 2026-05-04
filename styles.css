@@ -367,6 +367,7 @@ p { margin: 0; }
   display: inline-flex;
   align-items: center; gap: 6px;
   margin-left: auto;
+  margin-right: 6px;
 }
 .btn-phone,
 .btn-text-link {
