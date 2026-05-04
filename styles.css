@@ -474,8 +474,6 @@ p { margin: 0; }
   opacity: .35;
   pointer-events: none;
   z-index: 0;
-  /* Slow drift so the figure feels alive without distracting */
-  animation: silhouette-drift 18s ease-in-out infinite;
 }
 .moment--dark .moment-inner,
 .moment--dark .bolt-deco {
@@ -491,23 +489,16 @@ p { margin: 0; }
   margin-left: auto;
   margin-right: auto;
 }
-/* Mobile: bigfoot's body sits in the lower portion of the section, so
-   pin the headline to the bottom (overriding the grid's place-items:
-   center) to land it inside the dome. */
+/* Mobile: position the headline 28% from the top of the moment, so it
+   reads inside/over the silhouette (which is anchored to the top via
+   xMidYMin meet on the SVG). */
 @media (max-width: 899px) {
   #promise .moment-inner {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: clamp(40px, 10vh, 100px);
+    top: 28%;
   }
-}
-@keyframes silhouette-drift {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%      { transform: translateY(-8px) scale(1.015); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .moment-bg-silhouette { animation: none; }
 }
 
 /* INVERT — flips to peach-as-bg for ONE billboard moment if needed.
