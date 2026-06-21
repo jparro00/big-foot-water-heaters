@@ -552,9 +552,9 @@ p { margin: 0; }
 }
 .moment-sub strong { color: var(--primary); font-weight: 700; }
 
-/* "40 / years." — bubble numeral stacked above an italic Cinzel label.
-   Stacking eliminates the shadow-into-letterform collision that
-   happened when "40" + "years." sat on the same line. */
+/* Lead-in copy stacked above the bubble year ("...since" / 1986). The
+   vertical stack keeps the numeral's offset shadow clear of the label
+   instead of colliding on a shared line. */
 .years-display {
   display: flex;
   flex-direction: column;
@@ -590,6 +590,13 @@ p { margin: 0; }
     text-shadow: 7px 7px 0 var(--inverse-surface);
   }
 }
+/* The since-year reuses the bubble face but carries four digits instead
+   of two, so it scales down from the "40" size to keep a comparable
+   footprint and avoid overflowing the right column. */
+.big-num--year {
+  font-size: clamp(4.5rem, 13vw, 8.5rem);
+  letter-spacing: .015em;
+}
 
 .big-sub {
   font-family: var(--font-display);
@@ -598,6 +605,13 @@ p { margin: 0; }
   font-style: italic;
   letter-spacing: .02em;
   color: var(--on-surface-variant);
+}
+/* Lead-in line above the year — the moment now reads small → big, so the
+   copy sits as a single tidy block above the numeral rather than the old
+   small/big/small sandwich. */
+.years-lead {
+  line-height: 1.2;
+  text-wrap: balance;
 }
 
 /* =========================================================
@@ -1090,93 +1104,25 @@ p { margin: 0; }
 }
 @media (min-width: 760px) { .scroll-hint { display: flex; } }
 
-/* ---------- PRICING moment ---------- */
-.moment--pricing .moment-display-md { margin-top: clamp(36px, 5vw, 56px); margin-bottom: clamp(36px, 5vw, 56px); }
+/* ---------- PRICING moment ----------
+   Pared down to one beat that fits a single screen: headline, the all-in
+   promise, and the call-for-quote CTA. No price tiles — the action is the
+   whole point. */
+.moment--pricing .moment-display-md { margin-top: clamp(24px, 3.5vw, 40px); margin-bottom: clamp(20px, 2.5vw, 28px); }
 
-.price-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  align-items: stretch;
+/* The all-in promise — the substance the tiles used to carry, compressed
+   to a single tracked line so the moment stays short. */
+.pricing-incl {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--on-surface-variant);
   margin: 0 auto;
-  max-width: 980px;
 }
-/* Now that the tiles no longer carry the number, the call-to-action is the
-   payoff of the moment — give it room below the row. */
-.pricing-cta { margin-top: clamp(32px, 4vw, 48px); }
+.pricing-cta { margin-top: clamp(28px, 4vw, 44px); }
 /* The subline sits tighter under the CTA than its default top margin. */
 .moment--pricing .moment-sub { margin-top: clamp(16px, 2vw, 22px); }
-@media (min-width: 760px) { .price-row { grid-template-columns: repeat(3, 1fr); } }
-
-/* Price tiles — base = surface-container (gentle elevation), featured =
-   surface-container-lowest (white) ringed in primary. The featured tile
-   uses primary for label + amount so the eye finds it instantly. */
-.price-tile {
-  position: relative;
-  background: var(--surface-container);
-  border: 1px solid var(--outline-variant);
-  border-radius: var(--radius-lg);
-  padding: clamp(24px, 3vw, 36px);
-  text-align: left;
-  display: flex; flex-direction: column; gap: 8px;
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  color: var(--on-surface);
-}
-.price-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--outline); }
-.price-tile--feature {
-  background: var(--surface-container-lowest);
-  color: var(--on-surface);
-  border: 2px solid var(--primary);
-  box-shadow: 0 0 0 1px rgba(156, 94, 31, .18), var(--shadow-lg);
-}
-@media (min-width: 760px) {
-  /* Scale the featured tile only on desktop — full-width column on
-     mobile would overflow and clip the rounded corners. */
-  .price-tile--feature { transform: scale(1.04); }
-  .price-tile--feature:hover { transform: scale(1.04) translateY(-4px); }
-}
-.price-tile-label {
-  font-family: var(--font-display);
-  font-size: 1.1rem; font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--on-surface-variant);
-}
-.price-tile--feature .price-tile-label { color: var(--primary); }
-/* Quote prompt — fills the slot the dollar amount used to hold. Reads as
-   an invitation to call, not a number. Display font + on-surface keeps it
-   anchored; the feature tile lifts it to primary like the old amount. */
-.price-tile-quote {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  line-height: 1.1;
-  letter-spacing: 0;
-  color: var(--on-surface);
-  margin: 6px 0 8px;
-}
-.price-tile--feature .price-tile-quote { color: var(--primary); }
-.price-tile-incl {
-  font-size: .85rem;
-  color: var(--on-surface-variant);
-  border-top: 1px solid var(--outline-variant);
-  padding-top: 14px;
-  margin-top: 8px;
-}
-.price-tile--feature .price-tile-incl {
-  color: var(--on-surface-variant);
-  border-top-color: var(--outline);
-}
-/* "Most popular" pill — primary bg + on-primary (white). MD3 chip. */
-.price-tile-tag {
-  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-  background: var(--primary);
-  color: var(--on-primary);
-  font-family: var(--font-display);
-  font-size: 1.1rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
-  padding: 7px 16px; border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(156, 94, 31, .35);
-  white-space: nowrap;
-}
 
 /* Areas tags — MD3 assist chips. Resting = surface-container with
    outline; hover = secondary-container (the soft-tinted state layer

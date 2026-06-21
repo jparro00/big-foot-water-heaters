@@ -37,7 +37,7 @@
   const revealTargets = document.querySelectorAll(
     ".moment:not(.moment--hero) .moment-display, " +
     ".moment:not(.moment--hero) .moment-display-md, " +
-    ".price-row, .areas-tags, .book-cta"
+    ".pricing-cta, .areas-tags, .book-cta"
   );
   if ("IntersectionObserver" in window && revealTargets.length) {
     revealTargets.forEach((el) => el.classList.add("reveal"));
