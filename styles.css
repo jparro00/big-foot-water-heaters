@@ -1101,6 +1101,11 @@ p { margin: 0; }
   margin: 0 auto;
   max-width: 980px;
 }
+/* Now that the tiles no longer carry the number, the call-to-action is the
+   payoff of the moment — give it room below the row. */
+.pricing-cta { margin-top: clamp(32px, 4vw, 48px); }
+/* The subline sits tighter under the CTA than its default top margin. */
+.moment--pricing .moment-sub { margin-top: clamp(16px, 2vw, 22px); }
 @media (min-width: 760px) { .price-row { grid-template-columns: repeat(3, 1fr); } }
 
 /* Price tiles — base = surface-container (gentle elevation), featured =
@@ -1137,16 +1142,19 @@ p { margin: 0; }
   color: var(--on-surface-variant);
 }
 .price-tile--feature .price-tile-label { color: var(--primary); }
-.price-tile-num {
+/* Quote prompt — fills the slot the dollar amount used to hold. Reads as
+   an invitation to call, not a number. Display font + on-surface keeps it
+   anchored; the feature tile lifts it to primary like the old amount. */
+.price-tile-quote {
   font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(2.6rem, 4.5vw, 3.6rem);
-  line-height: 1;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.1;
   letter-spacing: 0;
   color: var(--on-surface);
-  margin: 4px 0 6px;
+  margin: 6px 0 8px;
 }
-.price-tile--feature .price-tile-num { color: var(--primary); }
+.price-tile--feature .price-tile-quote { color: var(--primary); }
 .price-tile-incl {
   font-size: .85rem;
   color: var(--on-surface-variant);
