@@ -963,7 +963,7 @@ p { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: clamp(20px, 3vw, 36px);
+  gap: clamp(14px, 2.4vw, 36px);
   max-width: 920px;
 }
 
@@ -994,6 +994,13 @@ p { margin: 0; }
      keeps its full 540px size. */
   width: clamp(280px, min(66vw, 40vh), 540px);
   margin: 0 auto;
+}
+/* Phone: the hero carries a lot below the badge (tag + 2-line tagline +
+   two stacked CTAs), so the 280px desktop floor is too tall to fit a
+   short phone. Drop the floor and tighten the height cap so the badge
+   shrinks enough for the whole hero to land on one screen. */
+@media (max-width: 899px) {
+  .lockup-logo { width: clamp(190px, min(72vw, 34vh), 420px); }
 }
 .lockup-bigfoot {
   display: block;
@@ -1118,6 +1125,14 @@ p { margin: 0; }
   margin: clamp(18px, 2.5vw, 30px) auto 0;
   width: min(100%, 34vh);
   max-width: 420px;
+}
+/* Phone: the eyebrow + headline + caption + dots are a fixed cost that
+   eats a big share of a short phone screen, so cap the photo tighter
+   (30vh) than on desktop. This leaves real slack, so the centered beat
+   sits with a clear top margin under the header instead of jamming the
+   "The work" eyebrow against it. */
+@media (max-width: 899px) {
+  .carousel { width: min(100%, 30vh); }
 }
 /* Viewport wraps only the images, so the arrows centre on the photo —
    the caption and dots live below it, outside this box. */
