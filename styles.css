@@ -1055,6 +1055,103 @@ p { margin: 0; }
 /* The subline sits tighter under the CTA than its default top margin. */
 .moment--pricing .moment-sub { margin-top: clamp(16px, 2vw, 22px); }
 
+/* ---------- THE WORK moment — install carousel ----------
+   Native swipe comes from scroll-snap on the track; JS layers on
+   auto-advance, arrows, and dots. The frame is a fixed portrait aspect
+   (job photos are all portrait) so the moment height is stable as it
+   rotates, with object-fit: cover absorbing the one extra-tall shot. */
+.carousel {
+  margin: clamp(28px, 4vw, 48px) auto 0;
+  max-width: 460px;
+  width: 100%;
+}
+/* Viewport wraps only the images, so the arrows centre on the photo —
+   the caption and dots live below it, outside this box. */
+.carousel-viewport { position: relative; }
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;            /* Firefox */
+  border-radius: var(--radius-lg);
+}
+.carousel-track::-webkit-scrollbar { display: none; }  /* WebKit */
+.carousel-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+}
+.carousel-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-container);
+}
+/* Caption — a soft synced line below the frame (JS swaps the text per
+   slide; the first caption is in the HTML so it shows without JS). */
+.carousel-cap {
+  margin: 16px auto 0;
+  font-family: var(--font-display);
+  font-size: clamp(.95rem, 1.4vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--on-surface-variant);
+  text-align: center;
+  min-height: 1.4em;
+}
+
+/* Arrows — circular surface chips centred on the image. */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  border: 1px solid var(--outline);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+  z-index: 2;
+}
+.carousel-arrow:hover { background: var(--secondary-container); color: var(--on-secondary-container); }
+.carousel-arrow:active { transform: translateY(-50%) scale(.92); }
+.carousel-arrow--prev { left: 8px; }
+.carousel-arrow--next { right: 8px; }
+@media (min-width: 560px) {
+  .carousel-arrow--prev { left: -22px; }
+  .carousel-arrow--next { right: -22px; }
+}
+
+/* Dots — MD3-style indicators. Active = primary, rest = outline. */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.carousel-dot {
+  width: 9px; height: 9px;
+  border-radius: 999px;
+  background: var(--outline-variant);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, width .2s ease;
+}
+.carousel-dot:hover { background: var(--outline); }
+.carousel-dot[aria-current="true"] {
+  background: var(--primary);
+  width: 24px;
+}
+
 /* Areas tags — MD3 assist chips. Resting = surface-container with
    outline; hover = secondary-container (the soft-tinted state layer
    pattern). On-secondary-container guarantees readable text. */

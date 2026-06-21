@@ -74,6 +74,7 @@
     <nav class="nav" aria-label="Primary">
       <a href="#promise">Same-day</a>
       <a href="#plumber">The Plumber</a>
+      <a href="#work">The Work</a>
       <a href="#pricing">Pricing</a>
       <a href="#map">Service area</a>
     </nav>
@@ -191,6 +192,53 @@
       </symbol>
     </defs>
   </svg>
+</section>
+
+<!-- 3.5 · THE WORK — install gallery. Auto-rotating, swipeable carousel
+     of real job photos. Touch/trackpad swipe is native (scroll-snap);
+     JS adds auto-advance, arrows, and dots. -->
+<section class="moment moment--cream moment--work" id="work">
+  <div class="moment-inner work-inner">
+    <p class="moment-eyebrow">The work</p>
+    <h2 class="moment-display-md">Done right. <span class="accent">Every&nbsp;time.</span></h2>
+
+    <div class="carousel" data-carousel aria-roledescription="carousel" aria-label="Recent installs">
+      <div class="carousel-viewport">
+        <div class="carousel-track" data-carousel-track>
+          <div class="carousel-slide">
+            <img class="carousel-img" src="work-1.webp" width="1000" height="2173" loading="lazy"
+                 data-cap="Tankless gas — wall-mounted Navien"
+                 alt="Wall-mounted Navien tankless water heater with new gas and water lines" />
+          </div>
+          <div class="carousel-slide">
+            <img class="carousel-img" src="work-2.webp" width="1000" height="1333" loading="lazy"
+                 data-cap="Hybrid heat-pump — Rheem ProTerra"
+                 alt="Rheem ProTerra hybrid heat-pump water heater installed in a utility room" />
+          </div>
+          <div class="carousel-slide">
+            <img class="carousel-img" src="work-3.webp" width="1000" height="1333" loading="lazy"
+                 data-cap="Twin electric tanks — high-demand home"
+                 alt="Twin electric Rheem water heaters with expansion tanks and copper piping" />
+          </div>
+          <div class="carousel-slide">
+            <img class="carousel-img" src="work-4.webp" width="1000" height="1333" loading="lazy"
+                 data-cap="Gas tank — clean install on a pedestal"
+                 alt="Gas water heater on a brick pedestal beside water-treatment tanks" />
+          </div>
+        </div>
+
+        <button class="carousel-arrow carousel-arrow--prev" type="button" data-carousel-prev aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="carousel-arrow carousel-arrow--next" type="button" data-carousel-next aria-label="Next photo">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <p class="carousel-cap" data-carousel-cap aria-live="polite">Tankless gas — wall-mounted Navien</p>
+      <div class="carousel-dots" data-carousel-dots role="tablist" aria-label="Choose photo"></div>
+    </div>
+  </div>
 </section>
 
 <!-- 4 · PRICING -->
