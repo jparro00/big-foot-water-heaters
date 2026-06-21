@@ -412,7 +412,7 @@ p { margin: 0; }
 .moment {
   display: grid;
   place-items: center;
-  padding: clamp(40px, 6vh, 80px) var(--gutter);
+  padding: clamp(32px, 5vh, 64px) var(--gutter);
   position: relative;
   overflow: hidden;
   /* svh, not dvh — dvh recalculates every frame as the mobile URL
@@ -425,7 +425,7 @@ p { margin: 0; }
 }
 @media (min-width: 900px) {
   .moment {
-    padding: clamp(80px, 12vh, 140px) var(--gutter);
+    padding: clamp(48px, 6.5vh, 96px) var(--gutter);
     min-height: calc(100vh - 76px);
     min-height: calc(100svh - 76px);
     scroll-margin-top: 76px;
@@ -987,7 +987,12 @@ p { margin: 0; }
    container; the brand name lives in the image's alt text for SEO/a11y. */
 .lockup-logo {
   display: block;
-  width: clamp(280px, 66vw, 540px);
+  /* The badge is the tall element in the hero. Cap its width by viewport
+     HEIGHT (40vh) as well as width, so on a short screen the whole hero —
+     badge + tag + tagline + CTAs — still fits one screenful instead of
+     overflowing. On a tall screen the 40vh term doesn't bind and the badge
+     keeps its full 540px size. */
+  width: clamp(280px, min(66vw, 40vh), 540px);
   margin: 0 auto;
 }
 .lockup-bigfoot {
@@ -1095,25 +1100,24 @@ p { margin: 0; }
 /* ---------- THE WORK moment — install carousel ----------
    Native swipe comes from scroll-snap on the track; JS layers on
    auto-advance, arrows, and dots. Image sizing is height-driven (see
-   .carousel-img) so the full portrait photo fits a single screen. */
-/* Unlike the other moments, this one HUGS its content. Forcing the
-   default min-height: 100vh left the height-capped photo floating in a
-   tall empty section — that was the "huge top/bottom margin". Letting the
-   section collapse to content + padding removes those bands. The default
-   desktop padding (up to 140px/side) is also too much for an image beat. */
-.moment--work {
-  min-height: 0;
-  padding-top: clamp(44px, 7vh, 96px);
-  padding-bottom: clamp(44px, 7vh, 96px);
+   .carousel) so the photo + headline + caption + dots together fill exactly
+   one screenful and centre cleanly — like every other moment. The earlier
+   "huge top/bottom margin" was a MIS-sized (tiny) photo floating in the
+   full-screen box; now the photo is sized from the viewport (34vh wide →
+   ~45vh tall), so the beat fills the screen with only a small even margin. */
+.moment--work .moment-display-md {
+  /* A gallery beat shouldn't hand the photo a giant headline to compete
+     with; keep it smaller than the shared display-md so both fit one screen. */
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
 }
 .carousel {
-  /* Portrait card sized from the VIEWPORT HEIGHT, not the column width.
-     width = the height budget expressed through the 3:4 ratio (53vh × 3/4
-     ≈ 40vh), so the photo fills a comfortable share of the screen without
-     overflowing, and the side arrows sit right on the image edges. */
-  margin: clamp(24px, 3.5vw, 40px) auto 0;
-  width: min(100%, 40vh);
-  max-width: 440px;
+  /* Width is the VIEWPORT-HEIGHT budget expressed through the 3:4 ratio
+     (~45vh tall × 3/4 = 34vh wide), so the photo claims a fixed, predictable
+     share of the screen height and the whole beat — headline, photo, caption,
+     dots — stays within one screen even on a short (≈768px) laptop. */
+  margin: clamp(18px, 2.5vw, 30px) auto 0;
+  width: min(100%, 34vh);
+  max-width: 420px;
 }
 /* Viewport wraps only the images, so the arrows centre on the photo —
    the caption and dots live below it, outside this box. */
