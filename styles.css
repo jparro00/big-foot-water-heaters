@@ -1095,16 +1095,14 @@ p { margin: 0; }
   flex: 0 0 100%;
   scroll-snap-align: center;
 }
-/* The card width is already the height-budget (see .carousel), so the
-   image just fills it at a 3:4 frame. object-fit: contain shows the WHOLE
-   image — a 3:4 photo fills exactly; anything off-ratio letterboxes onto
-   the surface tint rather than getting cropped. */
+/* The image IS the card — it displays at its natural ratio (the photos
+   are all 3:4) at the full card width, so there is no separate frame box
+   that could letterbox. The card width is the height-budget (see
+   .carousel), which keeps the natural height within one screen. */
 .carousel-img {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: contain;
-  background: var(--surface-container);
+  height: auto;
   border-radius: var(--radius-lg);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--shadow-md);
