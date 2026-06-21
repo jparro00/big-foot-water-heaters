@@ -635,14 +635,14 @@ p { margin: 0; }
   grid-template-columns: 1fr;
   align-items: center;
 }
-.portrait-grid .portrait { justify-self: center; }
+.portrait-grid .portraits { justify-self: center; }
 .portrait-grid .years-block { text-align: center; order: -1; }
 @media (min-width: 820px) {
   .portrait-grid {
     grid-template-columns: minmax(280px, 1fr) minmax(0, 1.25fr);
     text-align: left;
   }
-  .portrait-grid .portrait { justify-self: start; }
+  .portrait-grid .portraits { justify-self: start; }
   /* Restore source order on desktop so portrait sits left, years-block right. */
   .portrait-grid .years-block { text-align: left; order: 0; }
   .portrait-grid .moment-sub { margin-left: 0; }
@@ -703,14 +703,51 @@ p { margin: 0; }
   background: var(--surface-container-lowest);
 }
 
-.portrait-caption {
+/* Two-up founder polaroids — John + Jonathan, fanned and overlapping so
+   the pair reads as one pinned stack and still fits a single screen. The
+   card width is viewport-scaled (--card), so the pair shrinks on small
+   screens instead of overflowing; the overlap + per-card rotation give
+   the off-kilter look. */
+.portraits {
+  --card: clamp(140px, 40vw, 220px);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1;
+}
+@media (min-width: 820px) {
+  .portraits { --card: clamp(172px, 18vw, 250px); }
+}
+.portraits .portrait { margin: 0; }
+.portraits .portrait-frame {
+  width: var(--card);
+  padding-bottom: 30px;          /* white strip carries the handwritten name */
+}
+.portraits .portrait--john { z-index: 1; }
+.portraits .portrait--jonathan {
+  z-index: 2;
+  margin-left: calc(var(--card) * -0.26);   /* overlap onto John's card */
+  margin-top: calc(var(--card) * 0.14);     /* drop it for the fanned stack */
+}
+.portraits .portrait--john .portrait-frame     { transform: rotate(-4deg); }
+.portraits .portrait--jonathan .portrait-frame { transform: rotate(3.2deg); }
+/* Jonathan's face sits high-right in the source — bias the crop up so the
+   cap and glasses stay in the square. */
+.portraits .portrait--jonathan .portrait-img { object-position: 50% 30%; }
+
+/* Name written on the polaroid's white strip — replaces a caption below
+   the frame, which would collide once the two cards overlap. */
+.portrait-name {
+  position: absolute;
+  left: 12px; right: 12px; bottom: 8px;
+  margin: 0;
+  text-align: center;
   font-family: var(--font-sans);
   font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 600;
+  font-size: clamp(.92rem, 2.4vw, 1.1rem);
   color: var(--on-surface);
-  transform: rotate(-1.5deg);
-  letter-spacing: 0;
 }
 
 /* Rubber-stamp annotation — "Bigfoot approved" on the hero. Designed
