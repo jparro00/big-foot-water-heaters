@@ -1057,13 +1057,21 @@ p { margin: 0; }
 
 /* ---------- THE WORK moment — install carousel ----------
    Native swipe comes from scroll-snap on the track; JS layers on
-   auto-advance, arrows, and dots. The frame is a fixed portrait aspect
-   (job photos are all portrait) so the moment height is stable as it
-   rotates, with object-fit: cover absorbing the one extra-tall shot. */
+   auto-advance, arrows, and dots. Image sizing is height-driven (see
+   .carousel-img) so the full portrait photo fits a single screen. */
+/* The default desktop moment padding (up to 140px each side) is too much
+   for an image-heavy beat — trim it so the photo has room without the
+   section overflowing the viewport. */
+.moment--work { padding-top: clamp(40px, 6vh, 84px); padding-bottom: clamp(40px, 6vh, 84px); }
 .carousel {
+  /* Portrait card sized from the VIEWPORT HEIGHT, not the column width.
+     width = the height budget (~50vh) expressed through the 3:4 ratio
+     (50vh × 3/4 = 37.5vh), so the photo never overflows the screen and
+     the side arrows sit right on the image edges. Capped at 420px on tall
+     desktops, and never wider than the column on a narrow phone. */
   margin: clamp(28px, 4vw, 48px) auto 0;
-  max-width: 460px;
-  width: 100%;
+  width: min(100%, 37.5vh);
+  max-width: 420px;
 }
 /* Viewport wraps only the images, so the arrows centre on the photo —
    the caption and dots live below it, outside this box. */
@@ -1082,15 +1090,19 @@ p { margin: 0; }
   flex: 0 0 100%;
   scroll-snap-align: center;
 }
+/* The card width is already the height-budget (see .carousel), so the
+   image just fills it at a 3:4 frame. object-fit: contain shows the WHOLE
+   image — a 3:4 photo fills exactly; anything off-ratio letterboxes onto
+   the surface tint rather than getting cropped. */
 .carousel-img {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 4;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--surface-container);
   border-radius: var(--radius-lg);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--shadow-md);
-  background: var(--surface-container);
 }
 /* Caption — a soft synced line below the frame (JS swaps the text per
    slide; the first caption is in the HTML so it shows without JS). */
