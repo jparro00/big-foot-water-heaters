@@ -944,31 +944,19 @@ p { margin: 0; }
   position: relative;
   padding: 0 8px;
 }
-/* Lockup frame — single rigid container that locks the bigfoot image and
-   the wordmark together. ONE viewport-coupled width on the frame; everything
-   inside is sized in cqi (% of frame width), so proportions are identical
-   on every viewport. The wordmark is absolutely positioned over the empty
-   area beneath bigfoot's hands. */
-.lockup-frame {
-  width: clamp(300px, 82vw, 680px);
-  /* Aspect ratio matches the bigfoot.png bitmap (1640×1344, tightly
-     cropped — no whitespace around the figure). With a matching ratio
-     the image fills the frame exactly under object-fit, so there is no
-     empty space inside the frame and no need for negative-margin hacks
-     to compensate. The frame's height naturally collapses (W × 0.819
-     instead of W × 1.414), which is what makes the hero fit on a
-     single desktop screen. */
-  aspect-ratio: 1640 / 1344;
-  position: relative;
-  container-type: inline-size;
+/* Hero badge — the brand artwork is now a single self-contained image
+   (Bigfoot + wordmark + phone + 40+ years baked in), so the old frame +
+   absolutely-positioned wordmark machinery is gone. The h1 is the sized
+   container; the brand name lives in the image's alt text for SEO/a11y. */
+.lockup-logo {
+  display: block;
+  width: clamp(280px, 66vw, 540px);
   margin: 0 auto;
 }
 .lockup-bigfoot {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
   filter: drop-shadow(0 12px 28px rgba(15, 20, 16, .18));
   transform-origin: center bottom;
   animation: face-drop .9s cubic-bezier(.18,1.2,.4,1) both;
@@ -977,63 +965,6 @@ p { margin: 0; }
   0%   { opacity: 0; transform: translateY(-40px) scale(.85) rotate(-8deg); }
   60%  { opacity: 1; transform: translateY(6px) scale(1.04) rotate(2deg); }
   100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
-}
-.lockup-name {
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: .82;
-  z-index: 1;
-}
-/* Hero wordmark — brand-identity tokens (not role tokens). Deep
-   chocolate brown body with a bright peach offset shadow for the
-   classic poster-print pop. The brand-wordmark-shadow is intentionally
-   a much lighter tone than the body so the offset reads as a separate
-   layer, not a misregistered print. */
-/* Hero wordmark — solid Ore Crusher Regular letters, with a stacked
-   text-shadow extrusion for depth. We tried layering the 3D variant on
-   top as a ::after pseudo but the two font designs don't share metrics,
-   so the outline drifted off the fill. CSS text-shadow guarantees
-   alignment because it's a single rendering. */
-.lockup-line {
-  font-family: "Ore Crusher", "Cinzel", Georgia, serif;
-  font-weight: 400;
-  letter-spacing: .015em;
-  color: var(--brand-wordmark);
-  display: block;
-  text-shadow:
-    1px 1px 0 var(--brand-wordmark-shadow),
-    2px 2px 0 var(--brand-wordmark-shadow),
-    3px 3px 0 var(--brand-wordmark-shadow),
-    4px 4px 0 var(--brand-wordmark-shadow),
-    5px 5px 0 var(--brand-wordmark-shadow),
-    6px 6px 0 var(--brand-wordmark-shadow);
-}
-/* Wordmark sizes in cqi (container query inline) — % of .lockup-frame
-   width. With the frame's clamp() being the only viewport-coupled value,
-   this keeps the bigfoot↔wordmark relationship identical at every
-   viewport size. */
-.lockup-l1 {
-  font-size: 12cqi;
-  margin-bottom: -.05em;
-  animation: bubble-l1 .8s cubic-bezier(.2,1.1,.3,1) .35s both;
-}
-.lockup-l2 {
-  font-size: 16cqi;
-  animation: bubble-l2 .8s cubic-bezier(.2,1.1,.3,1) .55s both;
-}
-@keyframes bubble-l1 {
-  0%   { opacity: 0; transform: translateX(-32px) rotate(-6deg); }
-  100% { opacity: 1; transform: translateX(0) rotate(0); }
-}
-@keyframes bubble-l2 {
-  0%   { opacity: 0; transform: translateX(32px) rotate(4deg); }
-  100% { opacity: 1; transform: translateX(0) rotate(0); }
 }
 .lockup-tag {
   margin-top: 4px;
